@@ -1,0 +1,18 @@
+{#include layout.html}
+	{#title}Webseite überwachen{/title}
+	{#body}
+		<h1>Neue Website überwachen</h1>
+		<form id="websiteForm">
+			<input type="text" id="name" name="name" required placeholder="Name">
+			<input type="url" id="url" name="url" required placeholder="URL">
+			<div class="button-row">
+				<button type="submit" class="action-btn">Hinzufügen</button>
+				<button type="button" class="action-btn cancel-btn" onclick="window.location.href='/hello'">
+					Abbrechen
+				</button>
+			</div>
+		</form>
+		<p id="formMsg"></p>
+		<script src="/add-website.js"></script>
+	{/body}
+{/include}

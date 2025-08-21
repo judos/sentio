@@ -1,0 +1,12 @@
+{#include layout.html}
+	{#body}
+		<h1>Hallo, {name}!</h1>
+		<p>Dies ist ein Beispiel für Qute-Templating mit Quarkus und zentralem Layout.</p>
+		<button id="changeTextBtn">Text ändern</button>
+		<p id="output">Hier steht der ursprüngliche Text.</p>
+		<script src="/app.js"></script>
+		<a href="/add-website" class="add-website-btn" title="Website hinzufügen">
+			<span>+</span>
+		</a>
+	{/body}
+{/include}
