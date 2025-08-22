@@ -1,12 +1,5 @@
 // Einfache JavaScript-Datei für dynamische Interaktion
 window.addEventListener('DOMContentLoaded', function () {
-	var btn = document.getElementById('changeTextBtn');
-	var output = document.getElementById('output');
-	if (btn && output) {
-		btn.addEventListener('click', function () {
-			output.textContent = 'Text wurde durch JavaScript geändert!';
-		});
-	}
 
 	// Erfolgsmeldung nach Hinzufügen einer Website anzeigen
 	if (localStorage.getItem('websiteAdded') === '1') {

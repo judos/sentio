@@ -40,3 +40,6 @@ nb-configuration.xml
 # TLS Certificates
 .certs/
 .kotlin
+
+# Quarkus lokale Properties
+src/main/resources/application-local.properties

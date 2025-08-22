@@ -5,11 +5,17 @@ body {
 	padding: 0;
 }
 
+h1, h2, h3, h4, h5, h6 {
+	margin-top: 0;
+	margin-bottom: 5px;
+	text-align: center;
+}
+
 .content-box {
 	border: 1px solid #ccc;
 	border-radius: 8px;
-	margin: 2rem auto;
-	padding: 2rem;
+	margin: 0.5rem auto 2rem auto;
+	padding: 1rem 2rem 2rem 2rem;
 	max-width: 600px;
 	background: #fff;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
@@ -31,38 +37,49 @@ input[type="text"]:focus, input[type="url"]:focus, input[type="password"]:focus,
 	border-color: #888;
 }
 
-.button-row {
-	display: flex;
-	gap: 1rem;
-	margin-top: 1rem;
-}
-
-.action-btn {
-	background: #1976d2;
-	color: #fff;
-	border: 1px solid #1976d2;
+button {
 	border-radius: 8px;
 	padding: 0.75rem 2rem;
 	font-size: 1rem;
 	cursor: pointer;
 	transition: background 0.2s, border-color 0.2s;
+	border-width: 1px;
+	border-style: solid;
+}
+
+.action-btn {
+	background: #43a047;
+	color: #fff;
+	border: 1px solid #43a047;
 }
 
 .action-btn:hover, .action-btn:focus {
-	background: #1565c0;
-	border-color: #1565c0;
+	background: #388e3c;
+	border-color: #388e3c;
 }
 
-.cancel-btn {
+.danger-btn {
 	background: #fff;
-	color: #1976d2;
-	border: 1px solid #1976d2;
+	color: #c62828;
+	border: 1px solid #c62828;
 }
 
-.cancel-btn:hover, .cancel-btn:focus {
+.danger-btn:hover, .danger-btn:focus {
+	background: #ffebee;
+	color: #b71c1c;
+	border-color: #b71c1c;
+}
+
+.neutral-btn {
+	background: #fff;
+	color: #616161;
+	border: 1px solid #bdbdbd;
+}
+
+.neutral-btn:hover, .neutral-btn:focus {
 	background: #f5f5f5;
-	color: #1565c0;
-	border-color: #1565c0;
+	color: #424242;
+	border-color: #757575;
 }
 
 .success-popup {
@@ -114,4 +131,75 @@ input[type="text"]:focus, input[type="url"]:focus, input[type="password"]:focus,
 .add-website-btn:hover, .add-website-btn:focus {
 	background: #388e3c;
 	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+
+.websites-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	margin-top: 2rem;
+}
+
+.website-box {
+	background: #eee;
+	color: #222;
+	border-radius: 6px;
+	padding: 0.5rem 1.2rem;
+	font-size: 1rem;
+	min-width: 80px;
+	text-align: center;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+	border: 1px solid #ddd;
+	transition: background 0.2s, color 0.2s;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.website-box.ok {
+	background: #c8e6c9;
+	color: #222;
+	border-color: #81c784;
+}
+
+.website-box.failed {
+	background: #ffcdd2; /* dezentes Rot, ähnlich hell wie das Grün */
+	color: #b71c1c;
+	border-color: #e57373;
+}
+
+.website-name {
+	font-weight: 500;
+	letter-spacing: 0.01em;
+}
+
+.website-name-large {
+	font-size: 1.25rem;
+	font-weight: 600;
+	margin-bottom: 0.2em;
+}
+
+.website-uptime {
+	position: absolute;
+	top: 2px;
+	right: 4px;
+	font-size: 0.5rem;
+	color: #388e3c;
+	opacity: 0.85;
+	font-weight: 500;
+	letter-spacing: 0.01em;
+}
+
+.update-info {
+    margin: 2.5rem auto 0 auto;
+    max-width: 600px;
+    text-align: right;
+    color: #666;
+    font-size: 0.98rem;
+    opacity: 0.85;
+    padding-right: 8px;
 }

@@ -1,12 +1,24 @@
 {#include layout.html}
-	{#body}
-		<h1>Hallo, {name}!</h1>
-		<p>Dies ist ein Beispiel für Qute-Templating mit Quarkus und zentralem Layout.</p>
-		<button id="changeTextBtn">Text ändern</button>
-		<p id="output">Hier steht der ursprüngliche Text.</p>
+	{#scripts}
 		<script src="/app.js"></script>
+	{/scripts}
+	{#body}
+		<h1>Sentia</h1>
+		<h3>Your simple monitoring platform</h3>
 		<a href="/add-website" class="add-website-btn" title="Website hinzufügen">
 			<span>+</span>
 		</a>
+		<div class="websites-list">
+			{#for website in websites}
+				<div class="website-box {website.status.name.toLowerCase()}">
+					<span class="website-name-large">{website.name}</span>
+					<span class="website-uptime">99.9% uptime</span>
+				</div>
+			{/for}
+		</div>
+
+		<div class="update-info">
+			Letztes Update: {lastUpdate} &nbsp;|&nbsp; Nächstes Update: {nextUpdate}
+		</div>
 	{/body}
 {/include}
