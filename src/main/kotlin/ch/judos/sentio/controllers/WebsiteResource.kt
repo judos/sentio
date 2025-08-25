@@ -1,6 +1,7 @@
 package ch.judos.sentio.controllers
 
 import ch.judos.sentio.entities.Website
+import ch.judos.sentio.entities.WebsiteStatus
 import jakarta.transaction.Transactional
 import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
@@ -30,7 +31,8 @@ class WebsiteResource {
 			?: return Response.status(Response.Status.NOT_FOUND).build()
 		website.name = updated.name
 		website.url = updated.url
-		website.lastSuccess = updated.lastSuccess
+		website.rLastCheck = null
+		website.rStatus = WebsiteStatus.INACTIVE
 		return Response.ok(website).build()
 	}
 	

@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     kotlin("jvm") version "2.2.0"
     kotlin("plugin.allopen") version "2.2.0"
@@ -52,4 +54,8 @@ kotlin {
         jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21
         javaParameters = true
     }
+}
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.compilerOptions {
+	freeCompilerArgs.set(listOf("-Xannotation-default-target=param-property"))
 }

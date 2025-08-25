@@ -1,0 +1,5 @@
+- Set time interval at which to check websites
+- Send notifications via Telegram
+- Show website status on a web dashboard
+- Show popup about error when website is down
+- User login to website to modify settings
