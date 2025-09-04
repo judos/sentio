@@ -1,16 +1,15 @@
 package ch.judos.sentio.services
 
+import ch.judos.sentio.entities.QWebsite
 import ch.judos.sentio.entities.Website
 import ch.judos.sentio.entities.WebsiteStatus
-// import com.querydsl.jpa.impl.JPAQueryFactory
-// import ch.judos.sentio.entities.QWebsite
+import com.querydsl.jpa.impl.JPAQueryFactory
 import io.quarkus.logging.Log
+import io.quarkus.narayana.jta.runtime.TransactionConfiguration
 import io.quarkus.scheduler.Scheduled
 import jakarta.annotation.PostConstruct
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import jakarta.persistence.EntityManager
-import jakarta.persistence.PersistenceContext
 import jakarta.transaction.Transactional
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.joinAll
@@ -20,42 +19,45 @@ import java.lang.Thread.sleep
 import java.net.HttpURLConnection
 import java.net.URI
 import java.time.LocalDateTime
+import jakarta.persistence.PersistenceContext
+import io.quarkus.runtime.StartupEvent
+import jakarta.enterprise.event.Observes
 
 @ApplicationScoped
 class WebsiteCheckService(
-	@Inject
-	private var sslCertificateService: SslCertificateService
+		private var sslCertificateService: SslCertificateService,
+		val query: JPAQueryFactory,
+		@PersistenceContext
+		val entityManager: EntityManager
 ) {
+	
+	val qWebsite = QWebsite.website
 	
 	var lastUpdate: LocalDateTime = LocalDateTime.now()
 	
 	fun getNextUpdate(): LocalDateTime = lastUpdate.plusMinutes(5)
 	
-	@PersistenceContext
-	lateinit var em: EntityManager
-	
-	
 	@Scheduled(every = "5m")
+	@Transactional
 	fun validateWebsites() = runBlocking {
 		lastUpdate = LocalDateTime.now()
 		Log.info("Starte parallele Website-Validierung...")
-		// val now = LocalDateTime.now()
-		// val qWebsite = QWebsite.website
-		// val queryFactory = JPAQueryFactory(em)
-		// val websites = queryFactory.selectFrom(qWebsite)
-		// 	.where(
-		// 		qWebsite.rCheckEveryMin.isNotNull,
-		// 		qWebsite.rLastCheck.isNull
-		// 			.or(qWebsite.rLastCheck.addMinutes(qWebsite.rCheckEveryMin.castToNum().longValue()).before(now))
-		// 	)
-		// 	.fetch()
-		val websites = Website.listAll()
+
+		val websites = query.selectFrom(qWebsite).fetch()
 		val jobs = websites.mapIndexed { i, site ->
-			launch(Dispatchers.Default) {
+			launch(Dispatchers.IO) {
 				// Kleine Verzögerung, damit nicht alle Anfragen gleichzeitig starten
 				sleep((i * 500).toLong())
 				Log.info("validating ${site.name} (${site.url})...")
-				try {
+				checkWebsite(site)
+			}
+		}
+		jobs.joinAll()
+	}
+	
+	@Transactional
+	fun checkWebsite(site: Website) {
+		try {
 					// SSL-Check (optional, nur für HTTPS)
 					val sslExpiryDays = sslCertificateService.checkCertificateExpiry(site.url)
 					// Erreichbarkeits-Check
@@ -65,15 +67,11 @@ class WebsiteCheckService(
 				} catch (ex: Exception) {
 					updateWebsiteStatus(site.id!!, WebsiteStatus.FAILED, false, ex.message)
 				}
-			}
-		}
-		jobs.joinAll()
 	}
 	
-	@Transactional
-	fun updateWebsiteStatus(id: Long, newStatus: WebsiteStatus, reachable: Boolean,
+	fun updateWebsiteStatus(id: Int, newStatus: WebsiteStatus, reachable: Boolean,
 			errorMsg: String? = null) {
-		val site = Website.findById(id) ?: return
+		val site = query.selectFrom(qWebsite).where(qWebsite.id.eq(id)).fetchOne() ?: return
 		if (site.rStatus != newStatus) {
 			site.rStatus = newStatus
 			Log.info("Status von ${site.name} auf $newStatus gesetzt.")
@@ -84,19 +82,20 @@ class WebsiteCheckService(
 		if (newStatus == WebsiteStatus.FAILED && errorMsg != null) {
 			Log.warn("Fehler bei Validierung von ${site.name}: $errorMsg")
 		}
-		site.persistAndFlush()
-		Log.info("Status von ${site.name} ist ${site.rStatus}.")
+		entityManager.persist(site)
 	}
 	
-	@PostConstruct
 	@Transactional
 	fun refreshAllWebsitesInactive() {
 		Log.info("Setze alle Websites beim Start auf INACTIVE...")
-		for (site in Website.listAll()) {
+		for (site in query.selectFrom(qWebsite).fetch()) {
 			site.rStatus = WebsiteStatus.INACTIVE
-			site.persist()
+			entityManager.persist(site)
 		}
-		validateWebsites()
+	}
+
+	fun onStartup(@Observes event: StartupEvent) {
+		refreshAllWebsitesInactive()
 	}
 	
 	private fun checkWebsite(url: String): Boolean {

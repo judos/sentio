@@ -1,16 +1,14 @@
 package ch.judos.sentio.entities
 
-import io.quarkus.hibernate.orm.panache.kotlin.PanacheCompanion
-import io.quarkus.hibernate.orm.panache.kotlin.PanacheEntity
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.EnumType
-import jakarta.persistence.Enumerated
+import jakarta.persistence.*
 import java.time.LocalDateTime
 
 @Entity
-class Website : PanacheEntity() {
-	companion object : PanacheCompanion<Website>
+open class Website {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	var id: Int? = null
 	
 	@Column(nullable = false, unique = true)
 	lateinit var name: String
@@ -26,7 +24,7 @@ class Website : PanacheEntity() {
 	
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-	var rStatus: WebsiteStatus = WebsiteStatus.INACTIVE
+	open var rStatus: WebsiteStatus = WebsiteStatus.INACTIVE
 	
 	@Column(nullable = true)
 	var rAlertIfUnreachableForMin: Int? = 15

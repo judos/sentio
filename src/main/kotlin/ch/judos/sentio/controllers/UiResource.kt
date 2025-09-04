@@ -1,7 +1,9 @@
 package ch.judos.sentio.controllers
 
-import ch.judos.sentio.entities.Website
+import ch.judos.sentio.entities.QWebsite
+import ch.judos.sentio.extensions.formatTime
 import ch.judos.sentio.services.WebsiteCheckService
+import com.querydsl.jpa.impl.JPAQueryFactory
 import io.quarkus.qute.Location
 import io.quarkus.qute.Template
 import jakarta.inject.Inject
@@ -12,24 +14,29 @@ import jakarta.ws.rs.core.MediaType
 
 @Path("")
 class UiResource @Inject constructor(
-		@Location("hello.html")
-	val hello: Template
+	@Location("hello.html")
+	var hello: Template,
+	@Location("add-website.html")
+	var addWebsiteTemplate: Template,
+	val query: JPAQueryFactory,
+	val websiteCheckService: WebsiteCheckService
 ) {
 	
-	@Inject
-	@Location("add-website.html")
-	lateinit var addWebsite: Template
+	val qWebsite = QWebsite.website
 	
 	@GET
 	@Path("/hello")
 	@Produces(MediaType.TEXT_HTML)
 	fun hello(): String {
-		return hello.data("websites", Website.listAll())
+		val websites = query.selectFrom(qWebsite).fetch()
+		return hello.data("websites", websites)
+			.data("lastUpdate", websiteCheckService.lastUpdate.formatTime())
+			.data("nextUpdate", websiteCheckService.getNextUpdate().formatTime())
 			.render()
 	}
 	
 	@GET
 	@Path("/add-website")
 	@Produces(MediaType.TEXT_HTML)
-	fun showAddWebsite(): String = addWebsite.render()
+	fun showAddWebsite(): String = addWebsiteTemplate.render()
 }
