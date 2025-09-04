@@ -30,6 +30,7 @@ dependencies {
 	implementation("io.quarkus:quarkus-rest-jackson")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
 	implementation("io.quarkus:quarkus-jdbc-mysql")
+	implementation("io.quarkus:quarkus-jdbc-h2")
 	
 	implementation("io.quarkus:quarkus-qute")
 	implementation("io.quarkus:quarkus-scheduler")
