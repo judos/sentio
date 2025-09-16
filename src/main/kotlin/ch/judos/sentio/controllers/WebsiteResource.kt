@@ -2,7 +2,6 @@ package ch.judos.sentio.controllers
 
 import ch.judos.sentio.entities.QWebsite
 import ch.judos.sentio.entities.Website
-import ch.judos.sentio.entities.WebsiteStatus
 import com.querydsl.jpa.impl.JPAQueryFactory
 import jakarta.persistence.EntityManager
 import jakarta.transaction.Transactional
@@ -39,8 +38,6 @@ class WebsiteResource (
 			?: return Response.status(Response.Status.NOT_FOUND).build()
 		website.name = updated.name
 		website.url = updated.url
-		website.rLastCheck = null
-		website.rStatus = WebsiteStatus.INACTIVE
 		entityManager.persist(website)
 		return Response.ok(website).build()
 	}

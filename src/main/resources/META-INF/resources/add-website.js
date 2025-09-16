@@ -14,7 +14,7 @@ window.addEventListener('DOMContentLoaded', function () {
 		});
 		if (response.ok) {
 			localStorage.setItem('websiteAdded', '1');
-			window.location.href = '/hello';
+			window.location.href = '/';
 		} else {
 			const error = await response.text();
 			msg.textContent = 'Fehler: ' + error;

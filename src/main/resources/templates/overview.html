@@ -1,0 +1,26 @@
+{#include layout.html}
+	{#scripts}
+		<script src="/app.js"></script>
+	{/scripts}
+	{#body}
+		<h1>Sentio</h1>
+		<h3>Your simple monitoring platform</h3>
+		<a href="/website/new" class="add-website-btn" title="Website hinzufügen">
+			<span>+</span>
+		</a>
+		<div class="websites-list">
+			{#for website in websites}
+				<a href="/website/{website.id}" class="website-box-link" title="Details zu {website.name} anzeigen">
+					<div class="website-box {website.rStatus.name.get().toLowerCase()}">
+						<span class="website-name-large">{website.name}</span>
+						<span class="website-uptime">X% uptime</span>
+					</div>
+				</a>
+			{/for}
+		</div>
+
+		{!<div class="update-info">!}
+			{!Letztes Update: {lastUpdate} &nbsp;|&nbsp; Nächstes Update: {nextUpdate}!}
+		{!</div>!}
+	{/body}
+{/include}
