@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
 	implementation(enforcedPlatform(
-		"io.quarkus.platform:quarkus-bom:3.25.4"))
+		"io.quarkus.platform:quarkus-bom:3.26.4"))
 	implementation("io.github.openfeign.querydsl:querydsl-jpa:7.0")
 	implementation("io.quarkus:quarkus-hibernate-orm")
 	implementation("io.quarkus:quarkus-agroal")
