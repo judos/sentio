@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	kotlin("jvm") version "2.2.0"
 	kotlin("kapt") version "2.2.0"
-	id("io.quarkus") version "3.25.4"
+	id("io.quarkus") version "3.28.0"
 }
 
 group = "ch.judos.sentio"
