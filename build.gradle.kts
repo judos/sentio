@@ -31,11 +31,9 @@ dependencies {
 	
 	implementation("io.quarkus:quarkus-qute")
 	implementation("io.quarkus:quarkus-scheduler")
-	// testImplementation("io.quarkus:quarkus-junit5")
-	// testImplementation("io.rest-assured:rest-assured")
-	// testImplementation("org.jetbrains.kotlin:kotlin-test:2.2.20")
 	
-	// annotationProcessor("io.github.openfeign.querydsl:querydsl-apt:7.0:jpa")
+	implementation("org.sejda.imageio:webp-imageio:0.1.6")
+	
 	kapt("io.github.openfeign.querydsl:querydsl-apt:7.0:jpa")
 }
 
