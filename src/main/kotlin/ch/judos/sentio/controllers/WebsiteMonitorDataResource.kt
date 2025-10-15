@@ -1,85 +1,36 @@
 package ch.judos.sentio.controllers
 
+import ch.judos.sentio.entities.QWebsiteMonitorData
+import ch.judos.sentio.entities.WebsiteMonitorData
+import ch.judos.sentio.services.ImageService
+import com.querydsl.jpa.impl.JPAQueryFactory
+import jakarta.persistence.EntityManager
 import jakarta.ws.rs.GET
 import jakarta.ws.rs.Path
-import jakarta.ws.rs.Produces
-import jakarta.ws.rs.QueryParam
 import jakarta.ws.rs.core.Response
 import java.awt.Color
 import java.awt.Font
 import java.awt.image.BufferedImage
-import java.io.ByteArrayOutputStream
-import javax.imageio.IIOImage
-import javax.imageio.ImageIO
-import javax.imageio.ImageWriteParam
-import javax.imageio.ImageWriter
-import javax.imageio.stream.MemoryCacheImageOutputStream
 
 
-@Path("/image")
-class WebsiteMonitorDataResource {
+@Path("/api/website-monitor-data")
+class WebsiteMonitorDataResource(
+		val query: JPAQueryFactory,
+		val entityManager: EntityManager,
+		var imageService: ImageService,
+) {
+	
+	val qData = QWebsiteMonitorData.websiteMonitorData
 	
 	@GET
-	@Path("/hello")
-	@Produces("image/jpeg")
-	fun generateImage(@QueryParam("quality") quality: Float): Response {
-		return try {
-			val image = image()
-			
-			// Convert to byte array
-			// val baos = ByteArrayOutputStream()
-			// ImageIO.write(bufferedImage, "jpg", baos)
-			
-			// Prepare JPEG writer
-			val writer: ImageWriter = ImageIO.getImageWritersByFormatName("jpg").next()
-			val writeParam: ImageWriteParam = writer.defaultWriteParam
-			
-			// Enable explicit compression
-			if (writeParam.canWriteCompressed()) {
-				writeParam.compressionMode = ImageWriteParam.MODE_EXPLICIT
-				writeParam.compressionQuality = quality // <-- set quality (0.0 to 1.0)
-			}
-			
-			val baos = ByteArrayOutputStream()
-			writer.output = MemoryCacheImageOutputStream(baos)
-			writer.write(null, IIOImage(image, null, null), writeParam)
-			writer.dispose()
-			
-			Response.ok(baos.toByteArray())
-				.type("image/jpeg")
-				.build()
-		} catch (e: Exception) {
-			Response.serverError().entity("Error generating image").build()
-		}
-	}
-	
-	@GET
-	@Path("/webp")
-	@Produces("image/webp")
-	fun getWebP(@QueryParam("quality") quality: Float): Response {
-		val image = image()
-		
-		// Get WebP writer
-		val writer = ImageIO.getImageWritersByFormatName("webp").next()
-		val param: ImageWriteParam = writer.defaultWriteParam
-		
-		// Set compression quality (0.0f = lowest, 1.0f = highest)
-		if (param.canWriteCompressed()) {
-			param.compressionMode = ImageWriteParam.MODE_EXPLICIT
-			param.compressionType = "Lossy"
-			param.compressionQuality = quality
-		}
-		
-		val baos = ByteArrayOutputStream()
-		MemoryCacheImageOutputStream(baos).use {
-			writer.output = it
-			writer.write(null, IIOImage(image, null, null), param)
-		}
-		writer.dispose()
-		
-		return Response.ok(baos.toByteArray())
-			.type("image/webp")
-			.build()
+	@Path("/{id}/{monitorKey}")
+	fun generateImage(id: Long, monitorKey: String, days: Int): Response {
+		val data: List<WebsiteMonitorData> = query.selectFrom(qData).where(
+			qData.website.id.eq(id)
+				.and(qData.monitor.eq(monitorKey))
+		).orderBy(qData.datetime.desc()).limit(24).fetch()
+		// TODO: aggregate data and generate image
+		return imageService.image2Response(image())
 	}
 	
 	fun image(): BufferedImage {

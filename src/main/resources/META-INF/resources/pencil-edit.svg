@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Grauer Bleistift mit spitzer Spitze, Spitze exakt am Ende -->
+  <g>
+    <!-- Stiftkörper -->
+    <rect x="16" y="40" width="32" height="8" rx="2" transform="rotate(-45 32 44)" fill="#757575"/>
+    <!-- Spitze (spitz wie ein Buntstift, direkt am Ende des Stiftkörpers) -->
+    <polygon points="54.6,25.4 60,20 56,32" fill="#424242"/>
+    <!-- Optional: dünner Umriss für bessere Sichtbarkeit -->
+    <rect x="16" y="40" width="32" height="8" rx="2" transform="rotate(-45 32 44)" fill="none" stroke="#424242" stroke-width="1.5"/>
+    <polygon points="54.6,25.4 60,20 56,32" fill="none" stroke="#212121" stroke-width="1.2"/>
+  </g>
+</svg>
+

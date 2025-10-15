@@ -34,7 +34,7 @@ class WebsiteResource (
 	@PUT
 	@Path("/{id}")
 	@Transactional
-	fun update(@PathParam("id") id: Long, updated: Website): Response {
+	fun update(id: Long, updated: Website): Response {
 		val website = query.selectFrom(qWebsite).where(qWebsite.id.eq(id)).fetchOne()
 			?: return Response.status(NOT_FOUND).build()
 		website.name = updated.name
@@ -46,7 +46,7 @@ class WebsiteResource (
 	@DELETE
 	@Path("/{id}")
 	@Transactional
-	fun delete(@PathParam("id") id: Long): Response {
+	fun delete(id: Long): Response {
 		val affected = query.delete(qWebsite).where(qWebsite.id.eq(id)).execute()
 		return if (affected == 1L) Response.noContent().build()
 		else Response.status(NOT_FOUND).build()
