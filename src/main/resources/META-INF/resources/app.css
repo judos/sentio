@@ -69,7 +69,7 @@ button {
 .action-btn {
 	background: #43a047;
 	color: #fff;
-	border: 1px solid #43a047;
+	border: none;
 }
 
 .action-btn:hover, .action-btn:focus {
@@ -78,14 +78,13 @@ button {
 }
 
 .danger-btn {
-	background: #fff;
-	color: #c62828;
-	border: 1px solid #c62828;
+	background: #e08080;
+	color: #fff;
+	border: none;
 }
 
 .danger-btn:hover, .danger-btn:focus {
-	background: #ffebee;
-	color: #b71c1c;
+	background: #c71c1c;
 	border-color: #b71c1c;
 }
 

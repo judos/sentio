@@ -41,7 +41,7 @@ class UpdateService(
 		val jobs = mutableListOf<Job>()
 		configs.forEachIndexed { i, config ->
 			// fetch last monitor data
-			val data = query.selectFrom(qData).where(qData.website.id.eq(config.id),
+			val data = query.selectFrom(qData).where(qData.website.id.eq(config.website.id),
 				qData.monitor.eq(config.monitor)).orderBy(qData.datetime.desc()).limit(1).fetchOne()
 			var refresh = true
 			if (data != null) {
