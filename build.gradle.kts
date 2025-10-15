@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	kotlin("jvm") version "2.2.0"
+	kotlin("jvm") version "2.2.20"
 	kotlin("kapt") version "2.2.0"
 	id("io.quarkus") version "3.25.4"
 }
