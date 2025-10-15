@@ -1,0 +1,34 @@
+{#include layout.html}
+	{#scripts}
+		<script src="/app.js"></script>
+		<script src="/website-monitor.js"></script>
+	{/scripts}
+	{#body}
+		<h1>{monitor.getName()} ({website.name})</h1>
+		<form id="configForm">
+			<table>
+				<tr>
+					<td>
+						<label for="checkEveryMin">Check every X minutes:</label>
+					</td>
+					<td>
+						<input type="number" name="checkEveryMin" value="{config.checkEveryMin}"
+								min="1" max="1440" id="checkEveryMin">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="alertIfFailingForMin">Alert if Failing for X minutes:</label>
+					</td>
+					<td>
+						<input type="number" name="alertIfFailingForMin" value="{config.alertIfFailingForMin}"
+								min="1" max="1440" id="alertIfFailingForMin">
+					</td>
+				</tr>
+			</table>
+
+			<button type="button" onclick="saveConfig({website.id},'{monitor.getKey()}')">Save</button>
+			<button type="button" onclick="removeMonitor({website.id},'{monitor.getKey()}')">Remove</button>
+		</form>
+	{/body}
+{/include}

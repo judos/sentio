@@ -7,7 +7,16 @@ open class Website {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	var id: Int? = null
+	@JvmField
+	var id: Long? = null
+	
+	var _id: Long?
+		@JvmName("getId")
+		get() = id
+		@JvmName("setId")
+		set(value) {
+			id = value
+		}
 	
 	@Column(nullable = false, unique = true)
 	lateinit var name: String

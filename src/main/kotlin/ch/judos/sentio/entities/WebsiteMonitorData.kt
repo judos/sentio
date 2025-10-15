@@ -22,7 +22,7 @@ class WebsiteMonitorData {
 	@Column(nullable = false)
 	lateinit var monitor: String
 	
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "DateTime(0)")
 	lateinit var datetime: LocalDateTime
 	
 	@Column(nullable = false)

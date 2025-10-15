@@ -1,14 +1,19 @@
 package ch.judos.sentio.controllers
 
 import ch.judos.sentio.entities.QWebsite
+import ch.judos.sentio.services.monitors.MonitorService
 import com.querydsl.jpa.impl.JPAQueryFactory
 import io.quarkus.qute.Location
+import io.quarkus.qute.Results
 import io.quarkus.qute.Template
 import jakarta.inject.Inject
 import jakarta.ws.rs.GET
+import jakarta.ws.rs.NotFoundException
 import jakarta.ws.rs.Path
 import jakarta.ws.rs.Produces
 import jakarta.ws.rs.core.MediaType
+import jakarta.ws.rs.core.Response
+import jakarta.ws.rs.core.Response.Status.NOT_FOUND
 
 @Path("")
 class UiResource @Inject constructor(
@@ -18,6 +23,8 @@ class UiResource @Inject constructor(
 	var websiteAdd: Template,
 	@Location("website-details.html")
 	var websiteDetails: Template,
+	@Location("website-monitor.html")
+	var websiteMonitor: Template,
 	val query: JPAQueryFactory,
 ) {
 	
@@ -40,9 +47,25 @@ class UiResource @Inject constructor(
 	@GET
 	@Path("/website/{id}")
 	@Produces(MediaType.TEXT_HTML)
-	fun websiteDetails(id: Int): String {
+	fun websiteDetails(id: Long): String {
 		val website = query.selectFrom(qWebsite).where(qWebsite.id.eq(id)).fetchOne()
+		val monitors = MonitorService.monitors
 		return websiteDetails.data("website", website)
+			.data("monitors", monitors)
 			.render()
+	}
+	@GET
+	@Path("/website/{id}/{monitorKey}")
+	@Produces(MediaType.TEXT_HTML)
+	fun websiteDetails(id: Long, monitorKey: String): Response {
+		val website = query.selectFrom(qWebsite).where(qWebsite.id.eq(id)).fetchOne()
+			?: return Response.status(NOT_FOUND).build()
+		val monitor = MonitorService.monitors.firstOrNull { it.getKey() == monitorKey }
+			?: return Response.status(NOT_FOUND).build()
+		val config = website.configs.firstOrNull { it.monitor == monitorKey }
+			?: monitor.getDefaultConfigFor(website)
+		return Response.ok(websiteMonitor.data("website", website)
+			.data("monitor", monitor)
+			.data("config", config).render()).build()
 	}
 }

@@ -12,7 +12,7 @@ open class WebsiteConfig {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	var id: Int? = null
+	var id: Long? = null
 	
 	@ManyToOne
 	lateinit var website: Website
@@ -24,6 +24,11 @@ open class WebsiteConfig {
 	var checkEveryMin: Int = 5
 	
 	@Column(nullable = false)
-	var alertIfUnreachableForMin: Int = 15
+	var alertIfFailingForMin: Int = 15
+	
+	fun updateFrom(config: WebsiteConfig) {
+		this.checkEveryMin = config.checkEveryMin
+		this.alertIfFailingForMin = config.alertIfFailingForMin
+	}
 	
 }

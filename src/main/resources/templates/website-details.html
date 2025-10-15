@@ -1,10 +1,18 @@
 {#include layout.html}
 	{#scripts}
 		<script src="/app.js"></script>
+		<link rel="stylesheet" href="/website-details.css">
 	{/scripts}
 	{#body}
 		<h1>Site {website.name}</h1>
 		<h3>{website.url}</h3>
-
+		<p>Website availability and history data.</p>
+		TODO
+		<h3>Add monitor</h3>
+		{#for monitor in monitors}
+			<form action="/website/{website.id}/{monitor.getKey()}" method="get">
+				<button type="submit">{monitor.name}</button>
+			</form>
+		{/for}
 	{/body}
 {/include}

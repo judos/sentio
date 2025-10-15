@@ -15,6 +15,21 @@ a {
 	text-decoration: none;
 }
 
+input {
+	margin: 10px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 5px;
+	min-width: 120px;
+}
+input[type=number] {
+	-moz-appearance:textfield;
+}
+
+table {
+	border-collapse: collapse;
+}
+
 .content-box {
 	border: 1px solid #ccc;
 	border-radius: 8px;

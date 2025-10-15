@@ -10,9 +10,6 @@ group = "ch.judos.sentio"
 version = "1.0"
 
 
-val quarkusVersion by extra("3.25.4")
-val kotlinVersion by extra("2.2.0")
-
 repositories {
 	mavenCentral()
 	mavenLocal()
@@ -28,7 +25,7 @@ dependencies {
 	implementation("io.quarkus:quarkus-kotlin")
 	implementation("io.quarkus:quarkus-rest")
 	implementation("io.quarkus:quarkus-rest-jackson")
-	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.20")
 	implementation("io.quarkus:quarkus-jdbc-mysql")
 	implementation("io.quarkus:quarkus-jdbc-h2")
 	
@@ -36,7 +33,7 @@ dependencies {
 	implementation("io.quarkus:quarkus-scheduler")
 	// testImplementation("io.quarkus:quarkus-junit5")
 	// testImplementation("io.rest-assured:rest-assured")
-	// testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
+	// testImplementation("org.jetbrains.kotlin:kotlin-test:2.2.20")
 	
 	// annotationProcessor("io.github.openfeign.querydsl:querydsl-apt:7.0:jpa")
 	kapt("io.github.openfeign.querydsl:querydsl-apt:7.0:jpa")

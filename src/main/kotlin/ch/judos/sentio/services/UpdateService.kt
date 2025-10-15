@@ -5,8 +5,7 @@ import ch.judos.sentio.entities.QWebsiteConfig
 import ch.judos.sentio.entities.QWebsiteMonitorData
 import ch.judos.sentio.entities.WebsiteConfig
 import ch.judos.sentio.entities.WebsiteMonitorData
-import ch.judos.sentio.services.monitors.SslCertificateService
-import ch.judos.sentio.services.monitors.WebsiteCheckService
+import ch.judos.sentio.services.monitors.MonitorService
 import com.querydsl.jpa.impl.JPAQueryFactory
 import io.quarkus.logging.Log
 import io.quarkus.runtime.StartupEvent
@@ -16,11 +15,7 @@ import jakarta.enterprise.event.Observes
 import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
 import jakarta.transaction.Transactional
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.joinAll
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import java.lang.Thread.sleep
 import java.time.Duration
 import java.time.LocalDateTime
@@ -33,14 +28,9 @@ class UpdateService(
 		var entityManager: EntityManager
 ) {
 	
-	val monitors = listOf(
-		SslCertificateService(),
-		WebsiteCheckService()
-	)
-	val monitorMap = monitors.associateBy { it.getKey() }
-	
-	val qConfigs = QWebsiteConfig.websiteConfig
-	val qData = QWebsiteMonitorData.websiteMonitorData
+	val monitorMap = MonitorService.monitors.associateBy { it.getKey() }
+	val qConfigs: QWebsiteConfig = QWebsiteConfig.websiteConfig
+	val qData: QWebsiteMonitorData = QWebsiteMonitorData.websiteMonitorData
 	
 	@Scheduled(every = "1m")
 	@Transactional
@@ -76,8 +66,8 @@ class UpdateService(
 	fun checkWebsite(config: WebsiteConfig) {
 		val website = config.website
 		val monitor = monitorMap[config.monitor]!!
-		val (success,message,value) = monitor.check(config)
-		val data = WebsiteMonitorData().let {
+		val (success, message, value) = monitor.check(config)
+		val data = WebsiteMonitorData().also {
 			it.website = website
 			it.monitor = config.monitor
 			it.datetime = LocalDateTime.now()

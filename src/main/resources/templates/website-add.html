@@ -1,5 +1,7 @@
 {#include layout.html}
-	{#title}Webseite überwachen{/title}
+	{#scripts}
+		<script src="/website-add.js"></script>
+	{/scripts}
 	{#body}
 		<h1>Neue Website überwachen</h1>
 		<form id="websiteForm">
@@ -13,6 +15,5 @@
 			</div>
 		</form>
 		<p id="formMsg"></p>
-		<script src="/add-website.js"></script>
 	{/body}
 {/include}

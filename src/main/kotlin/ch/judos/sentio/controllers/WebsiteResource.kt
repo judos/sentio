@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional
 import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
+import jakarta.ws.rs.core.Response.Status.NOT_FOUND
 import java.net.URI
 
 @Path("/api/websites")
@@ -33,9 +34,9 @@ class WebsiteResource (
 	@PUT
 	@Path("/{id}")
 	@Transactional
-	fun update(@PathParam("id") id: Int, updated: Website): Response {
+	fun update(@PathParam("id") id: Long, updated: Website): Response {
 		val website = query.selectFrom(qWebsite).where(qWebsite.id.eq(id)).fetchOne()
-			?: return Response.status(Response.Status.NOT_FOUND).build()
+			?: return Response.status(NOT_FOUND).build()
 		website.name = updated.name
 		website.url = updated.url
 		entityManager.persist(website)
@@ -45,9 +46,9 @@ class WebsiteResource (
 	@DELETE
 	@Path("/{id}")
 	@Transactional
-	fun delete(@PathParam("id") id: Int): Response {
+	fun delete(@PathParam("id") id: Long): Response {
 		val affected = query.delete(qWebsite).where(qWebsite.id.eq(id)).execute()
 		return if (affected == 1L) Response.noContent().build()
-		else Response.status(Response.Status.NOT_FOUND).build()
+		else Response.status(NOT_FOUND).build()
 	}
 }

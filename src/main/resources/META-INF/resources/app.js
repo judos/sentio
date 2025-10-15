@@ -18,3 +18,9 @@ window.addEventListener('DOMContentLoaded', function () {
 		localStorage.removeItem('websiteAdded');
 	}
 });
+
+
+function form2Json(formId) {
+	const form = document.getElementById(formId);
+	return JSON.stringify(Object.fromEntries(new FormData(form)));
+}
