@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
 	kotlin("jvm") version "2.2.21"
-	kotlin("kapt") version "2.2.20"
+	kotlin("kapt") version "2.2.21"
 	id("io.quarkus") version "3.29.0"
 }
 
