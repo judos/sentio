@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="sentio.main" type="QuarkusRunConfigurationType" factoryName="Quarkus" nameIsGenerated="true">
+  <configuration default="false" name="sentio" type="QuarkusRunConfigurationType" factoryName="Quarkus">
     <module name="sentio.main" />
     <QsGradleRunConfiguration>
       <ExternalSystemSettings>
@@ -21,7 +21,7 @@
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
       <RunAsTest>false</RunAsTest>
-      <profile>local</profile>
+      <profile>dev,local</profile>
     </QsGradleRunConfiguration>
     <method v="2">
       <option name="Make" enabled="true" />

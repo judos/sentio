@@ -47,6 +47,7 @@ class MonitorDataService(
 			}
 			entityManager.persist(err)
 		}
+		data.lastCheck = LocalDateTime.now()
 		entityManager.persist(data)
 	}
 	

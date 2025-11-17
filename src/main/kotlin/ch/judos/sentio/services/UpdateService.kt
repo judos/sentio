@@ -32,7 +32,7 @@ class UpdateService(
 	val qConfigs: QWebsiteConfig = QWebsiteConfig.websiteConfig
 	val qData: QMonitorData = QMonitorData.monitorData
 	
-	@Scheduled(every = "1m")
+	@Scheduled(every = "15s")
 	@Transactional
 	fun validateWebsites() = runBlocking {
 		Log.info("Starte parallele Website-Validierung...")

@@ -24,13 +24,13 @@ class MonitorData {
 	@Column(nullable = false)
 	lateinit var monitor: String
 	
-	@Column(nullable = false, columnDefinition = "Date(0)")
+	@Column(nullable = false, columnDefinition = "Date")
 	lateinit var date: LocalDate
 	
-	@Column(nullable = false, columnDefinition = "Time(0)")
+	@Column(nullable = false, columnDefinition = "VARCHAR(8)")
 	lateinit var firstCheck: LocalTime
 	
-	@Column(nullable = false, columnDefinition = "DateTime(0)")
+	@Column(nullable = false, columnDefinition = "VARCHAR(19)")
 	lateinit var lastCheck: LocalDateTime
 	
 	@Column(nullable = false)
@@ -38,5 +38,7 @@ class MonitorData {
 	
 	@Column(nullable = false)
 	var failed: Int = 0
+	
+	
 	
 }
