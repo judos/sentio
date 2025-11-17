@@ -11,7 +11,7 @@ import javax.net.ssl.SSLSocket
 
 class SslCertificateService : MonitorService {
 
-	override fun check(config: WebsiteConfig): Triple<Boolean, String?, Long> {
+	override fun checkAndReturnError(config: WebsiteConfig): String? {
 		return try {
 			val website = config.website
 			val uri = URI(website.url)
@@ -29,13 +29,13 @@ class SslCertificateService : MonitorService {
 				val expiry = x509.notAfter.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
 				val today = LocalDate.now()
 				val days = ChronoUnit.DAYS.between(today, expiry)
-				if (days < 14) {
-					Triple(false, "SSL-Certificate expires in $days days", days)
+				if (days <= 7) {
+					"SSL-Certificate expires in $days days"
 				}
-				Triple(true, null, days)
+				null
 			}
 		} catch (e: Exception) {
-			Triple(false, "SSL-Check failed: ${e.message}", 0L)
+			"SSL-Check failed: ${e.message}"
 		}
 	}
 	

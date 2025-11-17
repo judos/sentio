@@ -1,7 +1,7 @@
 package ch.judos.sentio.controllers
 
-import ch.judos.sentio.entities.QWebsiteMonitorData
-import ch.judos.sentio.entities.WebsiteMonitorData
+import ch.judos.sentio.entities.QMonitorData
+import ch.judos.sentio.entities.MonitorData
 import ch.judos.sentio.services.ImageService
 import com.querydsl.jpa.impl.JPAQueryFactory
 import jakarta.persistence.EntityManager
@@ -13,22 +13,22 @@ import java.awt.Font
 import java.awt.image.BufferedImage
 
 
-@Path("/api/website-monitor-data")
-class WebsiteMonitorDataResource(
+@Path("/api/monitor-data")
+class MonitorDataResource(
 		val query: JPAQueryFactory,
 		val entityManager: EntityManager,
 		var imageService: ImageService,
 ) {
 	
-	val qData = QWebsiteMonitorData.websiteMonitorData
+	val qData = QMonitorData.monitorData
 	
 	@GET
 	@Path("/{id}/{monitorKey}")
 	fun generateImage(id: Long, monitorKey: String, days: Int): Response {
-		val data: List<WebsiteMonitorData> = query.selectFrom(qData).where(
-			qData.website.id.eq(id)
-				.and(qData.monitor.eq(monitorKey))
-		).orderBy(qData.datetime.desc()).limit(24).fetch()
+		// val data: List<MonitorData> = query.selectFrom(qData).where(
+		// 	qData.website.id.eq(id)
+		// 		.and(qData.monitor.eq(monitorKey))
+		// ).orderBy(qData.datetime.desc()).limit(24).fetch()
 		// TODO: aggregate data and generate image
 		return imageService.image2Response(image())
 	}

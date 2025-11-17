@@ -6,7 +6,7 @@ import java.net.URI
 
 class WebsiteCheckService : MonitorService {
 	
-	override fun check(config: WebsiteConfig): Triple<Boolean, String?, Long> {
+	override fun checkAndReturnError(config: WebsiteConfig): String? {
 		return try {
 			val uri = URI(config.website.url)
 			val connection = uri.toURL().openConnection() as HttpURLConnection
@@ -16,10 +16,9 @@ class WebsiteCheckService : MonitorService {
 			connection.connect()
 			val code = connection.responseCode
 			val success = code in 200..399
-			val errorMsg = if (success) null else "HTTP $code"
-			Triple(success, errorMsg, code.toLong())
+			if (success) null else "HTTP $code"
 		} catch (e: Exception) {
-			Triple(false, e.message, 0L)
+			e.message ?: "Unknown error"
 		}
 	}
 	

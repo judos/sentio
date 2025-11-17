@@ -7,10 +7,12 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 
-@Entity(name = "website_monitor_data")
-class WebsiteMonitorData {
+@Entity(name = "monitor_data")
+class MonitorData {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,16 +24,19 @@ class WebsiteMonitorData {
 	@Column(nullable = false)
 	lateinit var monitor: String
 	
+	@Column(nullable = false, columnDefinition = "Date(0)")
+	lateinit var date: LocalDate
+	
+	@Column(nullable = false, columnDefinition = "Time(0)")
+	lateinit var firstCheck: LocalTime
+	
 	@Column(nullable = false, columnDefinition = "DateTime(0)")
-	lateinit var datetime: LocalDateTime
+	lateinit var lastCheck: LocalDateTime
 	
 	@Column(nullable = false)
-	var success: Boolean = false
+	var succeeded: Int = 0
 	
 	@Column(nullable = false)
-	var value: Long = 0L
-	
-	@Column(nullable = true)
-	var message: String? = null
+	var failed: Int = 0
 	
 }
