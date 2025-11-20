@@ -1,9 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	kotlin("jvm") version "2.2.20"
-	kotlin("kapt") version "2.2.20"
-	id("io.quarkus") version "3.28.3"
+	kotlin("jvm") version "2.2.21"
+	kotlin("kapt") version "2.2.21"
+	id("io.quarkus") version "3.29.0"
 }
 
 group = "ch.judos.sentio"
@@ -18,7 +18,7 @@ repositories {
 
 dependencies {
 	implementation(enforcedPlatform(
-		"io.quarkus.platform:quarkus-bom:3.28.3"))
+		"io.quarkus.platform:quarkus-bom:3.29.0"))
 	implementation("io.github.openfeign.querydsl:querydsl-jpa:7.0")
 	implementation("io.quarkus:quarkus-hibernate-orm")
 	implementation("io.quarkus:quarkus-agroal")
