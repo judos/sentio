@@ -15,7 +15,7 @@ import jakarta.ws.rs.core.Response.Status.NOT_FOUND
 @Path("/api/website-monitors")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-class WebsiteMonitorResource(
+class MonitorResource(
 		val query: JPAQueryFactory,
 		val entityManager: EntityManager
 ) {

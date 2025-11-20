@@ -1,11 +1,16 @@
 package ch.judos.sentio.extensions
 
 import io.quarkus.qute.TemplateExtension
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
-@TemplateExtension
+
 object TemplateExtensions {
 	
+	@TemplateExtension
 	@JvmStatic
-	fun lowercase(str: String): String = str.lowercase()
+	fun LocalDateTime.formatDateTime(): String {
+		return format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))
+	}
 	
 }

@@ -1,5 +1,6 @@
 package ch.judos.sentio.controllers
 
+import ch.judos.sentio.entities.QMonitorError
 import ch.judos.sentio.entities.QWebsite
 import ch.judos.sentio.entities.Website
 import com.querydsl.jpa.impl.JPAQueryFactory
@@ -19,6 +20,7 @@ class WebsiteResource (
 	val entityManager: EntityManager
 ){
 	val qWebsite = QWebsite.website
+	val qErrors = QMonitorError.monitorError
 	
 	@GET
 	fun fetchAll(): List<Website> = query.selectFrom(qWebsite).fetch()
@@ -47,8 +49,10 @@ class WebsiteResource (
 	@Path("/{id}")
 	@Transactional
 	fun delete(id: Long): Response {
+		// MonitorError entfernen
+		query.delete(qErrors).where(qErrors.website.id.eq(id)).execute()
+		// Website entfernen (Cascade löscht Configs und Data)
 		val affected = query.delete(qWebsite).where(qWebsite.id.eq(id)).execute()
-		return if (affected == 1L) Response.noContent().build()
-		else Response.status(NOT_FOUND).build()
+		return if (affected > 0) Response.noContent().build() else Response.status(NOT_FOUND).build()
 	}
 }

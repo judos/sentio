@@ -1,10 +1,35 @@
 {#include layout.html}
 	{#scripts}
-		<script src="/app.js"></script>
 		<script src="/website-monitor.js"></script>
 	{/scripts}
 	{#body}
-		<h1>{monitor.getName()} ({website.name})</h1>
+		<div class="action-bar" style="margin-left: 5px;">
+			<h1>{website.name} {monitor.getName()}</h1>
+			<div class="link">
+				<a onclick="removeMonitor({website.id},'{monitor.key}','{monitor.getName()}')" style="cursor: pointer;">
+					<img src="/delete.svg">
+				</a>
+			</div>
+		</div>
+
+		<div style="text-align: center; margin-bottom: 1rem;">{website.url}</div>
+		<h2>History</h2>
+		<img src="/api/monitor-data/{website.id}/{monitor.key}?days={showDays}" alt="">
+		{#if errors.size() > 0}
+			<table class="table">
+				<tr>
+					<th>Date</th>
+					<th>Error Message</th>
+				</tr>
+				{#for error in errors}
+					<tr>
+						<td>{error.dateTime.formatDateTime}</td>
+						<td>{error.message}</td>
+					</tr>
+				{/for}
+			</table>
+		{/if}
+		<h2 style="margin-top: 1rem;">Configuration</h2>
 		<form id="configForm">
 			<table>
 				<tr>
@@ -27,8 +52,11 @@
 				</tr>
 			</table>
 
-			<button type="button" class="action-btn" onclick="saveConfig({website.id},'{monitor.getKey()}')">Save</button>
-			<button type="button" class="danger-btn" onclick="removeMonitor({website.id},'{monitor.getKey()}')">Remove</button>
+			<div class="button-row">
+				<button type="button" class="action-btn"
+						onclick="saveConfig( {website.id},'{monitor.getKey() }')">Save
+				</button>
+			</div>
 		</form>
 	{/body}
 {/include}

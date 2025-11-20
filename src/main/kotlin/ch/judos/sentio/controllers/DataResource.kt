@@ -5,6 +5,7 @@ import ch.judos.sentio.entities.MonitorError
 import ch.judos.sentio.entities.QMonitorData
 import ch.judos.sentio.entities.QMonitorError
 import ch.judos.sentio.services.ImageService
+import ch.judos.sentio.services.monitors.MonitorService
 import com.querydsl.jpa.impl.JPAQueryFactory
 import jakarta.persistence.EntityManager
 import jakarta.ws.rs.GET
@@ -12,6 +13,7 @@ import jakarta.ws.rs.Path
 import jakarta.ws.rs.PathParam
 import jakarta.ws.rs.QueryParam
 import jakarta.ws.rs.core.Response
+import java.awt.Color
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -19,7 +21,7 @@ import kotlin.math.roundToInt
 
 
 @Path("/api/monitor-data")
-class MonitorDataResource(
+class DataResource(
 		val query: JPAQueryFactory,
 		val entityManager: EntityManager,
 		var imageService: ImageService,
@@ -45,6 +47,8 @@ class MonitorDataResource(
 			qError.monitor.eq(monitorKey),
 			qError.dateTime.goe(LocalDate.now().minusDays((days - 1).toLong()).atStartOfDay())
 		).fetch()
+		MonitorService.monitors.find { it.getKey() == monitorKey }
+			?: return Response.status(Response.Status.NOT_FOUND).build()
 		val dataPoints = data.sumOf { it.succeeded + it.failed }
 		val firstCheck = data.minOfOrNull { it.date.atTime(it.firstCheck) } ?: LocalDate.now().atStartOfDay()
 		val lastCheck = data.maxOfOrNull { it.lastCheck } ?: LocalDateTime.now()
@@ -62,9 +66,9 @@ class MonitorDataResource(
 		}
 		val colorMap = { v: Int ->
 			when (v) {
-				0 -> java.awt.Color.red
-				1 -> java.awt.Color.green
-				else -> java.awt.Color.gray
+				0 -> Color.getHSBColor(0f, 0.7f, 0.8f)
+				1 -> Color.getHSBColor(0.33f, 0.5f, 0.7f)
+				else -> Color.gray
 			}
 		}
 		val image = imageService.lineGraph(600, 50, graph, colorMap)

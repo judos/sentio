@@ -11,10 +11,10 @@ import kotlin.math.roundToInt
 
 @ApplicationScoped
 class ImageService(
-	var configService: ConfigService
+		var configService: ConfigService
 ) {
 	
-	fun lineGraph(width: Int, height: Int, data: IntArray, colorMap: (Int)-> Color): BufferedImage {
+	fun lineGraph(width: Int, height: Int, data: IntArray, colorMap: (Int) -> Color): BufferedImage {
 		val image = BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
 		val g2d = image.createGraphics()
 		val lineWidth = width.toDouble() / data.size
@@ -24,6 +24,11 @@ class ImageService(
 			g2d.color = colorMap(data[i])
 			val x = (i * lineWidth).roundToInt()
 			g2d.fillRect(x, 0, rectWidth, height)
+		}
+		g2d.color = Color(0, 0, 0, 50)
+		for (i in 0 until data.size) {
+			val x = (i * lineWidth).roundToInt()
+			g2d.drawLine(x, height, x, (height * 0.7).roundToInt())
 		}
 		g2d.dispose()
 		return image

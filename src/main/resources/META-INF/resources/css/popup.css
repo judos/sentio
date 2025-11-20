@@ -1,0 +1,53 @@
+.popup {
+	position: fixed;
+	left: 50%;
+	transform: translateX(-50%);
+	border-radius: 8px;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+	font-size: 1.1rem;
+	z-index: 9999;
+	opacity: 1;
+	transition: opacity 0.5s, bottom 0.5s;
+}
+.popup.hide {
+	opacity: 0;
+}
+
+.popup.default {
+	bottom: 32px;
+	background: #a0f0b7;
+	padding: 1rem 2.5rem;
+}
+.popup.default.hide {
+	bottom: 0;
+}
+
+.popup.confirm {
+	top: 50%;
+	transform: translateY(-50%) translateX(-50%);
+	background: white;
+  display: flex;
+  flex-direction: column;
+	padding: 1rem 1.5rem;
+}
+.popup.confirm .title {
+	margin-bottom: 0.5rem;
+}
+.popup.confirm .buttons {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 1.5rem;
+	gap: 8px;
+}
+
+.backdrop {
+	position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  background: #00000050;
+	transition: opacity 0.3s;
+}
+.backdrop.hide {
+	opacity: 0;
+}

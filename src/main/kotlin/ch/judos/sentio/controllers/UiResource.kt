@@ -1,5 +1,6 @@
 package ch.judos.sentio.controllers
 
+import ch.judos.sentio.entities.QMonitorError
 import ch.judos.sentio.entities.QWebsite
 import ch.judos.sentio.services.MonitorDataService
 import ch.judos.sentio.services.monitors.MonitorService
@@ -13,8 +14,8 @@ import jakarta.ws.rs.Produces
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
 import jakarta.ws.rs.core.Response.Status.NOT_FOUND
+import java.time.LocalDateTime
 import kotlin.math.floor
-import kotlin.math.roundToInt
 
 @Path("")
 class UiResource @Inject constructor(
@@ -29,8 +30,11 @@ class UiResource @Inject constructor(
 		val query: JPAQueryFactory,
 		val monitorDataService: MonitorDataService
 ) {
+	// TODO: store on user
+	val showDays = 14
 	
 	val qWebsite = QWebsite.website
+	val qErrors = QMonitorError.monitorError
 	
 	@GET
 	@Path("/")
@@ -46,12 +50,12 @@ class UiResource @Inject constructor(
 	@Produces(MediaType.TEXT_HTML)
 	fun websites(): String {
 		val websites = query.selectFrom(qWebsite).fetch()
-		val uptime = monitorDataService.getUptimePercentage(null, 7)
+		val uptime = monitorDataService.getUptimePercentage(null, showDays)
 			.mapValues { floor(it.value).toInt() }
 		val colors = uptime.mapValues {
 			when {
-				it.value >= 99 -> "hsl(120, 60%, 50%);"
-				else -> "hsl(${it.value*1.2}, 60%, 50%);"
+				it.value >= 99 -> "hsl(120, 30%, 70%);"
+				else -> "hsl(${it.value * 1.2}, 30%, 70%);"
 			}
 		}
 		return overview.data("websites", websites)
@@ -75,12 +79,12 @@ class UiResource @Inject constructor(
 			website.configs.none { it.monitor == monitor.getKey() }
 		}
 		val monitorByKey = MonitorService.monitors.associateBy { it.getKey() }
-		val configs = website.configs
+		val configs = website.configs.sortedBy { it.monitor }
 		return Response.ok(websiteDetails.data("website", website)
 			.data("configs", configs)
 			.data("monitorByKey", monitorByKey)
 			.data("monitors", monitors)
-			.data("showDays", 14)
+			.data("showDays", showDays)
 			.render()).build()
 	}
 	@GET
@@ -93,8 +97,15 @@ class UiResource @Inject constructor(
 			?: return Response.status(NOT_FOUND).build()
 		val config = website.configs.firstOrNull { it.monitor == monitorKey }
 			?: monitor.getDefaultConfigFor(website)
+		val errors = query.selectFrom(qErrors).where(
+			qErrors.website.eq(website),
+			qErrors.monitor.eq(monitorKey),
+			qErrors.dateTime.goe(LocalDateTime.now().minusDays(showDays.toLong()))
+		).fetch()
 		return Response.ok(websiteMonitor.data("website", website)
 			.data("monitor", monitor)
+			.data("showDays", showDays)
+			.data("errors", errors)
 			.data("config", config).render()).build()
 	}
 }

@@ -1,4 +1,3 @@
-// JavaScript für das Hinzufügen einer überwachten Website
 window.addEventListener('DOMContentLoaded', function () {
 	const form = document.getElementById('websiteForm');
 	const msg = document.getElementById('formMsg');
@@ -13,7 +12,7 @@ window.addEventListener('DOMContentLoaded', function () {
 			body: JSON.stringify({name, url})
 		});
 		if (response.ok) {
-			localStorage.setItem('websiteAdded', '1');
+			localStorage.setItem('popup', 'Website added.');
 			window.location.href = '/';
 		} else {
 			const error = await response.text();

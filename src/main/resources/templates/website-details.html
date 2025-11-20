@@ -1,23 +1,32 @@
 {#include layout.html}
 	{#scripts}
-		<script src="/app.js"></script>
 		<link rel="stylesheet" href="/website-details.css">
+		<script src="/website-details.js"></script>
 	{/scripts}
 	{#body}
-		<h1>Site {website.name}</h1>
-		<h3>{website.url}</h3>
-		<p>Website availability and history data.</p>
-		{#for config in configs}
-			<h3>
-				{monitorByKey.get(config.monitor).name}
-				<a href="/website/{website.id}/{config.monitor}" title="Edit config" style="margin-left:8px; vertical-align:middle;">
-					<img src="/edit.svg" alt="Edit config">
+		<div class="action-bar" style="margin-left: 5px;">
+			<h1>{website.name}</h1>
+			<div class="link">
+				<a onclick="deleteWebsite({website.id},'{website.name}')" style="cursor: pointer;">
+					<img src="/delete.svg">
 				</a>
-			</h3>
-			<img src="/api/monitor-data/{website.id}/{config.monitor}?days={showDays}" alt="">
-		{/for}
+			</div>
+		</div>
+		<div style="text-align: center; margin-bottom: 1rem;">{website.url}</div>
+		{#if configs.size() > 0}
+			<h2>History</h2>
+			{#for config in configs}
+				<a href="/website/{website.id}/{config.monitor}" title="Edit config">
+					<span style="display: flex; justify-content: center">
+						{monitorByKey.get(config.monitor).name}
+						<img src="/edit.svg" style="margin-left: 5px;">
+					</span>
+					<img src="/api/monitor-data/{website.id}/{config.monitor}?days={showDays}" alt="">
+				</a>
+			{/for}
+		{/if}
 		{#if monitors.size() > 0}
-			<h3>Add monitor</h3>
+			<h2>Add monitor</h2>
 			{#for monitor in monitors}
 				<form action="/website/{website.id}/{monitor.getKey()}" method="get">
 					<button type="submit">{monitor.name}</button>
