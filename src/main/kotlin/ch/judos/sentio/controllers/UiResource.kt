@@ -18,6 +18,7 @@ import java.time.LocalDateTime
 import kotlin.math.floor
 
 @Path("")
+@Produces(MediaType.TEXT_HTML)
 class UiResource @Inject constructor(
 		@Location("overview.html")
 		var overview: Template,
@@ -38,7 +39,6 @@ class UiResource @Inject constructor(
 	
 	@GET
 	@Path("/")
-	@Produces(MediaType.TEXT_HTML)
 	fun overview(): Response {
 		return Response.status(Response.Status.FOUND)
 			.header("Location", "/website")
@@ -47,7 +47,6 @@ class UiResource @Inject constructor(
 	
 	@GET
 	@Path("/website")
-	@Produces(MediaType.TEXT_HTML)
 	fun websites(): String {
 		val websites = query.selectFrom(qWebsite).fetch()
 		val uptime = monitorDataService.getUptimePercentage(null, showDays)
@@ -66,12 +65,10 @@ class UiResource @Inject constructor(
 	
 	@GET
 	@Path("/website/new")
-	@Produces(MediaType.TEXT_HTML)
 	fun websiteAdd(): String = websiteAdd.render()
 	
 	@GET
 	@Path("/website/{id}")
-	@Produces(MediaType.TEXT_HTML)
 	fun websiteDetails(id: Long): Response {
 		val website = query.selectFrom(qWebsite).where(qWebsite.id.eq(id)).fetchOne()
 			?: return Response.status(NOT_FOUND).build()
@@ -89,7 +86,6 @@ class UiResource @Inject constructor(
 	}
 	@GET
 	@Path("/website/{id}/{monitorKey}")
-	@Produces(MediaType.TEXT_HTML)
 	fun websiteDetails(id: Long, monitorKey: String): Response {
 		val website = query.selectFrom(qWebsite).where(qWebsite.id.eq(id)).fetchOne()
 			?: return Response.status(NOT_FOUND).build()

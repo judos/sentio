@@ -34,8 +34,11 @@ dependencies {
 	implementation("io.quarkus:quarkus-scheduler")
 	
 	implementation("org.sejda.imageio:webp-imageio:0.1.6")
+	implementation("jakarta.servlet:jakarta.servlet-api:6.0.0")
 	
 	kapt("io.github.openfeign.querydsl:querydsl-apt:7.0:jpa")
+	
+	testImplementation("io.quarkus:quarkus-junit5")
 }
 
 java {
@@ -73,13 +76,13 @@ configurations {
 // }
 
 tasks.named("compileJava") {
-    dependsOn("compileQuarkusGeneratedSourcesJava")
+	dependsOn("compileQuarkusGeneratedSourcesJava")
 }
 tasks.named("compileKotlin") {
-    dependsOn("compileQuarkusGeneratedSourcesJava")
+	dependsOn("compileQuarkusGeneratedSourcesJava")
 }
 tasks.named("compileQuarkusGeneratedSourcesJava") {
-    dependsOn("kaptGenerateStubsKotlin")
+	dependsOn("kaptGenerateStubsKotlin")
 }
 val compileKotlin: KotlinCompile by tasks
 
