@@ -19,7 +19,7 @@ repositories {
 dependencies {
 	implementation(enforcedPlatform(
 		"io.quarkus.platform:quarkus-bom:3.29.0"))
-	implementation("io.github.openfeign.querydsl:querydsl-jpa:7.0")
+	implementation("io.github.openfeign.querydsl:querydsl-jpa:7.1")
 	implementation("io.quarkus:quarkus-hibernate-orm")
 	implementation("io.quarkus:quarkus-agroal")
 	implementation("io.quarkus:quarkus-kotlin")
@@ -35,7 +35,7 @@ dependencies {
 	
 	implementation("org.sejda.imageio:webp-imageio:0.1.6")
 	
-	kapt("io.github.openfeign.querydsl:querydsl-apt:7.0:jpa")
+	kapt("io.github.openfeign.querydsl:querydsl-apt:7.1:jpa")
 	
 	testImplementation("io.quarkus:quarkus-junit5")
 
