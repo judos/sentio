@@ -4,6 +4,7 @@ import ch.judos.sentio.entities.WebsiteConfig
 import java.net.HttpURLConnection
 import java.net.URI
 
+const val REACHABILITY_MONITOR_KEY = "reachability"
 class WebsiteCheckService : MonitorService {
 	
 	override fun checkAndReturnError(config: WebsiteConfig): String? {
@@ -22,7 +23,7 @@ class WebsiteCheckService : MonitorService {
 		}
 	}
 	
-	override fun getKey() = "reachability"
+	override fun getKey() = REACHABILITY_MONITOR_KEY
 	
 	override fun getDefaultAlertIfFailingForMin() = 30
 	

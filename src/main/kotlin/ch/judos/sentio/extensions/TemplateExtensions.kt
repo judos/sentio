@@ -7,4 +7,5 @@ object TemplateExtensions {
 	
 	@JvmStatic
 	fun lowercase(str: String): String = str.lowercase()
+	
 }

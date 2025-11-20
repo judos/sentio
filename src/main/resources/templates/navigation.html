@@ -1,0 +1,28 @@
+<a class="link" href="/website">
+	Websites
+</a>
+<div class="spacer"></div>
+<div class="link">
+	<label for="dateRangeSelect"></label>
+	<select id="dateRangeSelect" onchange="handleDateRangeChange()" title="Select date range">
+		<option value="30">Last 30 days</option>
+		<option value="7">Last 7 days</option>
+	</select>
+</div>
+
+<script>
+// TODO: move this into user settings
+function handleDateRangeChange() {
+	const select = document.getElementById('dateRangeSelect');
+	localStorage.setItem('dateRange', select.value);
+	location.reload();
+}
+// Beim Laden die Auswahl aus localStorage setzen
+window.addEventListener('DOMContentLoaded', function() {
+	const select = document.getElementById('dateRangeSelect');
+	const stored = localStorage.getItem('dateRange');
+	if (select && stored) {
+		select.value = stored;
+	}
+});
+</script>

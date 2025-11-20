@@ -32,7 +32,7 @@ class UpdateService(
 	val qConfigs: QWebsiteConfig = QWebsiteConfig.websiteConfig
 	val qData: QMonitorData = QMonitorData.monitorData
 	
-	@Scheduled(every = "15s")
+	@Scheduled(every = "60s")
 	@Transactional
 	fun validateWebsites() = runBlocking {
 		Log.info("Starte parallele Website-Validierung...")
@@ -74,10 +74,6 @@ class UpdateService(
 	
 	fun onStartup(@Observes event: StartupEvent) {
 		// init anything
-		// for (site in query.selectFrom(qWebsite).fetch()) {
-		// 	site.rStatus = WebsiteStatus.INACTIVE
-		// 	entityManager.persist(site)
-		// }
 	}
 	
 	

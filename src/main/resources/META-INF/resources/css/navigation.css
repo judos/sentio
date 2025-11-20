@@ -1,0 +1,39 @@
+.navigation {
+	display: flex;
+	flex-direction: row;
+
+	background: linear-gradient(
+			to bottom,
+			#6dad7c, /* deeper forest green */ #7fbf8e, /* muted medium green */ #9ccbac /* soft mint green */
+	);
+	height: 50px;
+	margin: 0
+}
+
+.navigation .link {
+	background: #AAFFAA55;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 1rem;
+	margin: 0 1rem;
+	color: black;
+}
+
+.navigation .link:hover {
+	background: #CCFFCC88;
+}
+
+.navigation select {
+	height: 100%;
+	background: none;
+	border: none;
+	margin: 0 -1rem;
+	padding: 0 1rem;
+	cursor: pointer;
+}
+
+.navigation .spacer {
+	flex: 1 1 auto;
+}

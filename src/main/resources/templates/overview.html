@@ -1,5 +1,6 @@
 {#include layout.html}
 	{#scripts}
+		<link rel="stylesheet" href="/overview.css">
 		<script src="/app.js"></script>
 	{/scripts}
 	{#body}
@@ -10,17 +11,13 @@
 		</a>
 		<div class="websites-list">
 			{#for website in websites}
-				<a href="/website/{website.id}" class="website-box-link" title="Details zu {website.name} anzeigen">
-					<div class="website-box {website.rStatus.name.get().toLowerCase()}">
+				<a href="/website/{website.id}" class="website-box-link">
+					<div class="website-box" style="background-color: {colors.get(website.id)}">
 						<span class="website-name-large">{website.name}</span>
-						<span class="website-uptime">X% uptime</span>
+						<span class="website-uptime">{uptime.get(website.id)}% uptime</span>
 					</div>
 				</a>
 			{/for}
 		</div>
-
-		{!<div class="update-info">!}
-			{!Letztes Update: {lastUpdate} &nbsp;|&nbsp; Nächstes Update: {nextUpdate}!}
-		{!</div>!}
 	{/body}
 {/include}

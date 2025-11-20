@@ -1,0 +1,44 @@
+
+button {
+	border-radius: 8px;
+	padding: 0.75rem 2rem;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: background 0.2s, border-color 0.2s;
+	border-width: 1px;
+	border-style: solid;
+}
+
+.action-btn {
+	background: #43a047;
+	color: #fff;
+	border: none;
+}
+
+.action-btn:hover, .action-btn:focus {
+	background: #388e3c;
+	border-color: #388e3c;
+}
+
+.danger-btn {
+	background: #e08080;
+	color: #fff;
+	border: none;
+}
+
+.danger-btn:hover, .danger-btn:focus {
+	background: #c71c1c;
+	border-color: #b71c1c;
+}
+
+.neutral-btn {
+	background: #fff;
+	color: #616161;
+	border: 1px solid #bdbdbd;
+}
+
+.neutral-btn:hover, .neutral-btn:focus {
+	background: #f5f5f5;
+	color: #424242;
+	border-color: #757575;
+}

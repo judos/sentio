@@ -8,8 +8,11 @@
 	{#insert scripts}{/insert}
 </head>
 <body>
-<div class="content-box">
-	{#insert body}{/insert}
-</div>
+	<div class="navigation">
+		{#include navigation.html /}
+	</div>
+	<div class="content-box">
+		{#insert body}{/insert}
+	</div>
 </body>
 </html>

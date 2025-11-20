@@ -8,8 +8,13 @@
 		<h3>{website.url}</h3>
 		<p>Website availability and history data.</p>
 		{#for config in configs}
-			<h3>{config.monitor}</h3>
-			<img src="/api/website-monitor-data/{website.id}/{config.monitor}?days={showDays}" alt="">
+			<h3>
+				{monitorByKey.get(config.monitor).name}
+				<a href="/website/{website.id}/{config.monitor}" title="Edit config" style="margin-left:8px; vertical-align:middle;">
+					<img src="/edit.svg" alt="Edit config">
+				</a>
+			</h3>
+			<img src="/api/monitor-data/{website.id}/{config.monitor}?days={showDays}" alt="">
 		{/for}
 		{#if monitors.size() > 0}
 			<h3>Add monitor</h3>
