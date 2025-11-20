@@ -34,7 +34,6 @@ dependencies {
 	implementation("io.quarkus:quarkus-scheduler")
 	
 	implementation("org.sejda.imageio:webp-imageio:0.1.6")
-	implementation("jakarta.servlet:jakarta.servlet-api:6.0.0")
 	
 	kapt("io.github.openfeign.querydsl:querydsl-apt:7.0:jpa")
 	

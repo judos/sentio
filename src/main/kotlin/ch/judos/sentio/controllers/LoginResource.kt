@@ -17,6 +17,7 @@ class LoginController @Inject constructor(
 		@Location("login.html") var loginTemplate: Template,
 		private val em: EntityManager
 ) {
+	
 	@GET
 	@Produces("text/html")
 	fun loginPage(@Context ctx: RoutingContext): String {
@@ -29,14 +30,13 @@ class LoginController @Inject constructor(
 	fun login(
 			@FormParam("username") username: String,
 			@FormParam("password") password: String,
-			@Context ctx: RoutingContext
 	): Response {
 		val user = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User::class.java)
 			.setParameter("username", username)
 			.resultList
 			.firstOrNull()
 		if (user != null && PasswordService.verifyPw(password, user.password)) {
-			ctx.session().put("user", user.id)
+			// set "userId" to user.id
 			return Response.seeOther(java.net.URI("/")).build()
 		}
 		return Response.seeOther(java.net.URI("/login?error=Login%20fehlgeschlagen")).build()
