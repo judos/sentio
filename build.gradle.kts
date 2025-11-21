@@ -38,6 +38,11 @@ dependencies {
 	kapt("io.github.openfeign.querydsl:querydsl-apt:7.0:jpa")
 	
 	testImplementation("io.quarkus:quarkus-junit5")
+
+	// JJWT for JWT creation and parsing
+	implementation("io.jsonwebtoken:jjwt-api:0.13.0")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.13.0")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.13.0")
 }
 
 java {

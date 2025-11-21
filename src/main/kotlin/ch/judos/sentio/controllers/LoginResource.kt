@@ -1,6 +1,7 @@
 package ch.judos.sentio.controllers
 
 import ch.judos.sentio.entities.User
+import ch.judos.sentio.services.JwtService
 import ch.judos.sentio.services.PasswordService
 import io.quarkus.qute.Location
 import io.quarkus.qute.Template
@@ -15,7 +16,8 @@ import jakarta.ws.rs.core.Response
 @Path("/login")
 class LoginController @Inject constructor(
 		@Location("login.html") var loginTemplate: Template,
-		private val em: EntityManager
+		private val em: EntityManager,
+		private val jwtService: JwtService
 ) {
 	
 	@GET
@@ -36,8 +38,13 @@ class LoginController @Inject constructor(
 			.resultList
 			.firstOrNull()
 		if (user != null && PasswordService.verifyPw(password, user.password)) {
-			// set "userId" to user.id
-			return Response.seeOther(java.net.URI("/")).build()
+			val jwt = jwtService.createToken(user.id)
+			// TODO: for prod use Secure;
+			val cookieValue = "sentio_jwt=$jwt; Path=/; SameSite=Strict"
+
+			return Response.seeOther(java.net.URI("/"))
+				.header("Set-Cookie", cookieValue)
+				.build()
 		}
 		return Response.seeOther(java.net.URI("/login?error=Login%20fehlgeschlagen")).build()
 	}
