@@ -14,6 +14,8 @@ import jakarta.ws.rs.Produces
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
 import jakarta.ws.rs.core.Response.Status.NOT_FOUND
+import org.jboss.logging.Logger
+import java.security.Principal
 import java.time.LocalDateTime
 import kotlin.math.floor
 
@@ -36,6 +38,9 @@ class UiResource @Inject constructor(
 	
 	val qWebsite = QWebsite.website
 	val qErrors = QMonitorError.monitorError
+	
+	private val log: Logger = Logger.getLogger(this::class.java)
+	
 	
 	@GET
 	@Path("/")

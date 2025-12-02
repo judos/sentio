@@ -1,3 +1,8 @@
+<div class="logo">
+	<img src="/favicon.svg">
+</div>
+
+{#if userId}
 <a class="link" href="/website">
 	Websites
 </a>
@@ -7,22 +12,28 @@
 	<select id="dateRangeSelect" onchange="handleDateRangeChange()" title="Select date range">
 		<option value="30">Last 30 days</option>
 		<option value="7">Last 7 days</option>
+		<option value="1">Today only</option>
 	</select>
 </div>
+<a class="link" onclick="logout()" style="cursor: pointer;" title="logout">
+	<img src="/logout.svg">
+</a>
+{/if}
 
 <script>
-// TODO: move this into user settings
-function handleDateRangeChange() {
-	const select = document.getElementById('dateRangeSelect');
-	localStorage.setItem('dateRange', select.value);
-	location.reload();
-}
-// Beim Laden die Auswahl aus localStorage setzen
-window.addEventListener('DOMContentLoaded', function() {
-	const select = document.getElementById('dateRangeSelect');
-	const stored = localStorage.getItem('dateRange');
-	if (select && stored) {
-		select.value = stored;
+	// TODO: move this into user settings
+	function handleDateRangeChange() {
+		const select = document.getElementById('dateRangeSelect');
+		setConfig('dateRange', select.value);
+		// location.reload();
 	}
-});
+
+	// Beim Laden die Auswahl aus localStorage setzen
+	window.addEventListener('DOMContentLoaded', function () {
+		const select = document.getElementById('dateRangeSelect');
+		const stored = getConfig('dateRange');
+		if (select && stored) {
+			select.value = stored;
+		}
+	});
 </script>

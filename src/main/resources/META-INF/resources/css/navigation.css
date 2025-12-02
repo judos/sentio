@@ -10,6 +10,16 @@
 	margin: 0
 }
 
+.navigation .logo {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0 1rem;
+}
+.navigation .logo img {
+	height: 80%;
+}
+
 .navigation .link {
 	background: #AAFFAA55;
 	height: 100%;

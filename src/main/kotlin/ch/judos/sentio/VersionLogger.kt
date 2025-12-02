@@ -7,7 +7,7 @@ import org.jboss.logging.Logger
 
 @ApplicationScoped
 class VersionLogger {
-	private val log: Logger = Logger.getLogger(VersionLogger::class.java)
+	private val log: Logger = Logger.getLogger(this::class.java)
 	
 	fun onStartup(@Observes event: StartupEvent) {
 		val javaVersion = System.getProperty("java.version")
