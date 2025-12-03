@@ -14,9 +14,9 @@ function logout() {
 function setConfig(key, value) {
 	const cookieName = `sentio_${key}`;
   if (value === null) {
-    document.cookie = `${cookieName}=; Max-Age=0`;
+    document.cookie = `${cookieName}=; Max-Age=0; Path=/; SameSite=Strict`;
   } else {
-    document.cookie = `${cookieName}=${encodeURIComponent(value)}; SameSite=Strict`;
+    document.cookie = `${cookieName}=${encodeURIComponent(value)}; Path=/; SameSite=Strict`;
   }
 }
 

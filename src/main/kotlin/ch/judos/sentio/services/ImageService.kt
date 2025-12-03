@@ -42,7 +42,9 @@ class ImageService(
 			"jpg" -> "image/jpeg" to image.toJpegByteArr(quality)
 			else -> throw RuntimeException("Unsupported image format: $format")
 		}
-		return Response.ok(data.second).type(data.first).build()
+		return Response.ok(data.second)
+			.header("Cache-Control", "no-cache")
+			.type(data.first).build()
 	}
 	
 }

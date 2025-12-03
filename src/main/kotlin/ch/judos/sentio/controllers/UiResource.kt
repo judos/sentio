@@ -9,6 +9,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import io.quarkus.qute.Location
 import io.quarkus.qute.Template
 import jakarta.inject.Inject
+import jakarta.ws.rs.CookieParam
 import jakarta.ws.rs.GET
 import jakarta.ws.rs.Path
 import jakarta.ws.rs.Produces
@@ -33,14 +34,10 @@ class UiResource @Inject constructor(
 		val query: JPAQueryFactory,
 		val monitorDataService: MonitorDataService
 ) {
-	// TODO: store on user
-	val showDays = 14
-	
 	val qWebsite = QWebsite.website
 	val qErrors = QMonitorError.monitorError
 	
 	private val log: Logger = Logger.getLogger(this::class.java)
-	
 	
 	@GET
 	@Path("/")
@@ -53,9 +50,10 @@ class UiResource @Inject constructor(
 	
 	@GET
 	@Path("/website")
-	fun websites(): String {
+	fun websites(@CookieParam("sentio_dateRange") daysStr: String?): String {
+		val days = daysStr?.toIntOrNull() ?: 7
 		val websites = query.selectFrom(qWebsite).fetch()
-		val uptime = monitorDataService.getUptimePercentage(null, showDays)
+		val uptime = monitorDataService.getUptimePercentage(null, days)
 			.mapValues { floor(it.value).toInt() }
 		val colors = uptime.mapValues {
 			when {
@@ -87,12 +85,13 @@ class UiResource @Inject constructor(
 			.data("configs", configs)
 			.data("monitorByKey", monitorByKey)
 			.data("monitors", monitors)
-			.data("showDays", showDays)
 			.render()).build()
 	}
 	@GET
 	@Path("/website/{id}/{monitorKey}")
-	fun websiteDetails(id: Long, monitorKey: String): Response {
+	fun websiteDetails(id: Long, monitorKey: String,
+			@CookieParam("sentio_dateRange") daysStr: String?): Response {
+		val days = daysStr?.toLongOrNull() ?: 7L
 		val website = query.selectFrom(qWebsite).where(qWebsite.id.eq(id)).fetchOne()
 			?: return Response.status(NOT_FOUND).build()
 		val monitor = MonitorService.monitors.firstOrNull { it.getKey() == monitorKey }
@@ -102,11 +101,10 @@ class UiResource @Inject constructor(
 		val errors = query.selectFrom(qErrors).where(
 			qErrors.website.eq(website),
 			qErrors.monitor.eq(monitorKey),
-			qErrors.dateTime.goe(LocalDateTime.now().minusDays(showDays.toLong()))
+			qErrors.dateTime.goe(LocalDateTime.now().minusDays(days))
 		).fetch()
 		return Response.ok(websiteMonitor.data("website", website)
 			.data("monitor", monitor)
-			.data("showDays", showDays)
 			.data("errors", errors)
 			.data("config", config).render()).build()
 	}
