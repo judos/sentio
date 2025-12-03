@@ -1,5 +1,6 @@
 package ch.judos.sentio.controllers
 
+import ch.judos.sentio.config.GlobalTemplateVars
 import ch.judos.sentio.entities.QMonitorError
 import ch.judos.sentio.entities.QWebsite
 import ch.judos.sentio.services.MonitorDataService
@@ -15,7 +16,6 @@ import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
 import jakarta.ws.rs.core.Response.Status.NOT_FOUND
 import org.jboss.logging.Logger
-import java.security.Principal
 import java.time.LocalDateTime
 import kotlin.math.floor
 
@@ -45,8 +45,9 @@ class UiResource @Inject constructor(
 	@GET
 	@Path("/")
 	fun overview(): Response {
+		val loggedIn = GlobalTemplateVars.username() != null
 		return Response.status(Response.Status.FOUND)
-			.header("Location", "/website")
+			.header("Location", if (loggedIn) "/website" else "/login")
 			.build()
 	}
 	

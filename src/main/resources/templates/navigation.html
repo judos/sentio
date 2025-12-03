@@ -1,6 +1,6 @@
-<div class="logo">
+<a href="/" class="logo">
 	<img src="/favicon.svg">
-</div>
+</a>
 
 {#if userId}
 <a class="link" href="/website">
@@ -25,7 +25,7 @@
 	function handleDateRangeChange() {
 		const select = document.getElementById('dateRangeSelect');
 		setConfig('dateRange', select.value);
-		// location.reload();
+		location.reload();
 	}
 
 	// Beim Laden die Auswahl aus localStorage setzen

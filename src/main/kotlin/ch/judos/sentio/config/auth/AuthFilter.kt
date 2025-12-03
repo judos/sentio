@@ -24,7 +24,7 @@ class AuthFilter(
 	
 	override fun filter(requestContext: ContainerRequestContext) {
 		val path = requestContext.uriInfo.path
-		val isRoutePublic = path in arrayOf("/login")
+		val isRoutePublic = path in arrayOf("/login", "/")
 		try {
 			val jwt = requestContext.cookies["sentio_jwt"]?.value
 			val claims = jwt?.let { jwtService.parseToken(jwt) }
