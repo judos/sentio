@@ -1,6 +1,5 @@
-package ch.judos
+package ch.judos.sentio.services
 
-import ch.judos.sentio.services.PasswordService
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test

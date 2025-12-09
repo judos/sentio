@@ -19,4 +19,7 @@ open class Config {
 	@Column(nullable = false)
 	lateinit var value: String
 	
+	@Column(nullable = false)
+	var encrypted: Boolean = false
+	
 }

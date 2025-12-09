@@ -35,8 +35,8 @@ class ImageService(
 	}
 	
 	fun image2Response(image: BufferedImage): Response {
-		val format = configService.getStr("image_format")
-		val quality = configService.getFloat("image_quality")
+		val format = configService.getStr("image_format")!!
+		val quality = configService.getFloat("image_quality")!!
 		val data = when (format) {
 			"webp" -> "image/webp" to image.toWebpByteArr(quality)
 			"jpg" -> "image/jpeg" to image.toJpegByteArr(quality)

@@ -1,0 +1,16 @@
+{#include layout.html}
+	{#scripts}
+	{/scripts}
+	{#body}
+		<h1>Notifications</h1>
+		<div style="text-align: center; margin-bottom: 1rem;">Your simple monitoring platform</div>
+		<a href="/website/new" class="add-website-btn" title="Website hinzufügen">
+			<span>+</span>
+		</a>
+
+		<h2>Add Channel</h2>
+		<form action="/notification/new" method="get">
+			<button type="submit">Add Telegram</button>
+		</form>
+	{/body}
+{/include}

@@ -1,0 +1,34 @@
+package ch.judos.sentio.controllers
+
+import ch.judos.sentio.entities.QMonitorError
+import ch.judos.sentio.entities.QWebsite
+import ch.judos.sentio.services.TelegramService
+import com.querydsl.jpa.impl.JPAQueryFactory
+import jakarta.persistence.EntityManager
+import jakarta.transaction.Transactional
+import jakarta.ws.rs.Consumes
+import jakarta.ws.rs.POST
+import jakarta.ws.rs.Path
+import jakarta.ws.rs.Produces
+import jakarta.ws.rs.core.MediaType
+import jakarta.ws.rs.core.Response
+
+@Path("/api/notification")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+class NotificationResource(
+		val query: JPAQueryFactory,
+		val entityManager: EntityManager,
+		val telegramService: TelegramService
+) {
+	val qWebsite = QWebsite.website
+	val qErrors = QMonitorError.monitorError
+	
+	@POST
+	@Transactional
+	fun create(): Response {
+		telegramService.test()
+		return Response.ok("Ok").build()
+	}
+	
+}

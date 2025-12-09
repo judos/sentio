@@ -1,0 +1,32 @@
+{#include layout.html}
+	{#scripts}
+		<script src="/notification-edit.js"></script>
+	{/scripts}
+	{#body}
+		<h1>Edit</h1>
+		<p>
+			Step 1:
+			<a target=_blank href="https://t.me/BotFather?text=/newbot">Create new Bot</a>
+			or
+			<a target=_blank href="https://t.me/BotFather?text=/mybots">choose an existing bot</a>
+			in Telegram.
+		</p>
+
+		<p>
+			Step 2:
+			<label for="tokenInput">Copy API Token of the bot and paste it below.</label>
+			<input type="text" id="tokenInput" placeholder="Bot Token">
+		</p>
+
+		<p>
+			Step 3:
+			Send any message
+			to your bot, as bots aren't allowed to start a conversation.
+		</p>
+
+		<h2>Test</h2>
+		<button onclick="test()" class="action-btn neutral-btn">
+			Send Test Message
+		</button>
+	{/body}
+{/include}

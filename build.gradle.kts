@@ -13,6 +13,7 @@ version = "1.0"
 repositories {
 	mavenCentral()
 	mavenLocal()
+	maven(url = "https://jitpack.io")
 }
 
 
@@ -32,13 +33,14 @@ dependencies {
 	
 	implementation("io.quarkus:quarkus-qute")
 	implementation("io.quarkus:quarkus-scheduler")
+	implementation("io.github.kotlin-telegram-bot.kotlin-telegram-bot:telegram:6.3.0")
 	
 	implementation("org.sejda.imageio:webp-imageio:0.1.6")
 	
 	kapt("io.github.openfeign.querydsl:querydsl-apt:7.1:jpa")
 	
 	testImplementation("io.quarkus:quarkus-junit5")
-
+	
 	// JJWT for JWT creation and parsing
 	implementation("io.jsonwebtoken:jjwt-api:0.13.0")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.13.0")
