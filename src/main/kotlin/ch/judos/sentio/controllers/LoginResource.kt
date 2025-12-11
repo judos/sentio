@@ -16,19 +16,16 @@ import jakarta.ws.rs.core.Context
 import jakarta.ws.rs.core.Response
 import jakarta.ws.rs.core.SecurityContext
 import org.eclipse.microprofile.config.inject.ConfigProperty
-import org.jboss.logging.Logger
 
 
 @Path("/login")
 class LoginResource(
-		@Location("login.html") var loginTemplate: Template,
-		private val em: EntityManager,
-		private val jwtService: JwtService,
-		@ConfigProperty(name = "sentio.jwt.expiration")
-		private var jwtExpirationSeconds: Long
+	@Location("login.html") var loginTemplate: Template,
+	private val em: EntityManager,
+	private val jwtService: JwtService,
+	@ConfigProperty(name = "sentio.jwt.expiration")
+	private var jwtExpirationSeconds: Long
 ) {
-	
-	private val log: Logger = Logger.getLogger(LoginResource::class.java)
 	
 	@GET
 	@Produces("text/html")
@@ -45,10 +42,10 @@ class LoginResource(
 	@POST
 	@Transactional
 	fun login(
-			@FormParam("username") username: String,
-			@FormParam("password") password: String,
+		@FormParam("username") username: String,
+		@FormParam("password") password: String,
 	): Response {
-		val user = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User::class.java)
+		val user = em.createQuery("SELECT u FROM user u WHERE u.username = :username", User::class.java)
 			.setParameter("username", username)
 			.resultList
 			.firstOrNull()

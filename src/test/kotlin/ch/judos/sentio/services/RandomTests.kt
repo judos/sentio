@@ -8,7 +8,6 @@ class RandomTests {
 }
 
 fun main() {
-	print("Enter your password: ")
 	val rnd = RandomHelper(SecureRandom())
 	println("random pw: " + rnd.str(16, RandomHelper.ALPHA_NUM))
 	

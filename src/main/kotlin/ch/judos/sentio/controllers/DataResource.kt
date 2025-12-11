@@ -1,7 +1,5 @@
 package ch.judos.sentio.controllers
 
-import ch.judos.sentio.entities.MonitorData
-import ch.judos.sentio.entities.MonitorError
 import ch.judos.sentio.entities.QMonitorData
 import ch.judos.sentio.entities.QMonitorError
 import ch.judos.sentio.model.DataPeriod
@@ -12,19 +10,14 @@ import jakarta.persistence.EntityManager
 import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
-import java.awt.Color
-import java.time.Duration
-import java.time.LocalDate
-import java.time.LocalDateTime
-import kotlin.math.roundToInt
 
 
 @Path("/api/monitor-data")
 @Produces(MediaType.APPLICATION_JSON)
 class DataResource(
-		val query: JPAQueryFactory,
-		val entityManager: EntityManager,
-		var imageService: ImageService,
+	val query: JPAQueryFactory,
+	val entityManager: EntityManager,
+	var imageService: ImageService,
 ) {
 	
 	val qData = QMonitorData.monitorData
@@ -33,9 +26,9 @@ class DataResource(
 	@GET
 	@Path("/{id}/{monitorKey}")
 	fun generateImage(
-			@PathParam("id") id: Long,
-			@PathParam("monitorKey") monitorKey: String,
-			@CookieParam("sentio_dateRange") daysStr: String?,
+		@PathParam("id") id: Long,
+		@PathParam("monitorKey") monitorKey: String,
+		@CookieParam("sentio_dateRange") daysStr: String?,
 	): Response {
 		MonitorService.monitors.find { it.getKey() == monitorKey }
 			?: return Response.status(Response.Status.NOT_FOUND).build()

@@ -1,5 +1,7 @@
 package ch.judos.sentio.extensions
 
+import io.quarkus.logging.Log
+import jakarta.ws.rs.core.Response
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
 import javax.imageio.IIOImage
@@ -7,6 +9,27 @@ import javax.imageio.ImageIO
 import javax.imageio.ImageWriteParam
 import javax.imageio.ImageWriter
 import javax.imageio.stream.MemoryCacheImageOutputStream
+
+
+fun BufferedImage.toResponse(quality: Float, format: String): Response {
+	try {
+		val data = when (format) {
+			"webp" -> "image/webp" to toWebpByteArr(quality)
+			"jpg" -> "image/jpeg" to toJpegByteArr(quality)
+			else -> throw RuntimeException("Unsupported image format: $format")
+		}
+		return Response.ok(data.second)
+			.header("Cache-Control", "no-cache")
+			.type(data.first).build()
+	} catch (e: Throwable) {
+		if (format != "jpg") {
+			// Fallback to JPEG
+			Log.warn("Failed to convert image to $format, falling back to jpg: ${e.message}")
+			return toResponse(quality, "jpg")
+		}
+		throw RuntimeException("Failed to convert image to $format", e)
+	}
+}
 
 /** @param quality Set compression quality (0.0f = lowest, 1.0f = highest) */
 fun BufferedImage.toWebpByteArr(quality: Float): ByteArray {

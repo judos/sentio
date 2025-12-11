@@ -1,6 +1,6 @@
 package ch.judos.sentio.services.helper
 
-import org.slf4j.LoggerFactory
+import io.quarkus.logging.Log
 import java.security.InvalidParameterException
 import java.security.SecureRandom
 import java.security.spec.KeySpec
@@ -16,11 +16,9 @@ import kotlin.system.measureTimeMillis
  * @param aesIv 16 bytes encoded as base64
  */
 class AESUtil(
-		private val aesPassword: String,
-		private val aesIv: String
+	private val aesPassword: String,
+	private val aesIv: String
 ) {
-	
-	private val logger = LoggerFactory.getLogger(javaClass)!!
 	
 	private val random = RandomHelper(SecureRandom())
 	private val cipherTransformation = "AES/CBC/PKCS5Padding"
@@ -46,7 +44,7 @@ class AESUtil(
 			val spec: KeySpec = PBEKeySpec(aesPassword.toCharArray(), salt, 16384, 256)
 			secret = SecretKeySpec(factory.generateSecret(spec).encoded, "AES")
 		}
-		logger.debug("key derivation took $ms ms, this is normal and should take some time")
+		Log.debug("key derivation took $ms ms, this is normal and should take some time")
 		return Pair(secret, salt)
 	}
 	

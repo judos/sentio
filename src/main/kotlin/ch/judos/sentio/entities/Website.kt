@@ -2,7 +2,7 @@ package ch.judos.sentio.entities
 
 import jakarta.persistence.*
 
-@Entity
+@Entity(name = "website")
 open class Website {
 	
 	@Id

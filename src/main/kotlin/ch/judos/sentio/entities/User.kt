@@ -2,7 +2,7 @@ package ch.judos.sentio.entities
 
 import jakarta.persistence.*
 
-@Entity
+@Entity(name = "user")
 class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

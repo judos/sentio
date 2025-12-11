@@ -43,3 +43,4 @@ nb-configuration.xml
 
 # Quarkus lokale Properties
 src/main/resources/application-local.properties
+src/main/resources/db/post_startup.sql

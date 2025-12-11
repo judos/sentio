@@ -16,28 +16,26 @@ import jakarta.ws.rs.Produces
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
 import jakarta.ws.rs.core.Response.Status.NOT_FOUND
-import org.jboss.logging.Logger
 import java.time.LocalDateTime
 import kotlin.math.floor
 
 @Path("")
 @Produces(MediaType.TEXT_HTML)
 class UiResource @Inject constructor(
-		@Location("overview.html")
-		var overview: Template,
-		@Location("website-add.html")
-		var websiteAdd: Template,
-		@Location("website-details.html")
-		var websiteDetails: Template,
-		@Location("website-monitor.html")
-		var websiteMonitor: Template,
-		val query: JPAQueryFactory,
-		val monitorDataService: MonitorDataService
+	@Location("overview.html")
+	var overview: Template,
+	@Location("website-add.html")
+	var websiteAdd: Template,
+	@Location("website-details.html")
+	var websiteDetails: Template,
+	@Location("website-monitor.html")
+	var websiteMonitor: Template,
+	val query: JPAQueryFactory,
+	val monitorDataService: MonitorDataService
 ) {
 	val qWebsite = QWebsite.website
 	val qErrors = QMonitorError.monitorError
 	
-	private val log: Logger = Logger.getLogger(this::class.java)
 	
 	@GET
 	@Path("/")
@@ -81,16 +79,21 @@ class UiResource @Inject constructor(
 		}
 		val monitorByKey = MonitorService.monitors.associateBy { it.getKey() }
 		val configs = website.configs.sortedBy { it.monitor }
-		return Response.ok(websiteDetails.data("website", website)
-			.data("configs", configs)
-			.data("monitorByKey", monitorByKey)
-			.data("monitors", monitors)
-			.render()).build()
+		return Response.ok(
+			websiteDetails.data("website", website)
+				.data("configs", configs)
+				.data("monitorByKey", monitorByKey)
+				.data("monitors", monitors)
+				.render()
+		).build()
 	}
+	
 	@GET
 	@Path("/website/{id}/{monitorKey}")
-	fun websiteDetails(id: Long, monitorKey: String,
-			@CookieParam("sentio_dateRange") daysStr: String?): Response {
+	fun websiteDetails(
+		id: Long, monitorKey: String,
+		@CookieParam("sentio_dateRange") daysStr: String?
+	): Response {
 		val days = daysStr?.toLongOrNull() ?: 7L
 		val website = query.selectFrom(qWebsite).where(qWebsite.id.eq(id)).fetchOne()
 			?: return Response.status(NOT_FOUND).build()
@@ -103,9 +106,11 @@ class UiResource @Inject constructor(
 			qErrors.monitor.eq(monitorKey),
 			qErrors.dateTime.goe(LocalDateTime.now().minusDays(days))
 		).fetch()
-		return Response.ok(websiteMonitor.data("website", website)
-			.data("monitor", monitor)
-			.data("errors", errors)
-			.data("config", config).render()).build()
+		return Response.ok(
+			websiteMonitor.data("website", website)
+				.data("monitor", monitor)
+				.data("errors", errors)
+				.data("config", config).render()
+		).build()
 	}
 }

@@ -6,14 +6,14 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 
-@Entity
+@Entity(name = "config")
 open class Config {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	var id: Long? = null
 	
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	lateinit var ckey: String
 	
 	@Column(nullable = false)
