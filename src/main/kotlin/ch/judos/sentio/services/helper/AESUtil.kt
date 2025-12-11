@@ -18,7 +18,7 @@ import kotlin.system.measureTimeMillis
 class AESUtil(
 	private val aesPassword: String,
 	private val aesIv: String
-) {
+): Encryption {
 	
 	private val random = RandomHelper(SecureRandom())
 	private val cipherTransformation = "AES/CBC/PKCS5Padding"
@@ -49,7 +49,7 @@ class AESUtil(
 	}
 	
 	@Throws(InvalidParameterException::class)
-	fun encrypt(input: String): String {
+	override fun encrypt(input: String): String {
 		try {
 			val (key, salt) = createKeyAndSalt()
 			val cipher: Cipher = Cipher.getInstance(cipherTransformation)
@@ -62,7 +62,7 @@ class AESUtil(
 	}
 	
 	@Throws(InvalidParameterException::class)
-	fun decrypt(encrypted: String): String {
+	override fun decrypt(encrypted: String): String {
 		try {
 			val data = encrypted.split(":")
 			val salt = decoder.decode(data[1])

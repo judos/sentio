@@ -1,7 +1,11 @@
 
-function test() {
+function setupBot() {
+	var token = document.getElementById('token').value;
+
 	fetch('/api/notification/', {
-		method: 'POST'
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+	 	body: JSON.stringify({ token: token })
 	}).then(async function (response) {
 		const text = await response.text();
 		popupQueueText('Status: ' + response.status + '<br>Response: ' + text);

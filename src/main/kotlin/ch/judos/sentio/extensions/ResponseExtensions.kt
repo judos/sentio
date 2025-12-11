@@ -8,3 +8,9 @@ fun ResponseFound(location: String): Response {
 		.header("Location", location)
 		.build()
 }
+
+fun ResponseError(msg: String): Response {
+	return Response.status(Response.Status.BAD_REQUEST)
+		.entity(mapOf("error" to msg))
+		.build()
+}

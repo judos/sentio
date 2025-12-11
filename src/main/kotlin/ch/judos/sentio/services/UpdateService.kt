@@ -35,7 +35,7 @@ class UpdateService(
 	@Scheduled(every = "60s")
 	@Transactional
 	fun validateWebsites() = runBlocking {
-		Log.info("Checking monitors for all sites...")
+		Log.debug("Checking monitors for all sites...")
 		
 		val configs: List<WebsiteConfig> = query.selectFrom(qConfigs).fetch()
 		val jobs = mutableListOf<Job>()

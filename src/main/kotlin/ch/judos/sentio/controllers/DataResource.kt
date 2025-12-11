@@ -26,8 +26,8 @@ class DataResource(
 	@GET
 	@Path("/{id}/{monitorKey}")
 	fun generateImage(
-		@PathParam("id") id: Long,
-		@PathParam("monitorKey") monitorKey: String,
+		id: Long,
+		monitorKey: String,
 		@CookieParam("sentio_dateRange") daysStr: String?,
 	): Response {
 		MonitorService.monitors.find { it.getKey() == monitorKey }

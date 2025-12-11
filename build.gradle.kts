@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	kotlin("jvm") version "2.2.21"
 	kotlin("kapt") version "2.2.21"
+	kotlin("plugin.serialization") version "2.2.21"
 	id("io.quarkus") version "3.30.1"
 }
 
@@ -18,8 +19,8 @@ repositories {
 
 
 dependencies {
-	implementation(enforcedPlatform(
-		"io.quarkus.platform:quarkus-bom:3.30.1"))
+	implementation(enforcedPlatform("io.quarkus.platform:quarkus-bom:3.30.1"))
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
 	implementation("io.github.openfeign.querydsl:querydsl-jpa:7.1")
 	implementation("io.quarkus:quarkus-hibernate-orm")
 	implementation("io.quarkus:quarkus-agroal")
