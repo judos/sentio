@@ -10,6 +10,7 @@ import jakarta.enterprise.context.ApplicationScoped
 import jakarta.enterprise.event.Observes
 import java.nio.file.Files
 import java.nio.file.Paths
+import java.util.concurrent.Executors
 import javax.sql.DataSource
 
 
@@ -19,6 +20,9 @@ class Sentio(
 	val dataSource: DataSource
 ) {
 	
+	companion object {
+		val pool = Executors.newCachedThreadPool()
+	}
 	val qUser = QUser.user
 	val qConfig = QConfig.config
 	
