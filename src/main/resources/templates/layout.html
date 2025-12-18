@@ -5,8 +5,11 @@
 	<title>Sentio</title>
 	<link rel="stylesheet" href="/app.css">
 	<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+	<script src="/js/popup.js"></script>
+	<script src="/js/config.js"></script>
+	<script src="/js/code.js"></script>
+	<script src="/js/navigation.js"></script>
 	<script src="/app.js"></script>
-	<script src="/popup.js"></script>
 	{#insert scripts}{/insert}
 </head>
 <body>
@@ -23,7 +26,7 @@
 			<span id="popup-content">(popup-content)</span>
 			<div class="buttons">
 				<button id="popup-btn" class="action-btn">(popup-btn)</button>
-				<button onclick="popupHide()" class="action-btn neutral-btn">Cancel</button>
+				<button onclick="popupHide()" class="action-btn">Cancel</button>
 			</div>
 		</div>
 	</div>

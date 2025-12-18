@@ -28,6 +28,7 @@ open class TelegramService(
 	
 	open fun create(token: String): String {
 		val bot = TelegramBot(token)
+		
 		val chatId = runBlocking {
 			try {
 				Log.info("bot ${bot.botName} created, waiting for chat id...")

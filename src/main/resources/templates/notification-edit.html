@@ -18,15 +18,23 @@
 			<input type="text" id="token" placeholder="Bot Token">
 		</p>
 
-		<p>
-			Step 3:
-			Send any message
-			to your bot, as bots aren't allowed to start a conversation.
+		<p style="margin-bottom: 0">
+			Step 3: Connect bot to a chat, since bots aren't allowed to start a conversation either:
 		</p>
+		<ul style="margin-top: 0.5rem">
+			<li>Private chat: Send any message to your bot</li>
+			<li>Group chat: Send <code>/start</code> to the chat</li>
+		</ul>
 
-		<h2>Test</h2>
-		<button onclick="setupBot()" class="action-btn neutral-btn">
+		<button id="setup-button" onclick="setupBot()" class="action-btn">
 			Setup Bot
 		</button>
+		<button id="setup-button1" onclick="setupBot()" class="">
+			Setup Bot
+		</button>
+		<button id="setup-button2" onclick="setupBot()" class="danger-btn">
+			Setup Bot
+		</button>
+		<img id="setup-loading" src="/loading.svg" style="vertical-align: top; display: none;" />
 	{/body}
 {/include}

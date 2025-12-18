@@ -14,6 +14,50 @@ button {
 	transition: background 0.2s, border-color 0.2s;
 	border-width: 1px;
 	border-style: solid;
+	background-color: rgb(233,233,237);
+	position: relative;
+}
+button:hover {
+	background-color: rgb(208,208,215);
+}
+button.loading {
+	cursor: progress;
+	color: transparent;
+}
+button.loading::after {
+  content: '';
+  display: block;
+	box-sizing: border-box;
+  width: 1.5em;
+  height: 1.5em;
+  position: absolute;
+  left: calc(50% - 0.75em);
+  top: calc(50% - 0.75em);
+  border: 0.2em solid transparent;
+  border-radius: 50%;
+  border-right-color: white;
+  animation: loader-animation 1.5s linear infinite;
+}
+button.loading::before {
+	content: '';
+  display: block;
+	box-sizing: border-box;
+  width: 1.5em;
+  height: 1.5em;
+  position: absolute;
+  left: calc(50% - 0.75em);
+  top: calc(50% - 0.75em);
+  border: 0.2em solid #00000040;
+  border-radius: 50%;
+}
+
+@keyframes loader-animation {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .action-btn {
@@ -22,7 +66,7 @@ button {
 	border: none;
 }
 
-.action-btn:hover, .action-btn:focus {
+.action-btn:hover {
 	background: #388e3c;
 	border-color: #388e3c;
 }
@@ -33,19 +77,7 @@ button {
 	border: none;
 }
 
-.danger-btn:hover, .danger-btn:focus {
+.danger-btn:hover {
 	background: #c71c1c;
 	border-color: #b71c1c;
-}
-
-.neutral-btn {
-	background: #fff;
-	color: #616161;
-	border: 1px solid #bdbdbd;
-}
-
-.neutral-btn:hover, .neutral-btn:focus {
-	background: #f5f5f5;
-	color: #424242;
-	border-color: #757575;
 }

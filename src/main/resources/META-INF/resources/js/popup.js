@@ -14,9 +14,9 @@ window.addEventListener('DOMContentLoaded', function () {
 	}
 });
 
-function popupQueueText(text) {
+function popupQueueText(text, showMs = 3000) {
 	popups.push({
-		type: "default", text: text, showMs: 3000, blendIn: true, backdrop: false,
+		type: "default", text: text, showMs: showMs, blendIn: true, backdrop: false,
 		danger: false
 	});
 	setTimeout(showPopup, 1);
