@@ -18,6 +18,9 @@
 	background: #a0f0b7;
 	padding: 1rem 2.5rem;
 }
+.popup.default.danger {
+	background: #f0a0a0;
+}
 .popup.default.hide {
 	bottom: 0;
 }

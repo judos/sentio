@@ -4,15 +4,15 @@ function deleteWebsite(id, name) {
 			method: 'DELETE'
 		}).then(async function (response) {
 			if (response.ok) {
-				localStorage.setItem('popup', 'Website deleted');
+				localStorage.setItem('popup', JSON.stringify({text:'Website deleted'}));
 				window.location.href = '/';
 			} else {
 				const text = await response.text();
-				popupQueueText('Error deleting website: ' + (text || response.status));
+				popupQueueText({text: 'Error deleting website: ' + (text || response.status), danger: true});
 				console.error('Delete error:', response.status, text);
 			}
 		}).catch(function (error) {
-			popupQueueText('Network error while deleting website.');
+			popupQueueText({text: 'Network error while deleting website.', danger: true});
 			console.error('Network error:', error);
 		});
 	})

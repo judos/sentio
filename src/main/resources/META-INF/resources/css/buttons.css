@@ -6,10 +6,13 @@
 }
 
 
-button {
+button, .button, .button:visited {
+	display: inline-block;
 	border-radius: 8px;
 	padding: 0.75rem 2rem;
 	font-size: 1rem;
+	text-decoration: none;
+	color: black;
 	cursor: pointer;
 	transition: background 0.2s, border-color 0.2s;
 	border-width: 1px;
@@ -17,14 +20,14 @@ button {
 	background-color: rgb(233,233,237);
 	position: relative;
 }
-button:hover {
+button:hover, .button:hover {
 	background-color: rgb(208,208,215);
 }
-button.loading {
+button.loading, .button.loading {
 	cursor: progress;
 	color: transparent;
 }
-button.loading::after {
+button.loading::after, .button.loading::after {
   content: '';
   display: block;
 	box-sizing: border-box;
@@ -38,7 +41,7 @@ button.loading::after {
   border-right-color: white;
   animation: loader-animation 1.5s linear infinite;
 }
-button.loading::before {
+button.loading::before, .button.loading::before {
 	content: '';
   display: block;
 	box-sizing: border-box;

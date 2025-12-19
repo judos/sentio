@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', function () {
 			body: JSON.stringify({name, url})
 		});
 		if (response.ok) {
-			localStorage.setItem('popup', 'Website added.');
+			localStorage.setItem('popup', JSON.stringify({text: 'Website added'}));
 			window.location.href = '/';
 		} else {
 			const error = await response.text();

@@ -9,15 +9,16 @@ popupHideTimeout = 0;
 
 window.addEventListener('DOMContentLoaded', function () {
 	if (localStorage.getItem('popup') != null) {
-		popupQueueText(localStorage.getItem('popup'));
+		const popup = JSON.parse(localStorage.getItem('popup'))
+		popupQueueText(popup);
 		localStorage.removeItem('popup');
 	}
 });
 
-function popupQueueText(text, showMs = 3000) {
+function popupQueueText({text, showMs = 3000, danger = false}) {
 	popups.push({
 		type: "default", text: text, showMs: showMs, blendIn: true, backdrop: false,
-		danger: false
+		danger: danger
 	});
 	setTimeout(showPopup, 1);
 }
@@ -106,6 +107,9 @@ function popupCreate(popupData) {
 	popup.id = popupId;
 	popup.classList.add("popup");
 	popup.classList.add(popupData.type);
+	if (popupData.danger) {
+		popup.classList.add('danger');
+	}
 	if (popupData.blendIn) {
 		popup.classList.add('hide');
 	}

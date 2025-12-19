@@ -5,7 +5,7 @@ function enableCodeCopy() {
     code.addEventListener('click', () => {
       navigator.clipboard.writeText(code.innerHTML)
         .then(() => {
-          popupQueueText('copied to clipboard', 1000);
+          popupQueueText({text: 'copied to clipboard', showMs: 1000});
           code.style.backgroundColor = '#e0ffe0';
           setTimeout(() => code.style.backgroundColor = '', 500);
         })

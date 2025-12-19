@@ -2,6 +2,7 @@ package ch.judos.sentio.services
 
 import ch.judos.sentio.Sentio
 import ch.judos.sentio.entities.NotificationChannel
+import ch.judos.sentio.model.BusinessException
 import ch.judos.sentio.model.TelegramCredentials
 import ch.judos.sentio.services.helper.TelegramBot
 import io.quarkus.logging.Log
@@ -16,8 +17,8 @@ import java.util.concurrent.TimeoutException
 
 @ApplicationScoped
 open class TelegramService(
-		val encryptionService: EncryptionService,
-		val entityManager: EntityManager,
+	val encryptionService: EncryptionService,
+	val entityManager: EntityManager,
 ) {
 	
 	val bots = mutableMapOf<String, TelegramBot>()
@@ -28,8 +29,12 @@ open class TelegramService(
 		Log.info("stopped polling")
 	}
 	
-	fun create(token: String): String? {
-		val bot = bots[token] ?: TelegramBot(token).also { bots[token] = it }
+	fun create(token: String): String {
+		val bot = try {
+			bots[token] ?: TelegramBot(token).also { bots[token] = it }
+		} catch (_: Exception) {
+			throw BusinessException("failed-init", "Failed to create bot with given token")
+		}
 		val future = Sentio.pool.submit<Pair<Long, String?>> {
 			val resultFuture = CompletableFuture<Pair<Long, String?>>()
 			bot.startPolling { chatId, chatTitle ->
@@ -42,7 +47,7 @@ open class TelegramService(
 		} catch (_: TimeoutException) {
 			future.cancel(true)
 			bot.stopPolling()
-			return null
+			throw BusinessException("timeout", "Timeout waiting for bot to receive message.")
 		}
 		bot.stopPolling()
 		val credentials = Json.encodeToString(
@@ -52,11 +57,12 @@ open class TelegramService(
 			}
 		)
 		entityManager.persist(NotificationChannel().apply {
-			this.name = bot.botName + (chatTitle?.let { "- $it" } ?: "")
+			this.name = bot.botName + (chatTitle?.let { " - $it" } ?: "")
 			this.type = "telegram"
 			this.credentials = encryptionService.encrypt(credentials)
 		})
 		Log.info("bot ${bot.botName} saved with chatId $chatId")
+		bot.sendMessage("This chat has been registered as a notification channel in Sentio. (ChatId=$chatId)", chatId)
 		return bot.botName
 	}
 }

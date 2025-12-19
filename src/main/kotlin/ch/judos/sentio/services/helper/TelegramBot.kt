@@ -36,8 +36,10 @@ class TelegramBot(
 		}
 	}
 	
-	val botName: String = bot.getMe().get().username.apply {
-		Log.info("Bot $this initialized")
+	val botName: String = bot.getMe().run {
+		val name = get().username
+		Log.info("Bot $name initialized")
+		name
 	} ?: throw Exception("Failed to fetch bot username")
 	
 	fun sendMessage(text: String, chatId: Long) {

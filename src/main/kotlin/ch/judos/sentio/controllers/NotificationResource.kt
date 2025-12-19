@@ -31,7 +31,6 @@ open class NotificationResource(
 	@Transactional
 	open fun create(data: CreateBot): Response {
 		val name = telegramService.create(data.token)
-			?: return ResponseError("Timeout waiting for bot to receive message.")
 		return Response.ok(mapOf("msg" to "ok")).build()
 	}
 	
