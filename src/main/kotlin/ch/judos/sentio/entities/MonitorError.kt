@@ -9,7 +9,7 @@ class MonitorError {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	var id: Int? = null
+	var id: Long? = null
 	
 	@ManyToOne
 	lateinit var website: Website

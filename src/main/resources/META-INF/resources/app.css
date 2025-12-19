@@ -14,7 +14,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
 	margin-top: 0;
-	margin-bottom: 0;
+	margin-bottom: 0.5rem;
 }
 h1 {
 	text-align: center;
@@ -42,8 +42,15 @@ table {
 	width: 100%;
 }
 .table tr, .table th, .table td {
-	border: 1px solid #ddd;
+	border: 1px solid #aaaaaa60;
 	padding: 8px;
+}
+.table.selectable tr:hover :not(th) {
+	background: #aaccaa20;
+	cursor: pointer;
+}
+.table th {
+	background: #aaccaa40;
 }
 
 

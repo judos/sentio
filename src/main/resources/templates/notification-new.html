@@ -1,0 +1,33 @@
+{#include layout.html}
+	{#scripts}
+		<script src="/notification-new.js"></script>
+	{/scripts}
+	{#body}
+		<h1>New</h1>
+		<p>
+			Step 1:
+			<a target=_blank href="https://t.me/BotFather?text=/newbot">Create new Bot</a>
+			or
+			<a target=_blank href="https://t.me/BotFather?text=/mybots">choose an existing bot</a>
+			in Telegram.
+		</p>
+
+		<p>
+			Step 2:
+			<label for="token">Copy API Token of the bot and paste it below.</label>
+			<input type="text" id="token" placeholder="Bot Token">
+		</p>
+
+		<p style="margin-bottom: 0">
+			Step 3: Connect bot to a chat, since bots aren't allowed to start a conversation either:
+		</p>
+		<ul style="margin-top: 0.5rem">
+			<li>Private chat: Send any message to your bot</li>
+			<li>Group chat: Send <code>/start</code> to the chat</li>
+		</ul>
+
+		<button id="setup-button" onclick="setupBot()" class="action-btn">
+			Setup Bot
+		</button>
+	{/body}
+{/include}
