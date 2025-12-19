@@ -28,7 +28,7 @@ dependencies {
 	implementation("io.quarkus:quarkus-rest")
 	implementation("io.quarkus:quarkus-rest-jackson")
 	implementation("io.quarkus:quarkus-flyway")
-	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.21")
+	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.3.0")
 	implementation("io.quarkus:quarkus-jdbc-mysql")
 	implementation("io.quarkus:quarkus-jdbc-h2")
 	
