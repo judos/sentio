@@ -1,6 +1,6 @@
 package ch.judos.sentio.model
 
-import ch.judos.sentio.entities.MonitorData
+import ch.judos.sentio.entities.Data
 import java.awt.Color
 import java.awt.image.BufferedImage
 import java.time.LocalDateTime
@@ -22,7 +22,7 @@ class DataPeriod(
 	val checkedPer = DoubleArray(slices) { 0.0 }
 	val successPer = DoubleArray(slices) { 0.0 }
 	
-	fun addData(data: MonitorData) {
+	fun addData(data: Data) {
 		var start = timeToSliceIndex(toEpoch(data.date.atTime(data.firstCheck)))
 		val end = timeToSliceIndex(toEpoch(data.lastCheck))
 		val period = end - start

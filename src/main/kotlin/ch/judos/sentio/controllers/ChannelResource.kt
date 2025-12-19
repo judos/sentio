@@ -2,7 +2,6 @@ package ch.judos.sentio.controllers
 
 import ch.judos.sentio.entities.QMonitorError
 import ch.judos.sentio.entities.QWebsite
-import ch.judos.sentio.extensions.ResponseError
 import ch.judos.sentio.services.EncryptionService
 import ch.judos.sentio.services.TelegramService
 import com.querydsl.jpa.impl.JPAQueryFactory
@@ -18,7 +17,7 @@ import jakarta.ws.rs.core.Response
 @Path("/api/notification")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-open class NotificationResource(
+open class ChannelResource(
 		val query: JPAQueryFactory,
 		val entityManager: EntityManager,
 		val telegramService: TelegramService,

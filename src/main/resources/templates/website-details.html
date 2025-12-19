@@ -8,7 +8,7 @@
 			<h1>{website.name}</h1>
 			<div class="link">
 				<a onclick="deleteWebsite({website.id},'{website.name}')" style="cursor: pointer;">
-					<img src="/delete.svg">
+					<img src="/img/delete.svg">
 				</a>
 			</div>
 		</div>
@@ -19,9 +19,9 @@
 				<a href="/website/{website.id}/{config.monitor}" title="Edit config">
 					<span style="display: flex; justify-content: center">
 						{monitorByKey.get(config.monitor).name}
-						<img src="/edit.svg" style="margin-left: 5px;">
+						<img src="/img/edit.svg" style="margin-left: 5px;">
 					</span>
-					<img src="/api/monitor-data/{website.id}/{config.monitor}" alt="">
+					<img src="/api/data/{website.id}/{config.monitor}" alt="">
 				</a>
 			{/for}
 		{/if}

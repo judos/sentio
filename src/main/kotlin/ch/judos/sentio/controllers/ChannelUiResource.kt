@@ -1,6 +1,6 @@
 package ch.judos.sentio.controllers
 
-import ch.judos.sentio.entities.QNotificationChannel
+import ch.judos.sentio.entities.QChannel
 import com.querydsl.jpa.impl.JPAQueryFactory
 import io.quarkus.qute.Location
 import io.quarkus.qute.Template
@@ -13,17 +13,17 @@ import jakarta.ws.rs.core.Response
 
 @Path("/notification")
 @Produces(MediaType.TEXT_HTML)
-class NotificationUiResource(
-	@Location("notification-overview.html")
+class ChannelUiResource(
+	@Location("channel-overview.html")
 	var overview: Template,
-	@Location("notification-new.html")
+	@Location("channel-new.html")
 	var new: Template,
-	@Location("notification-edit.html")
+	@Location("channel-edit.html")
 	var edit: Template,
 	var query: JPAQueryFactory,
 ) {
 	
-	val qChannel = QNotificationChannel.notificationChannel
+	val qChannel = QChannel.channel
 	
 	@GET
 	@Path("/")

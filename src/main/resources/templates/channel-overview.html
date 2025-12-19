@@ -11,6 +11,11 @@
 				<th>Name</th>
 				<th>Last Used</th>
 			</tr>
+		{#if channels.size() == 0}
+			<tr class="disabled">
+				<td colspan="100">No notification channels configured yet.</td>
+			</tr>
+		{/if}
 		{#for channel in channels}
 			<tr onclick="location.href='/notification/{channel.id}';">
 				<td>{channel.type}</td>

@@ -1,6 +1,6 @@
 package ch.judos.sentio.controllers
 
-import ch.judos.sentio.entities.QMonitorData
+import ch.judos.sentio.entities.QData
 import ch.judos.sentio.entities.QMonitorError
 import ch.judos.sentio.model.DataPeriod
 import ch.judos.sentio.services.ImageService
@@ -12,7 +12,7 @@ import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
 
 
-@Path("/api/monitor-data")
+@Path("/api/data")
 @Produces(MediaType.APPLICATION_JSON)
 class DataResource(
 	val query: JPAQueryFactory,
@@ -20,7 +20,7 @@ class DataResource(
 	var imageService: ImageService,
 ) {
 	
-	val qData = QMonitorData.monitorData
+	val qData = QData.data
 	val qError = QMonitorError.monitorError
 	
 	@GET

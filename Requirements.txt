@@ -1,2 +1,1 @@
-- Send notifications via Telegram
 - User login to website to modify settings

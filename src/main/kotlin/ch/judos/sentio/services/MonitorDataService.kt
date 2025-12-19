@@ -1,8 +1,8 @@
 package ch.judos.sentio.services
 
-import ch.judos.sentio.entities.MonitorData
+import ch.judos.sentio.entities.Data
 import ch.judos.sentio.entities.MonitorError
-import ch.judos.sentio.entities.QMonitorData
+import ch.judos.sentio.entities.QData
 import ch.judos.sentio.entities.Website
 import ch.judos.sentio.extensions.update
 import ch.judos.sentio.services.monitors.REACHABILITY_MONITOR_KEY
@@ -21,7 +21,7 @@ class MonitorDataService(
 		var entityManager: EntityManager
 ) {
 	
-	val qData: QMonitorData = QMonitorData.monitorData
+	val qData: QData = QData.data
 	
 	/** if error is null it is counted as success */
 	fun addData(website: Website, monitorKey: String, error: String?) {
@@ -29,7 +29,7 @@ class MonitorDataService(
 			qData.website.id.eq(website.id),
 			qData.monitor.eq(monitorKey), qData.date.eq(LocalDate.now())
 		).fetchOne()
-			?: MonitorData().apply {
+			?: Data().apply {
 				this.website = website
 				this.monitor = monitorKey
 				this.date = LocalDate.now()

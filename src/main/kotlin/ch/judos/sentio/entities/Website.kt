@@ -28,6 +28,6 @@ open class Website {
 	var configs: MutableList<WebsiteConfig> = mutableListOf()
 	
 	@OneToMany(mappedBy = "website", cascade = [CascadeType.ALL], orphanRemoval = true)
-	var data: MutableList<MonitorData> = mutableListOf()
+	var data: MutableList<Data> = mutableListOf()
 	
 }

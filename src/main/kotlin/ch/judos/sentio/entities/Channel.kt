@@ -8,8 +8,8 @@ import jakarta.persistence.Id
 import org.hibernate.annotations.CreationTimestamp
 import java.time.LocalDateTime
 
-@Entity(name = "notification_channel")
-class NotificationChannel {
+@Entity(name = "channel")
+class Channel {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

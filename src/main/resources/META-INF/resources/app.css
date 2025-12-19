@@ -45,7 +45,7 @@ table {
 	border: 1px solid #aaaaaa60;
 	padding: 8px;
 }
-.table.selectable tr:hover :not(th) {
+.table.selectable tr:hover:not(.disabled) :not(th) {
 	background: #aaccaa20;
 	cursor: pointer;
 }

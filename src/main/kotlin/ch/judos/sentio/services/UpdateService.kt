@@ -1,7 +1,7 @@
 package ch.judos.sentio.services
 
 
-import ch.judos.sentio.entities.QMonitorData
+import ch.judos.sentio.entities.QData
 import ch.judos.sentio.entities.QWebsiteConfig
 import ch.judos.sentio.entities.WebsiteConfig
 import ch.judos.sentio.services.monitors.MonitorService
@@ -30,7 +30,7 @@ class UpdateService(
 	
 	val monitorMap = MonitorService.monitors.associateBy { it.getKey() }
 	val qConfigs: QWebsiteConfig = QWebsiteConfig.websiteConfig
-	val qData: QMonitorData = QMonitorData.monitorData
+	val qData: QData = QData.data
 	
 	@Scheduled(every = "60s")
 	@Transactional

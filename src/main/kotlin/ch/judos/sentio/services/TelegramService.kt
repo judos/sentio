@@ -1,7 +1,7 @@
 package ch.judos.sentio.services
 
 import ch.judos.sentio.Sentio
-import ch.judos.sentio.entities.NotificationChannel
+import ch.judos.sentio.entities.Channel
 import ch.judos.sentio.model.BusinessException
 import ch.judos.sentio.model.TelegramCredentials
 import ch.judos.sentio.services.helper.TelegramBot
@@ -56,7 +56,7 @@ open class TelegramService(
 				it.chatId = chatId
 			}
 		)
-		entityManager.persist(NotificationChannel().apply {
+		entityManager.persist(Channel().apply {
 			this.name = bot.botName + (chatTitle?.let { " - $it" } ?: "")
 			this.type = "telegram"
 			this.credentials = encryptionService.encrypt(credentials)

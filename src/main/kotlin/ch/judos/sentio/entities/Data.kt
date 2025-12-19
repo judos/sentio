@@ -11,8 +11,8 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-@Entity(name = "monitor_data")
-class MonitorData {
+@Entity(name = "data")
+class Data {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
