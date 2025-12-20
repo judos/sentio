@@ -18,7 +18,9 @@
 		{/if}
 		{#for channel in channels}
 			<tr onclick="location.href='/channel/{channel.id}';">
-				<td>{channel.type}</td>
+				<td><img src="img/{channel.type}.svg"
+						 style="vertical-align: middle; width: 20px;" />
+				</td>
 				<td>{channel.name}</td>
 				<td>{channel.lastUsed.formatDateTime()}</td>
 			</tr>

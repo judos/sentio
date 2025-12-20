@@ -19,6 +19,7 @@ class WebsiteCheckService : MonitorService {
 			val success = code in 200..399
 			if (success) null else "HTTP $code"
 		} catch (e: Exception) {
+			e.printStackTrace()
 			e.message ?: "Unknown error"
 		}
 	}
