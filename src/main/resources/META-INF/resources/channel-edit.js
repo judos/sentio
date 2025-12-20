@@ -1,21 +1,20 @@
 function deleteChannel(id, name) {
-    popupQueueDelete('Are you sure you want to delete the channel "' + name + '"?', function () {
-        // TODO: rename everything to simple channel
-        // TODO: adapt from here
-        fetch('/api/channel/' + id, {
-            method: 'DELETE'
-        }).then(async function (response) {
-            if (response.ok) {
-                localStorage.setItem('popup', JSON.stringify({text:'Website deleted'}));
-                window.location.href = '/';
-            } else {
-                const text = await response.text();
-                popupQueueText({text: 'Error deleting website: ' + (text || response.status), danger: true});
-                console.error('Delete error:', response.status, text);
-            }
-        }).catch(function (error) {
-            popupQueueText({text: 'Network error while deleting website.', danger: true});
-            console.error('Network error:', error);
-        });
-    })
+	popupQueueDelete('Are you sure you want to delete the channel "' + name + '"?', function () {
+		fetchJson('/api/channel/' + id, {method: 'DELETE'}
+		).then(async function (response) {
+			localStorage.setItem('popup', JSON.stringify({text: 'Website deleted'}));
+			window.location.href = '/';
+		}).catch(function (/** @type {JsonFetchError} */ error) {
+			popupQueueText({text: error.message, danger: true});
+		});
+	})
+}
+
+function sendTestMessage(id) {
+	fetchJson('/api/channel/' + id + '/test', {method: 'POST'}
+	).then(async function (response) {
+		popupQueueText({text: 'Test message sent'});
+	}).catch(function (/** @type {JsonFetchError} */ error) {
+		popupQueueText({text: error.message, danger: true});
+	});
 }

@@ -29,9 +29,13 @@ open class TelegramService(
 		Log.info("stopped polling")
 	}
 	
+	private fun botFromToken(token: String): TelegramBot {
+		return bots[token] ?: TelegramBot(token).also { bots[token] = it }
+	}
+	
 	fun create(token: String): String {
 		val bot = try {
-			bots[token] ?: TelegramBot(token).also { bots[token] = it }
+			botFromToken(token)
 		} catch (_: Exception) {
 			throw BusinessException("failed-init", "Failed to create bot with given token")
 		}
@@ -64,5 +68,13 @@ open class TelegramService(
 		Log.info("bot ${bot.botName} saved with chatId $chatId")
 		bot.sendMessage("This chat has been registered as a notification channel in Sentio. (ChatId=$chatId)", chatId)
 		return bot.botName
+	}
+	
+	fun sendMessage(channel: Channel, string: String) {
+		val credentials = Json.decodeFromString<TelegramCredentials>(
+			encryptionService.decrypt(channel.credentials)
+		)
+		val bot = botFromToken(credentials.token)
+		bot.sendMessage(string, credentials.chatId)
 	}
 }

@@ -11,7 +11,7 @@ import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
 
 
-@Path("/notification")
+@Path("/channel")
 @Produces(MediaType.TEXT_HTML)
 class ChannelUiResource(
 	@Location("channel-overview.html")

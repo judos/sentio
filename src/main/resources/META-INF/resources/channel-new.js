@@ -4,23 +4,16 @@ function setupBot() {
 	const button = document.getElementById('setup-button');
 	setButtonLoading(button, true);
 
-	fetch('/api/notification/', {
+	fetchJson('/api/channel/', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 	 	body: JSON.stringify({ token: token })
 	}).then(async function (response) {
 		setButtonLoading(button, false);
-		const text = JSON.parse(await response.text());
-		if (response.ok) {
-			localStorage.setItem('popup', JSON.stringify({text: 'Setup successful'}));
-			window.location.href = '/notification';
-		} else {
-			popupQueueText({text: text.message ?? 'Setup failed', danger: true});
-			console.warn(text);
-		}
-	}).catch(function (error) {
+		localStorage.setItem('popup', JSON.stringify({text: 'Setup successful'}));
+		window.location.href = '/channel';
+	}).catch(function (/** @type {JsonFetchError} */ error) {
 		setButtonLoading(button, false);
-		popupQueueText({text: 'Network error', danger: true});
-		console.error('Network error:', error);
+		popupQueueText({text: error.message, danger: true});
 	});
 }

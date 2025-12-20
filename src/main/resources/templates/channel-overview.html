@@ -2,7 +2,7 @@
 	{#scripts}
 	{/scripts}
 	{#body}
-		<h1>Notifications</h1>
+		<h1>Notification Channels</h1>
 		<div style="text-align: center; margin-bottom: 1rem;">How to alert yourself, if something doesn't work</div>
 
 		<table class="table selectable">
@@ -17,7 +17,7 @@
 			</tr>
 		{/if}
 		{#for channel in channels}
-			<tr onclick="location.href='/notification/{channel.id}';">
+			<tr onclick="location.href='/channel/{channel.id}';">
 				<td>{channel.type}</td>
 				<td>{channel.name}</td>
 				<td>{channel.lastUsed.formatDateTime()}</td>
@@ -26,6 +26,6 @@
 		</table>
 
 		<h2 style="margin-top: 1rem;">Add Channel</h2>
-		<a href="/notification/new" class="button">Add Telegram</a>
+		<a href="/channel/new" class="button">Add Telegram</a>
 	{/body}
 {/include}
