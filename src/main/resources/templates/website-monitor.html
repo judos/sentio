@@ -6,7 +6,7 @@
 		<div class="action-bar">
 			<h1>{website.name} {monitor.getName()}</h1>
 			<div class="link">
-				<a onclick="removeMonitor({website.id},'{monitor.key}','{monitor.getName()}')" style="cursor: pointer;">
+				<a onclick="removeMonitor({website.id},'{config.id}','{monitor.getName()}')" style="cursor: pointer;">
 					<img src="/img/delete.svg">
 				</a>
 			</div>
@@ -14,7 +14,7 @@
 
 		<div style="text-align: center; margin-bottom: 1rem;">{website.url}</div>
 		<h2>History</h2>
-		<img src="/api/data/{website.id}/{monitor.key}" alt="">
+		<img src="/api/data/{website.id}/{config.id}" alt="">
 		{#if errors.size() > 0}
 			<table class="table">
 				<tr>

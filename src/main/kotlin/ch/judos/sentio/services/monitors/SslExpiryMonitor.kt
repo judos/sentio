@@ -9,7 +9,7 @@ import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 import javax.net.ssl.SSLSocket
 
-class SslCertificateService : MonitorService {
+class SslExpiryMonitor : Monitor {
 
 	override fun checkAndReturnError(config: WebsiteConfig): String? {
 		return try {

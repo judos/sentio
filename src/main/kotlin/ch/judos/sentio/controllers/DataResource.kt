@@ -2,9 +2,9 @@ package ch.judos.sentio.controllers
 
 import ch.judos.sentio.entities.QData
 import ch.judos.sentio.entities.QMonitorError
+import ch.judos.sentio.entities.QWebsiteConfig
 import ch.judos.sentio.model.DataPeriod
 import ch.judos.sentio.services.ImageService
-import ch.judos.sentio.services.monitors.MonitorService
 import com.querydsl.jpa.impl.JPAQueryFactory
 import jakarta.persistence.EntityManager
 import jakarta.ws.rs.*
@@ -21,23 +21,24 @@ class DataResource(
 ) {
 	
 	val qData = QData.data
+	val qWebsiteConfig = QWebsiteConfig.websiteConfig
 	val qError = QMonitorError.monitorError
 	
 	@GET
-	@Path("/{id}/{monitorKey}")
+	@Path("/{id}/{configId}")
 	fun generateImage(
 		id: Long,
-		monitorKey: String,
+		configId: Long,
 		@CookieParam("sentio_dateRange") daysStr: String?,
 	): Response {
-		MonitorService.monitors.find { it.getKey() == monitorKey }
+		query.selectFrom(qWebsiteConfig).where(qWebsiteConfig.id.eq(configId)).fetchOne()
 			?: return Response.status(Response.Status.NOT_FOUND).build()
 		val days = daysStr?.toIntOrNull() ?: 7
 		val period = DataPeriod(days)
 		
 		query.selectFrom(qData).where(
 			qData.website.id.eq(id),
-			qData.monitor.eq(monitorKey),
+			qData.config.id.eq(configId),
 			qData.date.goe(period.startTime.toLocalDate()),
 		).fetch().forEach { period.addData(it) }
 		// val errors: List<MonitorError> = query.selectFrom(qError).where(

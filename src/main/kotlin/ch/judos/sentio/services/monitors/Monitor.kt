@@ -3,7 +3,7 @@ package ch.judos.sentio.services.monitors
 import ch.judos.sentio.entities.Website
 import ch.judos.sentio.entities.WebsiteConfig
 
-interface MonitorService {
+interface Monitor {
 	
 	/** run check for specific website */
 	fun checkAndReturnError(config: WebsiteConfig): String?
@@ -25,8 +25,8 @@ interface MonitorService {
 	
 	companion object {
 		val monitors = listOf(
-			SslCertificateService(),
-			WebsiteCheckService()
+			SslExpiryMonitor(),
+			ReachabilityMonitor()
 		)
 	}
 }

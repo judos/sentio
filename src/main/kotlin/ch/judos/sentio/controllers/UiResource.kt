@@ -3,8 +3,9 @@ package ch.judos.sentio.controllers
 import ch.judos.sentio.config.GlobalTemplateVars
 import ch.judos.sentio.entities.QMonitorError
 import ch.judos.sentio.entities.QWebsite
+import ch.judos.sentio.entities.WebsiteConfig
 import ch.judos.sentio.services.MonitorDataService
-import ch.judos.sentio.services.monitors.MonitorService
+import ch.judos.sentio.services.monitors.Monitor
 import com.querydsl.jpa.impl.JPAQueryFactory
 import io.quarkus.qute.Location
 import io.quarkus.qute.Template
@@ -74,10 +75,10 @@ class UiResource @Inject constructor(
 	fun websiteDetails(id: Long): Response {
 		val website = query.selectFrom(qWebsite).where(qWebsite.id.eq(id)).fetchOne()
 			?: return Response.status(NOT_FOUND).build()
-		val monitors = MonitorService.monitors.filter { monitor ->
+		val monitors = Monitor.monitors.filter { monitor ->
 			website.configs.none { it.monitor == monitor.getKey() }
 		}
-		val monitorByKey = MonitorService.monitors.associateBy { it.getKey() }
+		val monitorByKey = Monitor.monitors.associateBy { it.getKey() }
 		val configs = website.configs.sortedBy { it.monitor }
 		return Response.ok(
 			websiteDetails.data("website", website)
@@ -89,21 +90,31 @@ class UiResource @Inject constructor(
 	}
 	
 	@GET
-	@Path("/website/{id}/{monitorKey}")
+	@Path("/website/{id}/{configId}")
 	fun websiteDetails(
-		id: Long, monitorKey: String,
+		id: Long, configId: String,
 		@CookieParam("sentio_dateRange") daysStr: String?
 	): Response {
 		val days = daysStr?.toLongOrNull() ?: 7L
 		val website = query.selectFrom(qWebsite).where(qWebsite.id.eq(id)).fetchOne()
 			?: return Response.status(NOT_FOUND).build()
-		val monitor = MonitorService.monitors.firstOrNull { it.getKey() == monitorKey }
-			?: return Response.status(NOT_FOUND).build()
-		val config = website.configs.firstOrNull { it.monitor == monitorKey }
-			?: monitor.getDefaultConfigFor(website)
+		
+		val config: WebsiteConfig
+		val monitor: Monitor
+		if (configId.toLongOrNull() != null) {
+			config = website.configs.firstOrNull { it.id == configId.toLongOrNull() }
+				?: return Response.status(NOT_FOUND).build()
+			monitor = Monitor.monitors.firstOrNull { it.getKey() == config.monitor }
+				?: return Response.status(NOT_FOUND).build()
+		}
+		else {
+			monitor = Monitor.monitors.firstOrNull { it.getKey() == configId }
+				?: return Response.status(NOT_FOUND).build()
+			config = monitor.getDefaultConfigFor(website)
+		}
 		val errors = query.selectFrom(qErrors).where(
 			qErrors.website.eq(website),
-			qErrors.monitor.eq(monitorKey),
+			qErrors.config.id.eq(configId.toLongOrNull()),
 			qErrors.dateTime.goe(LocalDateTime.now().minusDays(days))
 		).fetch()
 		return Response.ok(

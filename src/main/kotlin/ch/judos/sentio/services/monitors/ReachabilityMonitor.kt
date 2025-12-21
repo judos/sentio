@@ -6,7 +6,7 @@ import java.net.HttpURLConnection
 import java.net.URI
 
 const val REACHABILITY_MONITOR_KEY = "reachability"
-class WebsiteCheckService : MonitorService {
+class ReachabilityMonitor : Monitor {
 	
 	override fun checkAndReturnError(config: WebsiteConfig): String? {
 		return try {

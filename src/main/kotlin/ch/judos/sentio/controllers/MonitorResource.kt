@@ -1,9 +1,11 @@
 package ch.judos.sentio.controllers
 
+import ch.judos.sentio.entities.QData
+import ch.judos.sentio.entities.QMonitorError
 import ch.judos.sentio.entities.QWebsite
 import ch.judos.sentio.entities.QWebsiteConfig
 import ch.judos.sentio.entities.WebsiteConfig
-import ch.judos.sentio.services.monitors.MonitorService
+import ch.judos.sentio.services.monitors.Monitor
 import com.querydsl.jpa.impl.JPAQueryFactory
 import jakarta.persistence.EntityManager
 import jakarta.transaction.Transactional
@@ -21,14 +23,19 @@ class MonitorResource(
 ) {
 	val qWebsite = QWebsite.website
 	val qConfig = QWebsiteConfig.websiteConfig
+	val qData = QData.data
+	val qMonitorError = QMonitorError.monitorError
 	
 	@DELETE
-	@Path("/{id}/{monitorKey}")
+	@Path("/{id}/{configId}")
 	@Transactional
-	fun delete(id: Long, monitorKey: String): Response {
+	fun delete(id: Long, configId: Long): Response {
 		val config = query.selectFrom(qConfig).where(qConfig.website.id.eq(id)
-			.and(qConfig.monitor.eq(monitorKey))).fetchOne()
+			.and(qConfig.id.eq(configId))).fetchOne()
 			?: return Response.status(NOT_FOUND).build()
+		
+		query.delete(qData).where(qData.config.id.eq(configId)).execute()
+		query.delete(qMonitorError).where(qMonitorError.config.id.eq(configId)).execute()
 		entityManager.remove(config)
 		return Response.noContent().build()
 	}
@@ -39,7 +46,7 @@ class MonitorResource(
 	fun addUpdate(id: Long, monitorKey: String, updatedConfig: WebsiteConfig): Response {
 		val website = query.selectFrom(qWebsite).where(qWebsite.id.eq(id)).fetchOne()
 			?: return Response.status(NOT_FOUND).build()
-		val monitor = MonitorService.monitors.find { it.getKey() == monitorKey }
+		val monitor = Monitor.monitors.find { it.getKey() == monitorKey }
 			?: return Response.status(NOT_FOUND).build()
 		val config = website.configs.find { it.monitor == monitorKey }
 			?: monitor.getDefaultConfigFor(website)

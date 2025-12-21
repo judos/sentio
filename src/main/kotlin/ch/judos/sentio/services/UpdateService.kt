@@ -4,7 +4,7 @@ package ch.judos.sentio.services
 import ch.judos.sentio.entities.QData
 import ch.judos.sentio.entities.QWebsiteConfig
 import ch.judos.sentio.entities.WebsiteConfig
-import ch.judos.sentio.services.monitors.MonitorService
+import ch.judos.sentio.services.monitors.Monitor
 import com.querydsl.jpa.impl.JPAQueryFactory
 import io.quarkus.logging.Log
 import io.quarkus.runtime.StartupEvent
@@ -28,7 +28,7 @@ class UpdateService(
 	val monitorDataService: MonitorDataService
 ) {
 	
-	val monitorMap = MonitorService.monitors.associateBy { it.getKey() }
+	val monitorMap = Monitor.monitors.associateBy { it.getKey() }
 	val qConfigs: QWebsiteConfig = QWebsiteConfig.websiteConfig
 	val qData: QData = QData.data
 	
@@ -43,7 +43,7 @@ class UpdateService(
 			// fetch last monitor data
 			val data = query.selectFrom(qData).where(
 				qData.website.id.eq(config.website.id),
-				qData.monitor.eq(config.monitor)
+				qData.config.id.eq(config.id)
 			).orderBy(qData.lastCheck.desc()).limit(1).fetchOne()
 			var refresh = true
 			if (data != null) {
@@ -69,7 +69,7 @@ class UpdateService(
 		val website = config.website
 		val monitor = monitorMap[config.monitor]!!
 		val message = monitor.checkAndReturnError(config)
-		monitorDataService.addData(website, config.monitor, message)
+		monitorDataService.addData(website, config, message)
 	}
 	
 	fun onStartup(@Observes event: StartupEvent) {

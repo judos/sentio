@@ -1,6 +1,6 @@
-async function removeMonitor(id, monitorKey, monitorName) {
+async function removeMonitor(id, configId, monitorName) {
 	popupQueueDelete('Do you want to delete the monitor "' + monitorName + '"?', async function () {
-		const response = await fetch('/api/website-monitors/' + id + '/' + monitorKey, {
+		const response = await fetch('/api/website-monitors/' + id + '/' + configId, {
 			method: 'DELETE',
 			headers: {'Content-Type': 'application/json'},
 		});

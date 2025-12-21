@@ -4,6 +4,7 @@ import ch.judos.sentio.entities.Data
 import ch.judos.sentio.entities.MonitorError
 import ch.judos.sentio.entities.QData
 import ch.judos.sentio.entities.Website
+import ch.judos.sentio.entities.WebsiteConfig
 import ch.judos.sentio.extensions.update
 import ch.judos.sentio.services.monitors.REACHABILITY_MONITOR_KEY
 import com.querydsl.jpa.impl.JPAQueryFactory
@@ -24,14 +25,15 @@ class MonitorDataService(
 	val qData: QData = QData.data
 	
 	/** if error is null it is counted as success */
-	fun addData(website: Website, monitorKey: String, error: String?) {
+	fun addData(website: Website, config: WebsiteConfig, error: String?) {
 		val data = query.selectFrom(qData).where(
 			qData.website.id.eq(website.id),
-			qData.monitor.eq(monitorKey), qData.date.eq(LocalDate.now())
+			qData.config.id.eq(config.id),
+			qData.date.eq(LocalDate.now())
 		).fetchOne()
 			?: Data().apply {
 				this.website = website
-				this.monitor = monitorKey
+				this.config = config
 				this.date = LocalDate.now()
 				this.firstCheck = LocalTime.now()
 				this.succeeded = 0
@@ -44,7 +46,7 @@ class MonitorDataService(
 			data.failed += 1
 			val err = MonitorError().apply {
 				this.website = website
-				this.monitor = monitorKey
+				this.config = config
 				this.dateTime = LocalDateTime.now()
 				this.message = error
 			}
@@ -57,7 +59,7 @@ class MonitorDataService(
 	fun getUptimePercentage(website: Website?, days: Int): Map<Long, Double> {
 		val dataList = query.selectFrom(qData).where(
 			website?.let { qData.website.id.eq(website.id) },
-			qData.monitor.eq(REACHABILITY_MONITOR_KEY),
+			qData.config.monitor.eq(REACHABILITY_MONITOR_KEY),
 			qData.date.goe(LocalDate.now().minusDays(days.toLong()))
 		).fetch()
 		val totalChecks = mutableMapOf<Long, Int>()

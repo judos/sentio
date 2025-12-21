@@ -16,12 +16,12 @@
 		{#if configs.size() > 0}
 			<h2>History</h2>
 			{#for config in configs}
-				<a href="/website/{website.id}/{config.monitor}" title="Edit config">
+				<a href="/website/{website.id}/{config.id}" title="Edit config">
 					<span style="display: flex; justify-content: center">
 						{monitorByKey.get(config.monitor).name}
 						<img src="/img/edit.svg" style="margin-left: 5px;">
 					</span>
-					<img src="/api/data/{website.id}/{config.monitor}" alt="">
+					<img src="/api/data/{website.id}/{config.id}" alt="">
 				</a>
 			{/for}
 		{/if}

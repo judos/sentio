@@ -18,11 +18,11 @@ class Data {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	var id: Long? = null
 	
-	@ManyToOne
+	@ManyToOne(optional = false)
 	lateinit var website: Website
 	
-	@Column(nullable = false)
-	lateinit var monitor: String
+	@ManyToOne(optional = false)
+	lateinit var config: WebsiteConfig
 	
 	@Column(nullable = false, columnDefinition = "Date")
 	lateinit var date: LocalDate

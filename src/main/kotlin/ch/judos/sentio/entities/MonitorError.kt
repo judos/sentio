@@ -14,8 +14,8 @@ class MonitorError {
 	@ManyToOne
 	lateinit var website: Website
 	
-	@Column(nullable = false)
-	lateinit var monitor: String
+	@ManyToOne(optional = false)
+	lateinit var config: WebsiteConfig
 	
 	@Column(nullable = false, columnDefinition = "DateTime(0)")
 	lateinit var dateTime: LocalDateTime
