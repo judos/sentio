@@ -21,12 +21,12 @@
 						{monitorByKey.get(config.monitor).name}
 						<img src="/img/edit.svg" style="margin-left: 5px;">
 					</span>
-					<img src="/api/data/{website.id}/{config.id}" alt="">
+					<img src="/api/data/{website.id}/{config.id}" style="display:block;" alt="">
 				</a>
 			{/for}
 		{/if}
 		{#if monitors.size() > 0}
-			<h2>Add monitor</h2>
+			<h2 style="margin-top: 1rem;">Add monitor</h2>
 			{#for monitor in monitors}
 				<form action="/website/{website.id}/{monitor.getKey()}" method="get">
 					<button type="submit">{monitor.name}</button>

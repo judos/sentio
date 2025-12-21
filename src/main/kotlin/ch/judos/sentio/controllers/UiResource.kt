@@ -4,6 +4,7 @@ import ch.judos.sentio.config.GlobalTemplateVars
 import ch.judos.sentio.entities.QMonitorError
 import ch.judos.sentio.entities.QWebsite
 import ch.judos.sentio.entities.WebsiteConfig
+import ch.judos.sentio.extensions.eqOrNull
 import ch.judos.sentio.services.MonitorDataService
 import ch.judos.sentio.services.monitors.Monitor
 import com.querydsl.jpa.impl.JPAQueryFactory
@@ -114,7 +115,7 @@ class UiResource @Inject constructor(
 		}
 		val errors = query.selectFrom(qErrors).where(
 			qErrors.website.eq(website),
-			qErrors.config.id.eq(configId.toLongOrNull()),
+			qErrors.config.id.eqOrNull(configId.toLongOrNull()),
 			qErrors.dateTime.goe(LocalDateTime.now().minusDays(days))
 		).fetch()
 		return Response.ok(
