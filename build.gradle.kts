@@ -19,7 +19,7 @@ repositories {
 
 
 dependencies {
-	implementation(enforcedPlatform("io.quarkus.platform:quarkus-bom:3.30.3"))
+	implementation(enforcedPlatform("io.quarkus.platform:quarkus-bom:3.30.4"))
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
 	implementation("io.github.openfeign.querydsl:querydsl-jpa:7.1")
 	implementation("io.quarkus:quarkus-hibernate-orm")
