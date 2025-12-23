@@ -78,4 +78,5 @@ open class TelegramService(
 		val bot = botFromToken(credentials.token)
 		bot.sendMessage(string, credentials.chatId)
 	}
+	
 }

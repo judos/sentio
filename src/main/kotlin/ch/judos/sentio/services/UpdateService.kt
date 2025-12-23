@@ -25,7 +25,8 @@ class UpdateService(
 		var query: JPAQueryFactory,
 		@PersistenceContext
 		var entityManager: EntityManager,
-		val monitorDataService: MonitorDataService
+		val monitorDataService: MonitorDataService,
+		val channelService: ChannelService
 ) {
 	
 	val monitorMap = Monitor.monitors.associateBy { it.getKey() }
@@ -46,7 +47,8 @@ class UpdateService(
 			).orderBy(qData.lastCheck.desc()).limit(1).fetchOne()
 			var refresh = true
 			if (data != null) {
-				val diffSec = Duration.between(data.lastCheck, LocalDateTime.now()).toSeconds()
+				val last = data.date.atTime(data.lastCheck)
+				val diffSec = Duration.between(last, LocalDateTime.now()).toSeconds()
 				val diffMin = (diffSec / 60.0).roundToLong()
 				if (diffMin < monitored.checkEveryMin) {
 					refresh = false
@@ -67,7 +69,36 @@ class UpdateService(
 	fun checkMonitored(config: Monitored) {
 		val monitor = monitorMap[config.monitor]!!
 		val message = monitor.checkAndReturnError(config)
-		monitorDataService.addData(config, message)
+		val (data, err) = monitorDataService.addData(config, message)
+		
+		val name = "${config.name} (${monitor.getName()})"
+		if (data.failingFor > 0 && !config.alertSent) {
+			if (config.alertIfFailingForMin == 0) {
+				val msg = "$name has failed: ${err!!.message}"
+				alert(msg, config)
+			}
+			else {
+				val failingFor = (data.failingFor - 1) * config.checkEveryMin
+				if (failingFor >= config.alertIfFailingForMin) {
+					val msg = "$name has failed: ${err!!.message}"
+					alert(msg, config)
+				}
+			}
+		}
+		if (data.failingFor == 0 && config.alertSent) {
+			config.alertSent = false
+			entityManager.merge(config)
+			val msg = "$name has recovered."
+			Log.info(msg)
+			channelService.sendAlert(msg)
+		}
+	}
+	
+	private fun alert(msg: String, monitored: Monitored) {
+		monitored.alertSent = true
+		entityManager.merge(monitored)
+		Log.warn("ALERT: $msg")
+		channelService.sendAlert(msg)
 	}
 	
 	fun onStartup(@Observes event: StartupEvent) {

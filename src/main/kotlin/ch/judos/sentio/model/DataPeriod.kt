@@ -13,7 +13,7 @@ class DataPeriod(
 		val days: Int
 ) {
 	
-	val slices: Int = mapOf(1 to 24, 7 to 168, 30 to 30)[days]!!
+	val slices: Int = mapOf(1 to 24, 7 to 14, 30 to 30)[days]!!
 	val startTime = LocalDateTime.now().minusDays(days.toLong())
 	val startTimeS = startTime.toEpochSecond(ZoneOffset.UTC)
 	val nowS = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
@@ -24,7 +24,7 @@ class DataPeriod(
 	
 	fun addData(data: Data) {
 		var start = timeToSliceIndex(toEpoch(data.date.atTime(data.firstCheck)))
-		val end = timeToSliceIndex(toEpoch(data.lastCheck))
+		val end = timeToSliceIndex(toEpoch(data.date.atTime(data.lastCheck)))
 		val period = end - start
 		start = start.coerceAtLeast(0.0)
 		do {

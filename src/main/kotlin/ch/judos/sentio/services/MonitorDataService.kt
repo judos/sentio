@@ -24,32 +24,41 @@ class MonitorDataService(
 	val qData: QData = QData.data
 	
 	/** if error is null it is counted as success */
-	fun addData(monitored: Monitored, error: String?) {
+	fun addData(monitored: Monitored, error: String?): Pair<Data, MonitorError?> {
 		val data = query.selectFrom(qData).where(
 			qData.monitored.eq(monitored),
 			qData.date.eq(LocalDate.now())
-		).fetchOne()
-			?: Data().apply {
-				this.monitored = monitored
-				this.date = LocalDate.now()
-				this.firstCheck = LocalTime.now()
-				this.succeeded = 0
-				this.failed = 0
-			}
+		).fetchOne() ?: Data().apply {
+			this.monitored = monitored
+			this.date = LocalDate.now()
+			this.firstCheck = LocalTime.now()
+			this.succeeded = 0
+			this.failed = 0
+			this.failingFor = 0
+			
+			query.selectFrom(qData).where(
+				qData.monitored.eq(monitored),
+				qData.date.eq(LocalDate.now().minusDays(1))
+			).fetchOne()?.let { this.failingFor = it.failingFor }
+		}
+		var err: MonitorError? = null
 		if (error == null) {
 			data.succeeded += 1
+			data.failingFor = 0
 		}
 		else {
 			data.failed += 1
-			val err = MonitorError().apply {
+			data.failingFor += 1
+			err = MonitorError().apply {
 				this.monitored = monitored
 				this.dateTime = LocalDateTime.now()
 				this.message = error
 			}
 			entityManager.persist(err)
 		}
-		data.lastCheck = LocalDateTime.now()
+		data.lastCheck = LocalTime.now()
 		entityManager.persist(data)
+		return Pair(data, err)
 	}
 	
 	fun getUptimePercentage(monitored: Monitored?, days: Int): Map<Long, Int> {

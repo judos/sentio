@@ -43,7 +43,7 @@ class DataResource(
 			qData.date.goe(period.startTime.toLocalDate()),
 		).fetch().forEach { period.addData(it) }
 		
-		val image = period.toImage(600, 50)
+		val image = period.toImage(600, 75)
 		return imageService.image2Response(image)
 	}
 	

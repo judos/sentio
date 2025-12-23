@@ -22,13 +22,16 @@ class Data {
 	@Column(nullable = false, columnDefinition = "VARCHAR(8)")
 	lateinit var firstCheck: LocalTime
 	
-	@Column(nullable = false, columnDefinition = "VARCHAR(19)")
-	lateinit var lastCheck: LocalDateTime
+	@Column(nullable = false, columnDefinition = "VARCHAR(8)")
+	lateinit var lastCheck: LocalTime
 	
 	@Column(nullable = false)
 	var succeeded: Int = 0
 	
 	@Column(nullable = false)
 	var failed: Int = 0
+	
+	@Column(nullable = false)
+	var failingFor: Int = 0
 	
 }

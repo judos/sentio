@@ -27,6 +27,9 @@ open class Monitored {
 	@Column(nullable = false)
 	var alertIfFailingForMin: Int = 15
 	
+	@Column(nullable = false)
+	var alertSent: Boolean = false
+	
 	@OneToMany(mappedBy = "monitored", cascade = [CascadeType.ALL], orphanRemoval = true)
 	lateinit var data: MutableList<Data>
 	
