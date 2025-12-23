@@ -1,16 +1,27 @@
 package ch.judos.sentio.services.monitors
 
-import ch.judos.sentio.entities.WebsiteConfig
+import ch.judos.sentio.entities.Monitored
 import io.quarkus.logging.Log
+import kotlinx.serialization.Serializable
 import java.net.HttpURLConnection
 import java.net.URI
 
 const val REACHABILITY_MONITOR_KEY = "reachability"
-class ReachabilityMonitor : Monitor {
+
+class ReachabilityMonitor(
+) : Monitor<ReachabilityMonitor.Settings> {
 	
-	override fun checkAndReturnError(config: WebsiteConfig): String? {
+	override val settingsSerializer = Settings.serializer()
+	
+	@Serializable
+	class Settings {
+		lateinit var url: String
+	}
+	
+	override fun checkAndReturnError(config: Monitored): String? {
 		return try {
-			val uri = URI(config.website.url)
+			val settings = getSettings(config)
+			val uri = URI(settings.url)
 			val connection = uri.toURL().openConnection() as HttpURLConnection
 			connection.connectTimeout = 30_000
 			connection.readTimeout = 30_000

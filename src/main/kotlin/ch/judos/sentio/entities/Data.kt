@@ -19,10 +19,7 @@ class Data {
 	var id: Long? = null
 	
 	@ManyToOne(optional = false)
-	lateinit var website: Website
-	
-	@ManyToOne(optional = false)
-	lateinit var config: WebsiteConfig
+	lateinit var monitored: Monitored
 	
 	@Column(nullable = false, columnDefinition = "Date")
 	lateinit var date: LocalDate
@@ -38,7 +35,5 @@ class Data {
 	
 	@Column(nullable = false)
 	var failed: Int = 0
-	
-	
-	
+
 }

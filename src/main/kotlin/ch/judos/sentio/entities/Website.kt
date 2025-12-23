@@ -2,6 +2,7 @@ package ch.judos.sentio.entities
 
 import jakarta.persistence.*
 
+@Deprecated("remove")
 @Entity(name = "website")
 open class Website {
 	
@@ -23,11 +24,5 @@ open class Website {
 	
 	@Column(nullable = false)
 	lateinit var url: String
-	
-	@OneToMany(mappedBy = "website", cascade = [CascadeType.ALL], orphanRemoval = true)
-	var configs: MutableList<WebsiteConfig> = mutableListOf()
-	
-	@OneToMany(mappedBy = "website", cascade = [CascadeType.ALL], orphanRemoval = true)
-	var data: MutableList<Data> = mutableListOf()
 	
 }

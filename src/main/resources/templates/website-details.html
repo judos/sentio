@@ -1,16 +1,10 @@
 {#include layout.html}
 	{#scripts}
 		<link rel="stylesheet" href="/website-details.css">
-		<script src="/website-details.js"></script>
 	{/scripts}
 	{#body}
 		<div class="action-bar">
 			<h1>{website.name}</h1>
-			<div class="link">
-				<a onclick="deleteWebsite({website.id},'{website.name}')" style="cursor: pointer;">
-					<img src="/img/delete.svg">
-				</a>
-			</div>
 		</div>
 		<div style="text-align: center; margin-bottom: 1rem;">{website.url}</div>
 		{#if configs.size() > 0}

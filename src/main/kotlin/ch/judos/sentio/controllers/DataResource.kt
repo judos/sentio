@@ -2,7 +2,7 @@ package ch.judos.sentio.controllers
 
 import ch.judos.sentio.entities.QData
 import ch.judos.sentio.entities.QMonitorError
-import ch.judos.sentio.entities.QWebsiteConfig
+import ch.judos.sentio.entities.QMonitored
 import ch.judos.sentio.model.DataPeriod
 import ch.judos.sentio.services.ImageService
 import com.querydsl.jpa.impl.JPAQueryFactory
@@ -21,7 +21,7 @@ class DataResource(
 ) {
 	
 	val qData = QData.data
-	val qWebsiteConfig = QWebsiteConfig.websiteConfig
+	val qMonitored = QMonitored.monitored
 	val qError = QMonitorError.monitorError
 	
 	@GET
@@ -31,14 +31,13 @@ class DataResource(
 		configId: Long,
 		@CookieParam("sentio_dateRange") daysStr: String?,
 	): Response {
-		query.selectFrom(qWebsiteConfig).where(qWebsiteConfig.id.eq(configId)).fetchOne()
+		query.selectFrom(qMonitored).where(qMonitored.id.eq(configId)).fetchOne()
 			?: return Response.status(Response.Status.NOT_FOUND).build()
 		val days = daysStr?.toIntOrNull() ?: 7
 		val period = DataPeriod(days)
 		
 		query.selectFrom(qData).where(
-			qData.website.id.eq(id),
-			qData.config.id.eq(configId),
+			qData.monitored.id.eq(configId),
 			qData.date.goe(period.startTime.toLocalDate()),
 		).fetch().forEach { period.addData(it) }
 		// val errors: List<MonitorError> = query.selectFrom(qError).where(

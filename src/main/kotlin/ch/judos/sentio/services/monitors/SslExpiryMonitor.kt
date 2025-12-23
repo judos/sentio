@@ -1,6 +1,7 @@
 package ch.judos.sentio.services.monitors
 
-import ch.judos.sentio.entities.WebsiteConfig
+import ch.judos.sentio.entities.Monitored
+import kotlinx.serialization.Serializable
 import java.net.URI
 import java.security.cert.X509Certificate
 import javax.net.ssl.SSLSocketFactory
@@ -9,12 +10,19 @@ import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 import javax.net.ssl.SSLSocket
 
-class SslExpiryMonitor : Monitor {
-
-	override fun checkAndReturnError(config: WebsiteConfig): String? {
+class SslExpiryMonitor : Monitor<SslExpiryMonitor.Settings> {
+	
+	override val settingsSerializer = Settings.serializer()
+	
+	@Serializable
+	class Settings {
+		lateinit var url: String
+	}
+	
+	override fun checkAndReturnError(config: Monitored): String? {
 		return try {
-			val website = config.website
-			val uri = URI(website.url)
+			val settings = getSettings(config)
+			val uri = URI(settings.url)
 			if (!uri.scheme.equals("https", ignoreCase = true))
 				Triple(false, "Not a https url", 0L)
 			val host = uri.host

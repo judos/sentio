@@ -3,8 +3,7 @@ package ch.judos.sentio.services
 import ch.judos.sentio.entities.Data
 import ch.judos.sentio.entities.MonitorError
 import ch.judos.sentio.entities.QData
-import ch.judos.sentio.entities.Website
-import ch.judos.sentio.entities.WebsiteConfig
+import ch.judos.sentio.entities.Monitored
 import ch.judos.sentio.extensions.update
 import ch.judos.sentio.services.monitors.REACHABILITY_MONITOR_KEY
 import com.querydsl.jpa.impl.JPAQueryFactory
@@ -25,15 +24,13 @@ class MonitorDataService(
 	val qData: QData = QData.data
 	
 	/** if error is null it is counted as success */
-	fun addData(website: Website, config: WebsiteConfig, error: String?) {
+	fun addData(monitored: Monitored, error: String?) {
 		val data = query.selectFrom(qData).where(
-			qData.website.id.eq(website.id),
-			qData.config.id.eq(config.id),
+			qData.monitored.eq(monitored),
 			qData.date.eq(LocalDate.now())
 		).fetchOne()
 			?: Data().apply {
-				this.website = website
-				this.config = config
+				this.monitored = monitored
 				this.date = LocalDate.now()
 				this.firstCheck = LocalTime.now()
 				this.succeeded = 0
@@ -45,8 +42,7 @@ class MonitorDataService(
 		else {
 			data.failed += 1
 			val err = MonitorError().apply {
-				this.website = website
-				this.config = config
+				this.monitored = monitored
 				this.dateTime = LocalDateTime.now()
 				this.message = error
 			}
@@ -56,18 +52,18 @@ class MonitorDataService(
 		entityManager.persist(data)
 	}
 	
-	fun getUptimePercentage(website: Website?, days: Int): Map<Long, Double> {
+	fun getUptimePercentage(monitored: Monitored?, days: Int): Map<Long, Double> {
 		val dataList = query.selectFrom(qData).where(
-			website?.let { qData.website.id.eq(website.id) },
-			qData.config.monitor.eq(REACHABILITY_MONITOR_KEY),
+			monitored?.let { qData.monitored.eq(monitored) },
+			qData.monitored.monitor.eq(REACHABILITY_MONITOR_KEY),
 			qData.date.goe(LocalDate.now().minusDays(days.toLong()))
 		).fetch()
 		val totalChecks = mutableMapOf<Long, Int>()
 		val totalSucceeded = mutableMapOf<Long, Int>()
 		for (data in dataList) {
-			val websiteId = data.website.id!!
-			totalChecks.update(websiteId, 0) { it + data.succeeded + data.failed }
-			totalSucceeded.update(websiteId, 0) { it + data.succeeded }
+			val monitoredID = data.monitored.id!!
+			totalChecks.update(monitoredID, 0) { it + data.succeeded + data.failed }
+			totalSucceeded.update(monitoredID, 0) { it + data.succeeded }
 		}
 		return totalChecks.mapValues { (websiteId, checks) ->
 			val succeeded = totalSucceeded[websiteId] ?: 0

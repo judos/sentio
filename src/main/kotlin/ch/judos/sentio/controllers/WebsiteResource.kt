@@ -45,14 +45,4 @@ class WebsiteResource (
 		return Response.ok(website).build()
 	}
 	
-	@DELETE
-	@Path("/{id}")
-	@Transactional
-	fun delete(id: Long): Response {
-		// MonitorError entfernen
-		query.delete(qErrors).where(qErrors.website.id.eq(id)).execute()
-		// Website entfernen (Cascade löscht Configs und Data)
-		val affected = query.delete(qWebsite).where(qWebsite.id.eq(id)).execute()
-		return if (affected > 0) Response.noContent().build() else Response.status(NOT_FOUND).build()
-	}
 }
