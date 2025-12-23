@@ -1,4 +1,3 @@
-// TODO: rename parameters
 async function removeMonitored(monitoredId, monitorName) {
 	popupQueueDelete('Do you want to delete the monitored "' + monitorName + '"?', async function () {
 		const response = await fetch('/api/monitored/' + monitoredId, {

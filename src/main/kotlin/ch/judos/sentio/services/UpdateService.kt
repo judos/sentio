@@ -34,8 +34,8 @@ class UpdateService(
 	
 	@Scheduled(every = "60s")
 	@Transactional
-	fun validateWebsites() = runBlocking {
-		Log.debug("Checking monitors for all sites...")
+	fun validateMonitoredObjects() = runBlocking {
+		Log.debug("Checking monitors for all objects...")
 		
 		val monitores: List<Monitored> = query.selectFrom(qMonitored).fetch()
 		val jobs = mutableListOf<Job>()
@@ -56,7 +56,7 @@ class UpdateService(
 				jobs.add(launch(Dispatchers.IO) {
 					// Kleine Verzögerung, damit nicht alle Anfragen gleichzeitig starten
 					sleep((i * 500).toLong())
-					checkWebsite(monitored)
+					checkMonitored(monitored)
 				})
 			}
 		}
@@ -64,7 +64,7 @@ class UpdateService(
 	}
 	
 	@Transactional
-	fun checkWebsite(config: Monitored) {
+	fun checkMonitored(config: Monitored) {
 		val monitor = monitorMap[config.monitor]!!
 		val message = monitor.checkAndReturnError(config)
 		monitorDataService.addData(config, message)

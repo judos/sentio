@@ -9,7 +9,7 @@ import kotlinx.serialization.json.Json
 
 interface Monitor<T : Any> {
 	
-	/** run check for specific website */
+	/** run check for specific object */
 	fun checkAndReturnError(config: Monitored): String?
 	
 	/** unique value for entries in db */

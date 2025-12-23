@@ -42,11 +42,7 @@ class DataResource(
 			qData.monitored.id.eq(monitoredId),
 			qData.date.goe(period.startTime.toLocalDate()),
 		).fetch().forEach { period.addData(it) }
-		// val errors: List<MonitorError> = query.selectFrom(qError).where(
-		// 	qError.website.id.eq(id),
-		// 	qError.monitor.eq(monitorKey),
-		// 	qError.dateTime.goe(period.startTime)
-		// ).orderBy().fetch()
+		
 		val image = period.toImage(600, 50)
 		return imageService.image2Response(image)
 	}

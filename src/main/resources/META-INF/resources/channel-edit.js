@@ -2,7 +2,7 @@ function deleteChannel(id, name) {
 	popupQueueDelete('Are you sure you want to delete the channel "' + name + '"?', function () {
 		fetchJson('/api/channel/' + id, {method: 'DELETE'}
 		).then(async function (response) {
-			localStorage.setItem('popup', JSON.stringify({text: 'Website deleted'}));
+			localStorage.setItem('popup', JSON.stringify({text: 'Channel deleted'}));
 			window.location.href = '/';
 		}).catch(function (/** @type {JsonFetchError} */ error) {
 			popupQueueText({text: error.message, danger: true});

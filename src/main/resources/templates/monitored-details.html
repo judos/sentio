@@ -1,6 +1,5 @@
 {#include layout.html}
 	{#scripts}
-		<script src="/monitored-details.js"></script>
 	{/scripts}
 	{#body}
 		<div class="action-bar">
@@ -14,8 +13,6 @@
 		<div style="text-align: center; margin-bottom: 1rem;">
 			{monitor.getName()}
 		</div>
-
-		{!<div style="text-align: center; margin-bottom: 1rem;">{website.url}</div>!}
 
 		<h2>History</h2>
 		<img src="/api/data/{monitored.id}" alt="">

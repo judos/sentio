@@ -64,8 +64,8 @@ class MonitorDataService(
 			totalChecks.update(monitoredID, 0) { it + data.succeeded + data.failed }
 			totalSucceeded.update(monitoredID, 0) { it + data.succeeded }
 		}
-		return totalChecks.mapValues { (websiteId, checks) ->
-			val succeeded = totalSucceeded[websiteId] ?: 0
+		return totalChecks.mapValues { (monitoredId, checks) ->
+			val succeeded = totalSucceeded[monitoredId] ?: 0
 			if (checks == 0) 100 else floor(succeeded.toDouble() / checks * 100.0).toInt()
 		}
 	}

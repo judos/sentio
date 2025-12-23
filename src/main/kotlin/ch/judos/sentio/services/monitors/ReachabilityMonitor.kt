@@ -32,7 +32,7 @@ class ReachabilityMonitor(
 			val success = code in 200..399
 			if (success) null else "HTTP $code"
 		} catch (e: Exception) {
-			Log.warn("Website Check Failed", e)
+			Log.warn("Monitor Check Failed", e)
 			val c = e::class.simpleName!!.removeSuffix("Exception")
 			val msg = e.message ?: "Unknown error"
 			"$c: $msg"
