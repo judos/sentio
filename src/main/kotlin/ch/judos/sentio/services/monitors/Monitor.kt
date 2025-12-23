@@ -3,6 +3,8 @@ package ch.judos.sentio.services.monitors
 import ch.judos.sentio.entities.Monitored
 import ch.judos.sentio.model.MonitorField
 import kotlinx.serialization.KSerializer
+import kotlinx.serialization.builtins.MapSerializer
+import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
 
 interface Monitor<T : Any> {
@@ -18,8 +20,13 @@ interface Monitor<T : Any> {
 	fun getFields(): List<MonitorField>
 	
 	val settingsSerializer: KSerializer<T>
+	
 	fun getSettings(monitored: Monitored): T {
-		return Json.decodeFromString(settingsSerializer, monitored.settings)
+		val jsonString = Json.encodeToString(
+			MapSerializer(String.serializer(), String.serializer()),
+			monitored.settings
+		)
+		return Json.decodeFromString(settingsSerializer, jsonString)
 	}
 	
 	fun getDefault(): Monitored {
@@ -28,6 +35,7 @@ interface Monitor<T : Any> {
 			it.name = getName()
 			it.checkEveryMin = getDefaultCheckEveryMin()
 			it.alertIfFailingForMin = getDefaultAlertIfFailingForMin()
+			it.settings = mapOf()
 		}
 	}
 	
@@ -36,5 +44,9 @@ interface Monitor<T : Any> {
 			SslExpiryMonitor(),
 			ReachabilityMonitor()
 		)
+		
+		fun byKey(key: String): Monitor<*>? {
+			return monitors.find { it.getKey() == key }
+		}
 	}
 }

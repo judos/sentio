@@ -59,9 +59,26 @@ class MonitoredUiResource @Inject constructor(
 	fun createMonitored(
 			monitor: String
 	): Response {
-		val monitor = Monitor.monitors.firstOrNull { it.getKey() == monitor }
+		val monitor = Monitor.byKey(monitor)
 			?: return Response.status(NOT_FOUND).build()
 		val monitored = monitor.getDefault()
+		return Response.ok(
+			monitoredEdit
+				.data("monitored", monitored)
+				.data("monitor", monitor)
+				.render()
+		).build()
+	}
+	
+	@GET
+	@Path("edit/{id}")
+	fun editMonitored(
+			id: Long
+	): Response {
+		val monitored = query.selectFrom(qMonitored).where(qMonitored.id.eq(id.toLong())).fetchOne()
+			?: return Response.status(NOT_FOUND).build()
+		val monitor = Monitor.byKey(monitored.monitor)
+			?: return Response.status(NOT_FOUND).build()
 		return Response.ok(
 			monitoredEdit
 				.data("monitored", monitored)
@@ -79,7 +96,7 @@ class MonitoredUiResource @Inject constructor(
 		
 		val monitored = query.selectFrom(qMonitored).where(qMonitored.id.eq(id.toLong())).fetchOne()
 			?: return Response.status(NOT_FOUND).build()
-		val monitor = Monitor.monitors.firstOrNull { it.getKey() == monitored.monitor }
+		val monitor = Monitor.byKey(monitored.monitor)
 			?: return Response.status(NOT_FOUND).build()
 		val errors = query.selectFrom(qErrors).where(
 			qErrors.monitored.id.eqOrNull(id.toLongOrNull()),

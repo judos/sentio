@@ -28,19 +28,18 @@ class DataResource(
 	val qError = QMonitorError.monitorError
 	
 	@GET
-	@Path("/{id}/{configId}")
+	@Path("/{monitoredId}")
 	fun generateImage(
-			id: Long,
-			configId: Long,
+			monitoredId: Long,
 			@CookieParam("sentio_dateRange") daysStr: String?,
 	): Response {
-		query.selectFrom(qMonitored).where(qMonitored.id.eq(configId)).fetchOne()
+		query.selectFrom(qMonitored).where(qMonitored.id.eq(monitoredId)).fetchOne()
 			?: return Response.status(Response.Status.NOT_FOUND).build()
 		val days = daysStr?.toIntOrNull() ?: 7
 		val period = DataPeriod(days)
 		
 		query.selectFrom(qData).where(
-			qData.monitored.id.eq(configId),
+			qData.monitored.id.eq(monitoredId),
 			qData.date.goe(period.startTime.toLocalDate()),
 		).fetch().forEach { period.addData(it) }
 		// val errors: List<MonitorError> = query.selectFrom(qError).where(

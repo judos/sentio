@@ -5,7 +5,6 @@ function setupBot() {
 
 	fetchJson('/api/channel/', {
 		method: 'POST',
-		headers: {'Content-Type': 'application/json'},
 		body: JSON.stringify({token: token})
 	}).then(async function (response) {
 		setButtonLoading(button, false);

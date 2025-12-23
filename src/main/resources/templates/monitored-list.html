@@ -9,9 +9,9 @@
 		<div class="monitored-list">
 			{#for monitor in monitored}
 				<a href="/monitored/{monitor.id}">
-					<div class="monitored-box" style="background-color: {colors.get(website.id)}">
-						<span class="monitored-name-large">{website.name}</span>
-						<span class="monitored-uptime">{uptime.get(website.id)}% uptime</span>
+					<div class="monitored-box" style="background-color: {colors.get(monitor.id)}">
+						<span class="monitored-name-large">{monitor.name}</span>
+						<span class="monitored-uptime">{uptime.get(monitor.id)}% uptime</span>
 					</div>
 				</a>
 			{/for}

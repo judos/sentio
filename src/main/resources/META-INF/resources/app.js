@@ -1,6 +1,16 @@
 function form2Json(formId) {
-	const form = document.getElementById(formId);
-	return JSON.stringify(Object.fromEntries(new FormData(form)));
+	const form = new FormData(document.getElementById(formId));
+	const json = {};
+	for (const [key, value] of form.entries()) {
+		const parts = key.split(".");
+		let obj = json;
+		while (parts.length > 1) {
+			const part = parts.shift();
+			obj = obj[part] = obj[part] || {};
+		}
+		obj[parts[0]] = value;
+	}
+	return JSON.stringify(json);
 }
 
 function logout() {
@@ -16,28 +26,40 @@ function changeBgAlpha(element, alpha) {
 }
 
 /**
- * @param input RequestInfo | URL
+ * @param url string
  * @param init ?RequestInit
  * @returns Promise<any>
  */
-async function fetchJson(input, init) {
+async function fetchJson(url, init) {
+	if (!init.headers) {
+		init.headers = {};
+	}
+	if (!init.headers['Content-Type']) {
+		init.headers['Content-Type'] = 'application/json';
+	}
+
 	return new Promise((resolve, reject) => {
-		fetch(input, init).then(async (response) => {
-			if (!response.ok) {
-				const data = await response.json().catch((e) => {
-					return {
-						key: 'json_parse_error',
-						message: e.message,
-						details: e
-					};
-				});
-				console.warn('Business error:', data, response);
-				return reject(new FetchJsonError(response.status || 0, data.key,
-					data.message, data.details));
+		fetch(url, init).then(async (response) => {
+			try {
+				if (!response.ok) {
+					const data = await response.json();
+					console.warn('Business error:', data, response);
+					return reject(new FetchJsonError(response.status || 0, data.key,
+						data.message ?? data.details, data.details));
+				}
+				const data = await response.text();
+				const json = data ? JSON.parse(data) : {};
+				resolve(json);
+			} catch (err) {
+				console.error(err);
+				if (err instanceof SyntaxError) {
+					reject(new FetchJsonError(0, 'unknown_error',
+						'Invalid JSON response for http/' + response.status + ': ' + err.message, err));
+				} else {
+					reject(new FetchJsonError(0, 'unknown_error',
+						err?.message || 'Unknown error', err));
+				}
 			}
-			const data = await response.text();
-			const json = data ? JSON.parse(data) : {};
-			resolve(json);
 		}).catch((err) => {
 			console.error('Network error:', err);
 			reject(new FetchJsonError(0, 'network_error',

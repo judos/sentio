@@ -4,63 +4,42 @@
 	{/scripts}
 	{#body}
 		<div class="action-bar">
-			<h1>{monitored.name} ({monitor.getName()})</h1>
+			<h1>{monitored.name}</h1>
 			<div class="link">
-				<a onclick="removeMonitored({monitored.id},'{monitored.name}')" style="cursor: pointer;">
-					<img src="/img/delete.svg">
+				<a href="/monitored/edit/{monitored.id}" title="Edit">
+					<img src="/img/edit.svg">
 				</a>
 			</div>
+		</div>
+		<div style="text-align: center; margin-bottom: 1rem;">
+			{monitor.getName()}
 		</div>
 
 		{!<div style="text-align: center; margin-bottom: 1rem;">{website.url}</div>!}
 
-		{#if (config.id != null)}
-			<h2>History</h2>
-			<img src="/api/data/{website.id}/{config.id}" alt="">
-			{#if errors.size() > 0}
-				<table class="table">
-					<tr>
-						<th>Date</th>
-						<th>Error Message</th>
-					</tr>
-					{#for error in errors}
-						<tr>
-							<td>{error.dateTime.formatDateTime}</td>
-							<td>{error.message}</td>
-						</tr>
-					{/for}
-				</table>
+		<h2>History</h2>
+		<img src="/api/data/{monitored.id}" alt="">
+
+		<h2>Errors</h2>
+		<table class="table">
+			<tr>
+				<th>Date</th>
+				<th>Error Message</th>
+			</tr>
+			{#if errors.size() == 0}
+				<tr>
+					<td colspan="2" style="text-align: center;">
+						None in this timespan
+					</td>
+				</tr>
 			{/if}
-		{/if}
-
-		<h2 style="margin-top: 1rem;">Configuration</h2>
-		<form id="configForm">
-			<table>
+			{#for error in errors}
 				<tr>
-					<td>
-						<label for="checkEveryMin">Check every X minutes:</label>
-					</td>
-					<td>
-						<input type="number" name="checkEveryMin" value="{config.checkEveryMin}"
-								min="1" max="1440" id="checkEveryMin">
-					</td>
+					<td>{error.dateTime.formatDateTime}</td>
+					<td>{error.message}</td>
 				</tr>
-				<tr>
-					<td>
-						<label for="alertIfFailingForMin">Alert if Failing for X minutes:</label>
-					</td>
-					<td>
-						<input type="number" name="alertIfFailingForMin" value="{config.alertIfFailingForMin}"
-								min="1" max="1440" id="alertIfFailingForMin">
-					</td>
-				</tr>
-			</table>
+			{/for}
+		</table>
 
-			<div class="button-row">
-				<button type="button" class="action-btn"
-						onclick="saveConfig( {monitored.getKey() }')">Save
-				</button>
-			</div>
-		</form>
 	{/body}
 {/include}

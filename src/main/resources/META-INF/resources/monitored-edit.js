@@ -15,19 +15,13 @@ async function removeMonitored(monitoredId, monitorName) {
 	});
 }
 
-// TODO: update params
-async function saveConfig(id, monitoredId) {
-	const response = await fetch('/api/monitored/' + monitoredId, {
+async function saveMonitored(monitoredId) {
+	fetchJson('/api/monitored/' + (monitoredId ?? ''), {
 		method: 'POST',
-		headers: {'Content-Type': 'application/json'},
-		body: form2Json('configForm')
+		body: form2Json('monitored')
+	}).then(async function (response) {
+		window.location.href = '/monitored/' + response.id;
+	}).catch(function (/** @type {JsonFetchError} */ error) {
+		popupQueueText({text: error.message, danger: true});
 	});
-	await response.text()
-	if (response.ok) {
-		// TODO: update link
-		window.location.href = '/website/' + id;
-	} else {
-		const error = await response.text();
-		console.error(error);
-	}
 }
