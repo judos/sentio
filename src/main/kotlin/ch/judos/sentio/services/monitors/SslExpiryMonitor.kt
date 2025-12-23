@@ -1,6 +1,7 @@
 package ch.judos.sentio.services.monitors
 
 import ch.judos.sentio.entities.Monitored
+import ch.judos.sentio.model.MonitorField
 import kotlinx.serialization.Serializable
 import java.net.URI
 import java.security.cert.X509Certificate
@@ -20,7 +21,7 @@ class SslExpiryMonitor : Monitor<SslExpiryMonitor.Settings> {
 	}
 	
 	override fun checkAndReturnError(config: Monitored): String? {
-		return try {
+		try {
 			val settings = getSettings(config)
 			val uri = URI(settings.url)
 			if (!uri.scheme.equals("https", ignoreCase = true))
@@ -37,13 +38,11 @@ class SslExpiryMonitor : Monitor<SslExpiryMonitor.Settings> {
 				val expiry = x509.notAfter.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
 				val today = LocalDate.now()
 				val days = ChronoUnit.DAYS.between(today, expiry)
-				if (days <= 7) {
-					"SSL-Certificate expires in $days days"
-				}
-				null
+				return if (days <= 7) "SSL-Certificate expires in $days days"
+				else null
 			}
 		} catch (e: Exception) {
-			"SSL-Check failed: ${e.message}"
+			return "SSL-Check failed: ${e.message}"
 		}
 	}
 	
@@ -54,5 +53,8 @@ class SslExpiryMonitor : Monitor<SslExpiryMonitor.Settings> {
 	override fun getDefaultCheckEveryMin() = 24 * 60 // daily
 	
 	override fun getName() = "SSL Expiry"
+	override fun getFields(): List<MonitorField> {
+		return listOf(MonitorField("url", "URL of Website", "url"))
+	}
 }
 

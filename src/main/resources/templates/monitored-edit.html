@@ -7,22 +7,34 @@
 			<h1>{monitored.name} ({monitor.getName()})</h1>
 			<div class="link">
 				{#if (monitored.id)}
-				<a onclick="removeMonitored({monitored.id},'{monitored.name}')" style="cursor: pointer;">
-					<img src="/img/delete.svg">
-				</a>
+					<a onclick="removeMonitored({monitored.id},'{monitored.name}')" style="cursor: pointer;">
+						<img src="/img/delete.svg">
+					</a>
 				{/if}
 			</div>
 		</div>
 
-		<h2 style="margin-top: 1rem;">Configuration</h2>
-		<form id="configForm">
+		<form method="POST" action="/api/monitored/{monitored.id}">
+			<h2 style="margin-top: 1rem;">Configuration</h2>
+			<table>
+				{#for field in monitor.getFields()}
+					<tr>
+						<td>{field.text}:</td>
+						<td>
+							<input type="{field.type}" name="{field.name}" value="{monitored.checkEveryMin}"/>
+						</td>
+					</tr>
+				{/for}
+			</table>
+
+			<h2 style="margin-top: 1rem;">Alert</h2>
 			<table>
 				<tr>
 					<td>
 						<label for="checkEveryMin">Check every X minutes:</label>
 					</td>
 					<td>
-						<input type="number" name="checkEveryMin" value="{config.checkEveryMin}"
+						<input type="number" name="checkEveryMin" value="{monitored.checkEveryMin}"
 								min="1" max="1440" id="checkEveryMin">
 					</td>
 				</tr>
@@ -31,7 +43,8 @@
 						<label for="alertIfFailingForMin">Alert if Failing for X minutes:</label>
 					</td>
 					<td>
-						<input type="number" name="alertIfFailingForMin" value="{config.alertIfFailingForMin}"
+						<input type="number" name="alertIfFailingForMin"
+								value="{monitored.alertIfFailingForMin}"
 								min="1" max="1440" id="alertIfFailingForMin">
 					</td>
 				</tr>
@@ -39,7 +52,7 @@
 
 			<div class="button-row">
 				<button type="button" class="action-btn"
-						onclick="saveConfig( {monitored.getKey() }')">Save
+						onclick="saveConfig()">Save
 				</button>
 			</div>
 		</form>

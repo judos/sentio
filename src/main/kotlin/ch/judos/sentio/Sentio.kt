@@ -8,8 +8,6 @@ import io.quarkus.logging.Log
 import io.quarkus.runtime.StartupEvent
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.enterprise.event.Observes
-import java.nio.file.Files
-import java.nio.file.Paths
 import java.util.concurrent.Executors
 import javax.sql.DataSource
 
@@ -35,7 +33,8 @@ class Sentio(
 		// run sql file script
 		val configs = query.from(qConfig).fetchCount()
 		if (configs == 0L) {
-			val sql = javaClass.classLoader.getResourceAsStream("/db/post_startup.sql")!!.bufferedReader().use { it.readText() }
+			val sql = javaClass.classLoader.getResourceAsStream("/db/post_startup.sql")!!.bufferedReader()
+				.use { it.readText() }
 			
 			dataSource.connection.use { conn ->
 				conn.autoCommit = true

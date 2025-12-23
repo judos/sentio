@@ -55,7 +55,7 @@ class MonitoredUiResource @Inject constructor(
 	}
 	
 	@GET
-	@Path("edit/new/{monitor}")
+	@Path("new/{monitor}")
 	fun createMonitored(
 			monitor: String
 	): Response {
@@ -72,7 +72,7 @@ class MonitoredUiResource @Inject constructor(
 	
 	@GET
 	@Path("{id}")
-	fun websiteMonitor(
+	fun showDetails(
 			id: String, @CookieParam("sentio_dateRange") daysStr: String?
 	): Response {
 		val days = daysStr?.toLongOrNull() ?: 7L

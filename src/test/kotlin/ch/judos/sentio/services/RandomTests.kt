@@ -2,7 +2,7 @@ package ch.judos.sentio.services
 
 import ch.judos.sentio.services.helper.RandomHelper
 import java.security.SecureRandom
-import java.util.Base64
+import java.util.*
 
 class RandomTests {
 }

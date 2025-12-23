@@ -1,6 +1,7 @@
 package ch.judos.sentio.services.monitors
 
 import ch.judos.sentio.entities.Monitored
+import ch.judos.sentio.model.MonitorField
 import io.quarkus.logging.Log
 import kotlinx.serialization.Serializable
 import java.net.HttpURLConnection
@@ -45,4 +46,8 @@ class ReachabilityMonitor(
 	override fun getDefaultCheckEveryMin() = 5
 	
 	override fun getName() = "Reachability"
+	
+	override fun getFields(): List<MonitorField> {
+		return listOf(MonitorField("url", "URL of Website", "url"))
+	}
 }

@@ -17,13 +17,11 @@
 			{/for}
 		</div>
 
-		{#if monitors.size() > 0}
-			<h2 style="margin-top: 1rem;">Add monitor</h2>
-			{#for monitor in monitors}
-				<form action="/monitored/{monitor.getKey()}" method="get">
-					<button type="submit">{monitor.name}</button>
-				</form>
-			{/for}
-		{/if}
+		<h2 style="margin-top: 1rem;">Add monitor</h2>
+		{#for monitor in monitors}
+			<form action="/monitored/new/{monitor.getKey()}" method="get">
+				<button type="submit">{monitor.name}</button>
+			</form>
+		{/for}
 	{/body}
 {/include}

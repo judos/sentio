@@ -1,6 +1,7 @@
 package ch.judos.sentio.services.monitors
 
 import ch.judos.sentio.entities.Monitored
+import ch.judos.sentio.model.MonitorField
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 
@@ -14,6 +15,7 @@ interface Monitor<T : Any> {
 	fun getDefaultAlertIfFailingForMin(): Int
 	fun getDefaultCheckEveryMin(): Int
 	fun getName(): String
+	fun getFields(): List<MonitorField>
 	
 	val settingsSerializer: KSerializer<T>
 	fun getSettings(monitored: Monitored): T {
