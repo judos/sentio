@@ -16,9 +16,9 @@ import kotlin.system.measureTimeMillis
  * @param aesIv 16 bytes encoded as base64
  */
 class AESUtil(
-	private val aesPassword: String,
-	private val aesIv: String
-): Encryption {
+		private val aesPassword: String,
+		private val aesIv: String
+) : Encryption {
 	
 	private val random = RandomHelper(SecureRandom())
 	private val cipherTransformation = "AES/CBC/PKCS5Padding"

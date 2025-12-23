@@ -14,10 +14,10 @@ import jakarta.ws.rs.core.Response
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 open class ChannelResource(
-	val query: JPAQueryFactory,
-	val entityManager: EntityManager,
-	val telegramService: TelegramService,
-	val encryptionService: EncryptionService
+		val query: JPAQueryFactory,
+		val entityManager: EntityManager,
+		val telegramService: TelegramService,
+		val encryptionService: EncryptionService
 ) {
 	val qChannel = QChannel.channel
 	

@@ -4,10 +4,10 @@ import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
 
 class BusinessException(
-	val key: String,
-	override val message: String,
-	val details: Any? = null,
-	val status: Int = 400,
+		val key: String,
+		override val message: String,
+		val details: Any? = null,
+		val status: Int = 400,
 ) : RuntimeException(message) {
 	
 	fun toResponse(): Response {

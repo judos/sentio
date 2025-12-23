@@ -3,22 +3,22 @@
 </a>
 
 {#if userId}
-<a class="link" href="/website">
-	Websites
-</a>
-<a class="link" href="/channel">
-	Notification Channels
-</a>
-<div class="spacer"></div>
-<div class="link">
-	<label for="dateRangeSelect"></label>
-	<select id="dateRangeSelect" onchange="handleDateRangeChange()" title="Select date range">
-		<option value="30">Last 30 days</option>
-		<option value="7">Last 7 days</option>
-		<option value="1">Today only</option>
-	</select>
-</div>
-<a class="link" onclick="logout()" style="cursor: pointer;" title="logout">
-	<img src="/img/logout.svg">
-</a>
+	<a class="link" href="/monitored">
+		Monitored
+	</a>
+	<a class="link" href="/channel">
+		Notification Channels
+	</a>
+	<div class="spacer"></div>
+	<div class="link">
+		<label for="dateRangeSelect"></label>
+		<select id="dateRangeSelect" onchange="handleDateRangeChange()" title="Select date range">
+			<option value="30">Last 30 days</option>
+			<option value="7">Last 7 days</option>
+			<option value="1">Today only</option>
+		</select>
+	</div>
+	<a class="link" onclick="logout()" style="cursor: pointer;" title="logout">
+		<img src="/img/logout.svg">
+	</a>
 {/if}

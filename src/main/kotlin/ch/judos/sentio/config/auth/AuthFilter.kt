@@ -14,7 +14,7 @@ import jakarta.ws.rs.ext.Provider
 @Provider
 @Priority(Priorities.AUTHENTICATION) // run early in the chain
 class AuthFilter(
-	private val jwtService: JwtService
+		private val jwtService: JwtService
 ) : ContainerRequestFilter {
 	
 	@Inject

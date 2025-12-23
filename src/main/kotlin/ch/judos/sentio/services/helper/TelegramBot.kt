@@ -1,15 +1,11 @@
 package ch.judos.sentio.services.helper
 
 import ch.judos.sentio.extensions.errorDescription
-import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
 import com.github.kotlintelegrambot.dispatcher.command
-import com.github.kotlintelegrambot.dispatcher.handlers.TextHandlerEnvironment
 import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.entities.ChatId
-import com.github.kotlintelegrambot.entities.Message
-import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.types.TelegramBotResult
 import io.quarkus.logging.Log
 

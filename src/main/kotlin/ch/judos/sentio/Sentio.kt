@@ -16,13 +16,14 @@ import javax.sql.DataSource
 
 @ApplicationScoped
 class Sentio(
-	val query: JPAQueryFactory,
-	val dataSource: DataSource
+		val query: JPAQueryFactory,
+		val dataSource: DataSource
 ) {
 	
 	companion object {
 		val pool = Executors.newCachedThreadPool()
 	}
+	
 	val qUser = QUser.user
 	val qConfig = QConfig.config
 	
@@ -34,7 +35,8 @@ class Sentio(
 		// run sql file script
 		val configs = query.from(qConfig).fetchCount()
 		if (configs == 0L) {
-			val sql = Files.readString(Paths.get(javaClass.classLoader.getResource("db/post_startup.sql")!!.toURI()))
+			val sql = javaClass.classLoader.getResourceAsStream("/db/post_startup.sql")!!.bufferedReader().use { it.readText() }
+			
 			dataSource.connection.use { conn ->
 				conn.autoCommit = true
 				conn.createStatement().use { stmt ->

@@ -17,8 +17,8 @@ import java.util.concurrent.TimeoutException
 
 @ApplicationScoped
 open class TelegramService(
-	val encryptionService: EncryptionService,
-	val entityManager: EntityManager,
+		val encryptionService: EncryptionService,
+		val entityManager: EntityManager,
 ) {
 	
 	val bots = mutableMapOf<String, TelegramBot>()
@@ -66,7 +66,8 @@ open class TelegramService(
 			this.credentials = encryptionService.encrypt(credentials)
 		})
 		Log.info("bot ${bot.botName} saved with chatId $chatId")
-		bot.sendMessage("This chat has been registered as a notification channel in Sentio. (ChatId=$chatId)", chatId)
+		bot.sendMessage(
+			"This chat has been registered as a notification channel in Sentio. (ChatId=$chatId)", chatId)
 		return bot.botName
 	}
 	

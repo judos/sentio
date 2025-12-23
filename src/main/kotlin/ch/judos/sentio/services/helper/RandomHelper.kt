@@ -3,7 +3,7 @@ package ch.judos.sentio.services.helper
 import java.util.*
 
 class RandomHelper(
-	private val random: Random
+		private val random: Random
 ) {
 	
 	fun hexString(length: Int): String {

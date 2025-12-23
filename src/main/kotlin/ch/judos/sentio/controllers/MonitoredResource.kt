@@ -1,9 +1,8 @@
 package ch.judos.sentio.controllers
 
+import ch.judos.sentio.entities.Monitored
 import ch.judos.sentio.entities.QData
 import ch.judos.sentio.entities.QMonitorError
-import ch.judos.sentio.entities.QWebsite
-import ch.judos.sentio.entities.Monitored
 import ch.judos.sentio.entities.QMonitored
 import com.querydsl.jpa.impl.JPAQueryFactory
 import jakarta.persistence.EntityManager

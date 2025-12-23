@@ -3,7 +3,9 @@
 	{/scripts}
 	{#body}
 		<h1>Notification Channels</h1>
-		<div style="text-align: center; margin-bottom: 1rem;">How to alert yourself, if something doesn't work</div>
+		<div style="text-align: center; margin-bottom: 1rem;">How to alert yourself, if something
+			doesn't work
+		</div>
 
 		<table class="table selectable">
 			<tr>
@@ -11,20 +13,20 @@
 				<th>Name</th>
 				<th>Last Used</th>
 			</tr>
-		{#if channels.size() == 0}
-			<tr class="disabled">
-				<td colspan="100">No notification channels configured yet.</td>
-			</tr>
-		{/if}
-		{#for channel in channels}
-			<tr onclick="location.href='/channel/{channel.id}';">
-				<td><img src="img/{channel.type}.svg"
-						 style="vertical-align: middle; width: 20px;" />
-				</td>
-				<td>{channel.name}</td>
-				<td>{channel.lastUsed.formatDateTime()}</td>
-			</tr>
-		{/for}
+			{#if channels.size() == 0}
+				<tr class="disabled">
+					<td colspan="100">No notification channels configured yet.</td>
+				</tr>
+			{/if}
+			{#for channel in channels}
+				<tr onclick="location.href='/channel/{channel.id}';">
+					<td><img src="img/{channel.type}.svg"
+								style="vertical-align: middle; width: 20px;"/>
+					</td>
+					<td>{channel.name}</td>
+					<td>{channel.lastUsed.formatDateTime()}</td>
+				</tr>
+			{/for}
 		</table>
 
 		<h2 style="margin-top: 1rem;">Add Channel</h2>

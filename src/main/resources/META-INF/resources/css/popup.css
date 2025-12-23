@@ -9,6 +9,7 @@
 	opacity: 1;
 	transition: opacity 0.5s, bottom 0.5s;
 }
+
 .popup.hide {
 	opacity: 0;
 }
@@ -18,9 +19,11 @@
 	background: #a0f0b7;
 	padding: 1rem 2.5rem;
 }
+
 .popup.default.danger {
 	background: #f0a0a0;
 }
+
 .popup.default.hide {
 	bottom: 0;
 }
@@ -29,13 +32,15 @@
 	top: 50%;
 	transform: translateY(-50%) translateX(-50%);
 	background: white;
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
 	padding: 1rem 1.5rem;
 }
+
 .popup.confirm .title {
 	margin-bottom: 0.5rem;
 }
+
 .popup.confirm .buttons {
 	display: flex;
 	justify-content: flex-end;
@@ -45,12 +50,13 @@
 
 .backdrop {
 	position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  background: #00000050;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	background: #00000050;
 	transition: opacity 0.3s;
 }
+
 .backdrop.hide {
 	opacity: 0;
 }

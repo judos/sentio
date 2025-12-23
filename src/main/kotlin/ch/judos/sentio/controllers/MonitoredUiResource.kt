@@ -1,6 +1,5 @@
 package ch.judos.sentio.controllers
 
-import ch.judos.sentio.entities.Monitored
 import ch.judos.sentio.entities.QMonitorError
 import ch.judos.sentio.entities.QMonitored
 import ch.judos.sentio.extensions.eqOrNull
@@ -18,31 +17,30 @@ import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
 import jakarta.ws.rs.core.Response.Status.NOT_FOUND
 import java.time.LocalDateTime
-import kotlin.math.floor
 
 @Path("/monitored")
 @Produces(MediaType.TEXT_HTML)
 class MonitoredUiResource @Inject constructor(
-	@Location("monitored-list.html")
-	var monitoredList: Template,
-	// TODO: fix
-	@Location("website-monitor.html")
-	var websiteMonitor: Template,
-	val query: JPAQueryFactory,
-	val monitorDataService: MonitorDataService
+		@Location("monitored-list.html")
+		var monitoredList: Template,
+		@Location("monitored-edit.html")
+		var monitoredEdit: Template,
+		@Location("monitored-details.html")
+		var monitoredDetails: Template,
+		val query: JPAQueryFactory,
+		val monitorDataService: MonitorDataService
 ) {
+	
 	val qMonitored = QMonitored.monitored
 	val qErrors = QMonitorError.monitorError
 	
 	@GET
 	@Path("")
-	fun websites(@CookieParam("sentio_dateRange") daysStr: String?): String {
+	fun monitoredList(@CookieParam("sentio_dateRange") daysStr: String?): String {
 		val days = daysStr?.toIntOrNull() ?: 7
 		val monitored = query.selectFrom(qMonitored).fetch()
 		
-		// TODO: fix uptime
 		val uptime = monitorDataService.getUptimePercentage(null, days)
-			.mapValues { floor(it.value).toInt() }
 		val colors = uptime.mapValues {
 			when {
 				it.value >= 99 -> "hsl(120, 30%, 70%);"
@@ -52,39 +50,48 @@ class MonitoredUiResource @Inject constructor(
 		return monitoredList.data("monitored", monitored)
 			.data("uptime", uptime)
 			.data("colors", colors)
+			.data("monitors", Monitor.monitors)
 			.render()
 	}
 	
-	// TODO: update path
 	@GET
-	@Path("/monitored/{id}")
+	@Path("edit/new/{monitor}")
+	fun createMonitored(
+			monitor: String
+	): Response {
+		val monitor = Monitor.monitors.firstOrNull { it.getKey() == monitor }
+			?: return Response.status(NOT_FOUND).build()
+		val monitored = monitor.getDefault()
+		return Response.ok(
+			monitoredEdit
+				.data("monitored", monitored)
+				.data("monitor", monitor)
+				.render()
+		).build()
+	}
+	
+	@GET
+	@Path("{id}")
 	fun websiteMonitor(
-		id: String, @CookieParam("sentio_dateRange") daysStr: String?
+			id: String, @CookieParam("sentio_dateRange") daysStr: String?
 	): Response {
 		val days = daysStr?.toLongOrNull() ?: 7L
 		
-		val monitored: Monitored
-		val monitor: Monitor<out Any>
-		if (id.toLongOrNull() != null) {
-			monitored = query.selectFrom(qMonitored).where(qMonitored.id.eq(id.toLong())).fetchOne()
-				?: return Response.status(NOT_FOUND).build()
-			monitor = Monitor.monitors.firstOrNull { it.getKey() == monitored.monitor }
-				?: return Response.status(NOT_FOUND).build()
-		}
-		else {
-			monitor = Monitor.monitors.firstOrNull { it.getKey() == id }
-				?: return Response.status(NOT_FOUND).build()
-			monitored = monitor.getDefault()
-		}
+		val monitored = query.selectFrom(qMonitored).where(qMonitored.id.eq(id.toLong())).fetchOne()
+			?: return Response.status(NOT_FOUND).build()
+		val monitor = Monitor.monitors.firstOrNull { it.getKey() == monitored.monitor }
+			?: return Response.status(NOT_FOUND).build()
 		val errors = query.selectFrom(qErrors).where(
 			qErrors.monitored.id.eqOrNull(id.toLongOrNull()),
 			qErrors.dateTime.goe(LocalDateTime.now().minusDays(days))
 		).fetch()
+		
 		return Response.ok(
-			websiteMonitor
+			monitoredDetails
+				.data("monitored", monitored)
 				.data("monitor", monitor)
 				.data("errors", errors)
-				.data("config", monitored).render()
+				.render()
 		).build()
 	}
 }

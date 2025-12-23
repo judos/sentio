@@ -20,11 +20,11 @@ import org.eclipse.microprofile.config.inject.ConfigProperty
 
 @Path("/login")
 class LoginResource(
-	@Location("login.html") var loginTemplate: Template,
-	private val em: EntityManager,
-	private val jwtService: JwtService,
-	@ConfigProperty(name = "sentio.jwt.expiration")
-	private var jwtExpirationSeconds: Long
+		@Location("login.html") var loginTemplate: Template,
+		private val em: EntityManager,
+		private val jwtService: JwtService,
+		@ConfigProperty(name = "sentio.jwt.expiration")
+		private var jwtExpirationSeconds: Long
 ) {
 	
 	@GET
@@ -42,8 +42,8 @@ class LoginResource(
 	@POST
 	@Transactional
 	fun login(
-		@FormParam("username") username: String,
-		@FormParam("password") password: String,
+			@FormParam("username") username: String,
+			@FormParam("password") password: String,
 	): Response {
 		val user = em.createQuery("SELECT u FROM user u WHERE u.username = :username", User::class.java)
 			.setParameter("username", username)

@@ -9,10 +9,10 @@ import jakarta.persistence.PersistenceContext
 
 @ApplicationScoped
 open class ConfigService(
-	var query: JPAQueryFactory,
-	@PersistenceContext
-	var entityManager: EntityManager,
-	var encryptionService: EncryptionService
+		var query: JPAQueryFactory,
+		@PersistenceContext
+		var entityManager: EntityManager,
+		var encryptionService: EncryptionService
 ) {
 	
 	val qConfig = QConfig.config

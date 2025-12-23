@@ -14,13 +14,13 @@ import jakarta.ws.rs.core.Response
 @Path("/channel")
 @Produces(MediaType.TEXT_HTML)
 class ChannelUiResource(
-	@Location("channel-overview.html")
-	var overview: Template,
-	@Location("channel-new.html")
-	var new: Template,
-	@Location("channel-edit.html")
-	var edit: Template,
-	var query: JPAQueryFactory,
+		@Location("channel-overview.html")
+		var overview: Template,
+		@Location("channel-new.html")
+		var new: Template,
+		@Location("channel-edit.html")
+		var edit: Template,
+		var query: JPAQueryFactory,
 ) {
 	
 	val qChannel = QChannel.channel

@@ -1,8 +1,8 @@
 package ch.judos.sentio.services
 
 
-import ch.judos.sentio.entities.QData
 import ch.judos.sentio.entities.Monitored
+import ch.judos.sentio.entities.QData
 import ch.judos.sentio.entities.QMonitored
 import ch.judos.sentio.services.monitors.Monitor
 import com.querydsl.jpa.impl.JPAQueryFactory
@@ -22,10 +22,10 @@ import kotlin.math.roundToLong
 
 @ApplicationScoped
 class UpdateService(
-	var query: JPAQueryFactory,
-	@PersistenceContext
-	var entityManager: EntityManager,
-	val monitorDataService: MonitorDataService
+		var query: JPAQueryFactory,
+		@PersistenceContext
+		var entityManager: EntityManager,
+		val monitorDataService: MonitorDataService
 ) {
 	
 	val monitorMap = Monitor.monitors.associateBy { it.getKey() }

@@ -1,24 +1,29 @@
 {#include layout.html}
 	{#scripts}
-		<link rel="stylesheet" href="/overview.css">
+		<link rel="stylesheet" href="/monitored-list.css">
 	{/scripts}
 	{#body}
 		<h1>Sentio</h1>
 		<div style="text-align: center; margin-bottom: 1rem;">Your simple monitoring platform</div>
 
-		<div class="websites-list">
-			{#for website in websites}
-				<a href="/website/{website.id}" class="website-box-link">
-					<div class="website-box" style="background-color: {colors.get(website.id)}">
-						<span class="website-name-large">{website.name}</span>
-						<span class="website-uptime">{uptime.get(website.id)}% uptime</span>
+		<div class="monitored-list">
+			{#for monitor in monitored}
+				<a href="/monitored/{monitor.id}">
+					<div class="monitored-box" style="background-color: {colors.get(website.id)}">
+						<span class="monitored-name-large">{website.name}</span>
+						<span class="monitored-uptime">{uptime.get(website.id)}% uptime</span>
 					</div>
 				</a>
 			{/for}
 		</div>
 
-		<a href="/website/new" class="button" style="margin-top: 1rem;">
-			Website hinzufügen
-		</a>
+		{#if monitors.size() > 0}
+			<h2 style="margin-top: 1rem;">Add monitor</h2>
+			{#for monitor in monitors}
+				<form action="/monitored/{monitor.getKey()}" method="get">
+					<button type="submit">{monitor.name}</button>
+				</form>
+			{/for}
+		{/if}
 	{/body}
 {/include}

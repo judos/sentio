@@ -1,6 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <circle cx="32" cy="32" r="32" fill="#43a047"/>
-  <text x="32" y="44" text-anchor="middle" font-size="36"
-				font-family="Segoe UI, Arial, sans-serif" fill="#fff" font-weight="bold">S</text>
+	<circle cx="32" cy="32" r="32" fill="#43a047"/>
+	<text x="32" y="44" text-anchor="middle" font-size="36"
+				font-family="Segoe UI, Arial, sans-serif" fill="#fff" font-weight="bold">S
+	</text>
 </svg>
 

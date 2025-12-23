@@ -1,0 +1,66 @@
+{#include layout.html}
+	{#scripts}
+		<script src="/monitored-details.js"></script>
+	{/scripts}
+	{#body}
+		<div class="action-bar">
+			<h1>{monitored.name} ({monitor.getName()})</h1>
+			<div class="link">
+				<a onclick="removeMonitored({monitored.id},'{monitored.name}')" style="cursor: pointer;">
+					<img src="/img/delete.svg">
+				</a>
+			</div>
+		</div>
+
+		{!<div style="text-align: center; margin-bottom: 1rem;">{website.url}</div>!}
+
+		{#if (config.id != null)}
+			<h2>History</h2>
+			<img src="/api/data/{website.id}/{config.id}" alt="">
+			{#if errors.size() > 0}
+				<table class="table">
+					<tr>
+						<th>Date</th>
+						<th>Error Message</th>
+					</tr>
+					{#for error in errors}
+						<tr>
+							<td>{error.dateTime.formatDateTime}</td>
+							<td>{error.message}</td>
+						</tr>
+					{/for}
+				</table>
+			{/if}
+		{/if}
+
+		<h2 style="margin-top: 1rem;">Configuration</h2>
+		<form id="configForm">
+			<table>
+				<tr>
+					<td>
+						<label for="checkEveryMin">Check every X minutes:</label>
+					</td>
+					<td>
+						<input type="number" name="checkEveryMin" value="{config.checkEveryMin}"
+								min="1" max="1440" id="checkEveryMin">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="alertIfFailingForMin">Alert if Failing for X minutes:</label>
+					</td>
+					<td>
+						<input type="number" name="alertIfFailingForMin" value="{config.alertIfFailingForMin}"
+								min="1" max="1440" id="alertIfFailingForMin">
+					</td>
+				</tr>
+			</table>
+
+			<div class="button-row">
+				<button type="button" class="action-btn"
+						onclick="saveConfig( {monitored.getKey() }')">Save
+				</button>
+			</div>
+		</form>
+	{/body}
+{/include}

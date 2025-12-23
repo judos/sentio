@@ -5,6 +5,7 @@ code {
 	cursor: pointer;
 	background: #88888820;
 }
+
 code:hover {
 	background: #88888840;
 }

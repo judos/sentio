@@ -7,7 +7,10 @@ import ch.judos.sentio.model.DataPeriod
 import ch.judos.sentio.services.ImageService
 import com.querydsl.jpa.impl.JPAQueryFactory
 import jakarta.persistence.EntityManager
-import jakarta.ws.rs.*
+import jakarta.ws.rs.CookieParam
+import jakarta.ws.rs.GET
+import jakarta.ws.rs.Path
+import jakarta.ws.rs.Produces
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
 
@@ -15,9 +18,9 @@ import jakarta.ws.rs.core.Response
 @Path("/api/data")
 @Produces(MediaType.APPLICATION_JSON)
 class DataResource(
-	val query: JPAQueryFactory,
-	val entityManager: EntityManager,
-	var imageService: ImageService,
+		val query: JPAQueryFactory,
+		val entityManager: EntityManager,
+		var imageService: ImageService,
 ) {
 	
 	val qData = QData.data
@@ -27,9 +30,9 @@ class DataResource(
 	@GET
 	@Path("/{id}/{configId}")
 	fun generateImage(
-		id: Long,
-		configId: Long,
-		@CookieParam("sentio_dateRange") daysStr: String?,
+			id: Long,
+			configId: Long,
+			@CookieParam("sentio_dateRange") daysStr: String?,
 	): Response {
 		query.selectFrom(qMonitored).where(qMonitored.id.eq(configId)).fetchOne()
 			?: return Response.status(Response.Status.NOT_FOUND).build()

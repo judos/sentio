@@ -1,4 +1,3 @@
-
 function setupBot() {
 	const token = document.getElementById('token').value;
 	const button = document.getElementById('setup-button');
@@ -6,8 +5,8 @@ function setupBot() {
 
 	fetchJson('/api/channel/', {
 		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-	 	body: JSON.stringify({ token: token })
+		headers: {'Content-Type': 'application/json'},
+		body: JSON.stringify({token: token})
 	}).then(async function (response) {
 		setButtonLoading(button, false);
 		localStorage.setItem('popup', JSON.stringify({text: 'Setup successful'}));

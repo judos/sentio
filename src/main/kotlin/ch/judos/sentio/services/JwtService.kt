@@ -14,10 +14,10 @@ import javax.crypto.SecretKey
 
 @ApplicationScoped
 class JwtService(
-	@ConfigProperty(name = "sentio.jwt.secret")
-	private var jwtSecret: String,
-	@ConfigProperty(name = "sentio.jwt.expiration")
-	private var jwtExpirationSeconds: Long
+		@ConfigProperty(name = "sentio.jwt.secret")
+		private var jwtSecret: String,
+		@ConfigProperty(name = "sentio.jwt.expiration")
+		private var jwtExpirationSeconds: Long
 ) {
 	
 	private val signingKey: SecretKey by lazy {

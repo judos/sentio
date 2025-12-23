@@ -14,22 +14,22 @@
 	{#insert scripts}{/insert}
 </head>
 <body>
-	<div class="navigation">
+<div class="navigation">
 		{#include navigation.html /}
-	</div>
-	<div class="content-box">
-		{#insert body}{/insert}
-	</div>
+</div>
+<div class="content-box">
+	{#insert body}{/insert}
+</div>
 
-	<div id="templates" style="display: none">
-		<div id="popup-template-confirm">
-			<h2 id="popup-title" class="title">(popup-title)</h2>
-			<span id="popup-content">(popup-content)</span>
-			<div class="buttons">
-				<button id="popup-btn" class="action-btn">(popup-btn)</button>
-				<button onclick="popupHide()">Cancel</button>
-			</div>
+<div id="templates" style="display: none">
+	<div id="popup-template-confirm">
+		<h2 id="popup-title" class="title">(popup-title)</h2>
+		<span id="popup-content">(popup-content)</span>
+		<div class="buttons">
+			<button id="popup-btn" class="action-btn">(popup-btn)</button>
+			<button onclick="popupHide()">Cancel</button>
 		</div>
 	</div>
+</div>
 </body>
 </html>

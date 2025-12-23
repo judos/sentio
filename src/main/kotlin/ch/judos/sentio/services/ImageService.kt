@@ -10,7 +10,7 @@ import kotlin.math.roundToInt
 
 @ApplicationScoped
 class ImageService(
-	var configService: ConfigService
+		var configService: ConfigService
 ) {
 	
 	fun lineGraph(width: Int, height: Int, data: IntArray, colorMap: (Int) -> Color): BufferedImage {

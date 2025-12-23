@@ -4,11 +4,11 @@ import ch.judos.sentio.entities.Monitored
 import kotlinx.serialization.Serializable
 import java.net.URI
 import java.security.cert.X509Certificate
-import javax.net.ssl.SSLSocketFactory
-import java.time.ZoneId
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 import javax.net.ssl.SSLSocket
+import javax.net.ssl.SSLSocketFactory
 
 class SslExpiryMonitor : Monitor<SslExpiryMonitor.Settings> {
 	

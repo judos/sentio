@@ -16,12 +16,15 @@ h1, h2, h3, h4, h5, h6 {
 	margin-top: 0;
 	margin-bottom: 0.5rem;
 }
+
 h1 {
 	text-align: center;
 }
+
 h2 {
 	font-size: 16pt;
 }
+
 th {
 	text-align: left;
 }
@@ -30,6 +33,7 @@ a, a:visited {
 	color: darkgreen;
 	text-decoration: underline;
 }
+
 a:active {
 	color: green;
 }
@@ -37,22 +41,25 @@ a:active {
 table {
 	border-collapse: collapse;
 }
+
 .table {
 	border: 1px solid #ddd;
 	width: 100%;
 }
+
 .table tr, .table th, .table td {
 	border: 1px solid #aaaaaa60;
 	padding: 8px;
 }
+
 .table.selectable tr:hover:not(.disabled) :not(th) {
 	background: #aaccaa20;
 	cursor: pointer;
 }
+
 .table th {
 	background: #aaccaa40;
 }
-
 
 
 .content-box {
@@ -65,14 +72,14 @@ table {
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
-.websites-list {
+.monitored-list {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 0.75rem;
 	margin-top: 2rem;
 }
 
-.website-box {
+.monitored-box {
 	background: #eee;
 	color: #222;
 	border-radius: 6px;
@@ -90,13 +97,13 @@ table {
 	flex-direction: column;
 }
 
-.website-box.ok {
+.monitored-box.ok {
 	background: #c8e6c9;
 	color: #222;
 	border-color: #81c784;
 }
 
-.website-box.failed {
+.monitored-box.failed {
 	background: #ffcdd2; /* dezentes Rot, ähnlich hell wie das Grün */
 	color: #b71c1c;
 	border-color: #e57373;
@@ -107,13 +114,13 @@ table {
 	letter-spacing: 0.01em;
 }
 
-.website-name-large {
+.monitored-name-large {
 	font-size: 1.25rem;
 	font-weight: 600;
 	margin-bottom: 0.2em;
 }
 
-.website-uptime {
+.monitored-uptime {
 	position: absolute;
 	top: 2px;
 	right: 4px;
@@ -125,11 +132,11 @@ table {
 }
 
 .update-info {
-    margin: 2.5rem auto 0 auto;
-    max-width: 600px;
-    text-align: right;
-    color: #666;
-    font-size: 0.98rem;
-    opacity: 0.85;
-    padding-right: 8px;
+	margin: 2.5rem auto 0 auto;
+	max-width: 600px;
+	text-align: right;
+	color: #666;
+	font-size: 0.98rem;
+	opacity: 0.85;
+	padding-right: 8px;
 }

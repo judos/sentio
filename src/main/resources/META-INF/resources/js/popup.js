@@ -22,6 +22,7 @@ function popupQueueText({text, showMs = 3000, danger = false}) {
 	});
 	setTimeout(showPopup, 1);
 }
+
 function popupQueueSave(text, onConfirm) {
 	popupHide();
 	popups.push({
@@ -30,6 +31,7 @@ function popupQueueSave(text, onConfirm) {
 	});
 	setTimeout(showPopup, 1);
 }
+
 function popupQueueDelete(text, onConfirm) {
 	popupHide();
 	popups.push({
@@ -92,7 +94,7 @@ function popupCreate(popupData) {
 			btn.classList.add('danger-btn');
 		}
 		btn.textContent = popupData.buttonText;
-		btn.addEventListener('click', function() {
+		btn.addEventListener('click', function () {
 			popupHide();
 			if (popupData.onConfirm != null) {
 				popupData.onConfirm();

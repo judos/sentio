@@ -23,6 +23,7 @@ interface Monitor<T : Any> {
 	fun getDefault(): Monitored {
 		return Monitored().also {
 			it.monitor = getKey()
+			it.name = getName()
 			it.checkEveryMin = getDefaultCheckEveryMin()
 			it.alertIfFailingForMin = getDefaultAlertIfFailingForMin()
 		}

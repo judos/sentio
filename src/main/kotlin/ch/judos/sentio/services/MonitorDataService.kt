@@ -2,10 +2,9 @@ package ch.judos.sentio.services
 
 import ch.judos.sentio.entities.Data
 import ch.judos.sentio.entities.MonitorError
-import ch.judos.sentio.entities.QData
 import ch.judos.sentio.entities.Monitored
+import ch.judos.sentio.entities.QData
 import ch.judos.sentio.extensions.update
-import ch.judos.sentio.services.monitors.REACHABILITY_MONITOR_KEY
 import com.querydsl.jpa.impl.JPAQueryFactory
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.persistence.EntityManager
@@ -13,6 +12,7 @@ import jakarta.persistence.PersistenceContext
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import kotlin.math.floor
 
 @ApplicationScoped
 class MonitorDataService(
@@ -52,10 +52,9 @@ class MonitorDataService(
 		entityManager.persist(data)
 	}
 	
-	fun getUptimePercentage(monitored: Monitored?, days: Int): Map<Long, Double> {
+	fun getUptimePercentage(monitored: Monitored?, days: Int): Map<Long, Int> {
 		val dataList = query.selectFrom(qData).where(
 			monitored?.let { qData.monitored.eq(monitored) },
-			qData.monitored.monitor.eq(REACHABILITY_MONITOR_KEY),
 			qData.date.goe(LocalDate.now().minusDays(days.toLong()))
 		).fetch()
 		val totalChecks = mutableMapOf<Long, Int>()
@@ -67,7 +66,7 @@ class MonitorDataService(
 		}
 		return totalChecks.mapValues { (websiteId, checks) ->
 			val succeeded = totalSucceeded[websiteId] ?: 0
-			if (checks == 0) 100.0 else (succeeded.toDouble() / checks) * 100.0
+			if (checks == 0) 100 else floor(succeeded.toDouble() / checks * 100.0).toInt()
 		}
 	}
 	
