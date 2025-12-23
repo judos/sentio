@@ -7,7 +7,6 @@ import kotlinx.serialization.Serializable
 import java.net.HttpURLConnection
 import java.net.URI
 
-const val REACHABILITY_MONITOR_KEY = "reachability"
 
 class ReachabilityMonitor(
 ) : Monitor<ReachabilityMonitor.Settings> {
@@ -39,7 +38,7 @@ class ReachabilityMonitor(
 		}
 	}
 	
-	override fun getKey() = REACHABILITY_MONITOR_KEY
+	override fun getKey() = "reachability"
 	
 	override fun getDefaultAlertIfFailingForMin() = 30
 	

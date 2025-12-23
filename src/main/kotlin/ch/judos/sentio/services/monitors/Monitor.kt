@@ -42,7 +42,8 @@ interface Monitor<T : Any> {
 	companion object {
 		val monitors = listOf(
 			SslExpiryMonitor(),
-			ReachabilityMonitor()
+			ReachabilityMonitor(),
+			FileMonitor()
 		)
 		
 		fun byKey(key: String): Monitor<*>? {
