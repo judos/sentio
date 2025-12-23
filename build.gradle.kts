@@ -75,13 +75,6 @@ configurations {
 	}
 }
 
-// val isNative = project.hasProperty("native")
-// if (isNative) {
-//     tasks.withType<Test> {
-//         systemProperty("quarkus.package.type", "native")
-//     }
-// }
-
 tasks.named("compileJava") {
 	dependsOn("compileQuarkusGeneratedSourcesJava")
 }

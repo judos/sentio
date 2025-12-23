@@ -23,7 +23,7 @@ class JwtServiceTest {
 		val token = jwtService.createToken(user)
 		assertNotNull(token)
 		val subject = jwtService.getSubject(token)
-		assertEquals("12345", subject)
+		assertEquals(user.username, subject)
 	}
 	
 	@Test
