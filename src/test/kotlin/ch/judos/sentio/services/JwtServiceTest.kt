@@ -1,6 +1,7 @@
 package ch.judos.sentio.services
 
 import ch.judos.sentio.entities.User
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.util.*
@@ -13,7 +14,7 @@ class JwtServiceTest {
 		val keyBytes = ByteArray(32).also { java.security.SecureRandom().nextBytes(it) }
 		val secretB64 = Base64.getEncoder().encodeToString(keyBytes)
 		
-		val jwtService = JwtService(secretB64, 3600)
+		val jwtService = JwtService(secretB64, 3600, ObjectMapper())
 		
 		val user = User().apply {
 			id = 12345L
@@ -30,7 +31,7 @@ class JwtServiceTest {
 	fun `invalid token returns null subject`() {
 		val keyBytes = ByteArray(32).also { java.security.SecureRandom().nextBytes(it) }
 		val secretB64 = Base64.getEncoder().encodeToString(keyBytes)
-		val jwtService = JwtService(secretB64, 3600)
+		val jwtService = JwtService(secretB64, 3600, ObjectMapper())
 		
 		val invalidToken = "abc.def.ghi"
 		val subject = jwtService.getSubject(invalidToken)

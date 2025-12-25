@@ -3,11 +3,13 @@ package ch.judos.sentio.services.monitors
 import ch.judos.sentio.entities.Monitored
 import ch.judos.sentio.model.MonitorField
 import io.quarkus.logging.Log
+import io.quarkus.qute.TemplateData
 import kotlinx.serialization.Serializable
 import java.net.HttpURLConnection
 import java.net.URI
 
 
+@TemplateData
 class ReachabilityMonitor(
 ) : Monitor<ReachabilityMonitor.Settings> {
 	

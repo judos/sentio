@@ -1,10 +1,13 @@
 package ch.judos.sentio.services
 
 import ch.judos.sentio.entities.User
+import com.fasterxml.jackson.databind.ObjectMapper
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jws
 import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.jackson.io.JacksonDeserializer
+import io.jsonwebtoken.jackson.io.JacksonSerializer
 import io.jsonwebtoken.security.Keys
 import jakarta.enterprise.context.ApplicationScoped
 import org.eclipse.microprofile.config.inject.ConfigProperty
@@ -17,8 +20,12 @@ class JwtService(
 		@ConfigProperty(name = "sentio.jwt.secret")
 		private var jwtSecret: String,
 		@ConfigProperty(name = "sentio.jwt.expiration")
-		private var jwtExpirationSeconds: Long
+		private var jwtExpirationSeconds: Long,
+		private val objectMapper: ObjectMapper
 ) {
+	
+	val serializer = JacksonSerializer<Map<String, *>>(objectMapper)
+	val deserializer = JacksonDeserializer<Map<String, *>>(objectMapper)
 	
 	private val signingKey: SecretKey by lazy {
 		// JWT expects a binary key; allow base64 encoded secret or plain string
@@ -30,6 +37,7 @@ class JwtService(
 		val now = Date.from(Instant.now())
 		val exp = Date.from(Instant.now().plusSeconds(jwtExpirationSeconds))
 		return Jwts.builder()
+			.json(serializer)
 			.subject(user.username)
 			.issuedAt(now)
 			.expiration(exp)
@@ -41,6 +49,7 @@ class JwtService(
 	@Throws(JwtException::class)
 	fun parseToken(token: String): Jws<Claims> {
 		return Jwts.parser()
+			.json(deserializer)
 			.verifyWith(signingKey)
 			.build()
 			.parseSignedClaims(token)

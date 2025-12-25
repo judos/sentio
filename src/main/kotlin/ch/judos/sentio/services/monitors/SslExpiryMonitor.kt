@@ -2,6 +2,7 @@ package ch.judos.sentio.services.monitors
 
 import ch.judos.sentio.entities.Monitored
 import ch.judos.sentio.model.MonitorField
+import io.quarkus.qute.TemplateData
 import kotlinx.serialization.Serializable
 import java.net.URI
 import java.security.cert.X509Certificate
@@ -11,6 +12,7 @@ import java.time.temporal.ChronoUnit
 import javax.net.ssl.SSLSocket
 import javax.net.ssl.SSLSocketFactory
 
+@TemplateData
 class SslExpiryMonitor : Monitor<SslExpiryMonitor.Settings> {
 	
 	override val settingsSerializer = Settings.serializer()

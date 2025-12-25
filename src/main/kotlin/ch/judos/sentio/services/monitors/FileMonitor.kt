@@ -3,9 +3,11 @@ package ch.judos.sentio.services.monitors
 import ch.judos.sentio.entities.Monitored
 import ch.judos.sentio.model.MonitorField
 import io.quarkus.logging.Log
+import io.quarkus.qute.TemplateData
 import kotlinx.serialization.Serializable
 import java.io.File
 
+@TemplateData
 class FileMonitor(
 ) : Monitor<FileMonitor.Settings> {
 	
@@ -54,17 +56,22 @@ class FileMonitor(
 				val lineNum = args.getOrNull(0)?.toIntOrNull()
 					?: throw IllegalArgumentException("line command requires valid line number")
 				val lines = content.lines()
-				if (lineNum < 1 || lineNum > lines.size) throw IllegalArgumentException("line number out of range")
+				if (lineNum < 1 || lineNum > lines.size) throw IllegalArgumentException(
+					"line number out of range")
 				lines[lineNum - 1]
 			}
+			
 			"split" -> {
-				val delimiter = args.getOrNull(0) ?: throw IllegalArgumentException("split command requires a delimiter")
+				val delimiter =
+					args.getOrNull(0) ?: throw IllegalArgumentException("split command requires a delimiter")
 				val index = args.getOrNull(1)?.toIntOrNull()
 					?: throw IllegalArgumentException("split command requires valid index")
 				val parts = content.split(delimiter)
-				if (index < 0 || index >= parts.size) throw IllegalArgumentException("split index out of range")
+				if (index < 0 || index >= parts.size) throw IllegalArgumentException(
+					"split index out of range")
 				parts[index]
 			}
+			
 			"multiply" -> {
 				val factor = args.getOrNull(0)?.toDoubleOrNull()
 					?: throw IllegalArgumentException("mul command requires valid factor")
@@ -72,6 +79,7 @@ class FileMonitor(
 					?: throw IllegalArgumentException("content is not a valid number for mul command")
 				(number * factor).toString()
 			}
+			
 			"inRange" -> {
 				val min = args.getOrNull(0)?.toDoubleOrNull()
 					?: throw IllegalArgumentException("inRange command requires valid min value")
@@ -81,6 +89,7 @@ class FileMonitor(
 					?: throw IllegalArgumentException("content is not a valid number for inRange command")
 				if (number in min..max) "true" else "false"
 			}
+			
 			else -> throw IllegalArgumentException("unknown command: $baseCmd")
 		}
 		

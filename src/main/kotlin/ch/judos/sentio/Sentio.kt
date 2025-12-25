@@ -33,7 +33,7 @@ class Sentio(
 		// run sql file script
 		val configs = query.from(qConfig).fetchCount()
 		if (configs == 0L) {
-			val sql = javaClass.classLoader.getResourceAsStream("/db/post_startup.sql")!!.bufferedReader()
+			val sql = javaClass.classLoader.getResourceAsStream("db/post_startup.sql")!!.bufferedReader()
 				.use { it.readText() }
 			
 			dataSource.connection.use { conn ->

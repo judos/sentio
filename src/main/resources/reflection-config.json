@@ -1,0 +1,10 @@
+[
+	{
+		"name": "io.jsonwebtoken.jackson.io.JacksonSerializer",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "io.jsonwebtoken.jackson.io.JacksonDeserializer",
+		"allDeclaredConstructors": true
+	}
+]
