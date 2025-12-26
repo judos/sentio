@@ -19,10 +19,6 @@ node {
 			"-v /usr/bin/docker:/usr/bin/docker " +
 			"--name sentio-build"
 	) {
-		sh ''' 
-			apt-get update 
-			apt-get install -y docker.io
-		'''
 		stage('Native build') {
 			sh "gradle -Pversion=${version} build"
 			sh 'cp build/sentio-native-runner docker/sentio-native'
