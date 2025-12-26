@@ -14,10 +14,14 @@ node {
 	}
 
 	docker.image('gradle:8.14-jdk21').inside(
-			"-v $HOME/.gradle:/root/.gradle " +
+			"-v $HOME/.gradle:/gradle/.gradle " +
 			"-v /var/run/docker.sock:/var/run/docker.sock " +
 			"--name sentio-build"
 	) {
+		sh ''' 
+			apt-get update 
+			apt-get install -y docker.io
+		'''
 		stage('Native build') {
 			sh "gradle -Pversion=${version} build"
 			sh 'cp build/sentio-native-runner docker/sentio-native'
