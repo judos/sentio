@@ -13,7 +13,11 @@ node {
 		echo "Building version: ${version}"
 	}
 
-	docker.image('gradle:8.14-jdk21').inside("-v $HOME/.gradle:/root/.gradle --name sentio-build") {
+	docker.image('gradle:8.14-jdk21').inside(
+			"-v $HOME/.gradle:/root/.gradle " +
+			"-v /var/run/docker.sock:/var/run/docker.sock " +
+			"--name sentio-build"
+	) {
 		stage('Native build') {
 			sh "gradle -Pversion=${version} build"
 			sh 'cp build/sentio-native-runner docker/sentio-native'
