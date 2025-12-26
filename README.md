@@ -5,3 +5,4 @@
 run it:
 
 	./sentio-1.0-runner -Dquarkus.config.locations=application.properties
+
