@@ -14,7 +14,8 @@ node {
 	}
 
 	docker.image('gradle:8.14-jdk21').inside(
-			"-v $HOME/.gradle:/gradle/.gradle " +
+			"--user root " +
+			"-v $HOME/.gradle:/root/.gradle " +
 			"-v /var/run/docker.sock:/var/run/docker.sock " +
 			"--name sentio-build"
 	) {
