@@ -8,8 +8,7 @@ plugins {
 }
 
 group = "ch.judos.sentio"
-version = "1.0"
-
+// version is set by jenkins when building image
 
 repositories {
 	mavenCentral()

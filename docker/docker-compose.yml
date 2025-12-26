@@ -1,0 +1,14 @@
+
+version: '3.3'
+services:
+  sentio:
+    container_name: sentio
+    image: "sentio:${version}"
+    build:
+      context: .
+      dockerfile: Dockerfile.txt
+    volumes:
+      - /home/environments/sentio/application.properties:/work/application.properties
+    ports:
+      - "8020:8080"
+    restart: unless-stopped
