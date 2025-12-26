@@ -4,7 +4,7 @@ plugins {
 	kotlin("jvm") version "2.3.0"
 	kotlin("kapt") version "2.3.0"
 	kotlin("plugin.serialization") version "2.2.21"
-	id("io.quarkus") version "3.30.3"
+	id("io.quarkus") version "3.30.5"
 }
 
 group = "ch.judos.sentio"
