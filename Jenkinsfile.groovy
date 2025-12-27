@@ -20,6 +20,7 @@ node {
 			"--name sentio-build"
 	) {
 		stage('Native build') {
+			sh 'sleep 86400'
 			sh "gradle -Pversion=${version} build"
 			sh 'cp build/sentio-native-runner docker/sentio-native'
 		}
