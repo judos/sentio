@@ -11,6 +11,16 @@ RUN microdnf install -y \
         git \
     && microdnf clean all
 
+# Install Gradle 8.14
+ENV GRADLE_VERSION=8.14
+ENV GRADLE_HOME=/opt/gradle
+ENV PATH=${GRADLE_HOME}/bin:${PATH}
+
+RUN curl -fsSL https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip -o gradle.zip \
+    && unzip gradle.zip -d /opt \
+    && mv /opt/gradle-${GRADLE_VERSION} ${GRADLE_HOME} \
+    && rm gradle.zip
+
 # Ensure a normal shell exists
 SHELL ["/bin/bash", "-c"]
 

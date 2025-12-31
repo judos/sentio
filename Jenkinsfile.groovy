@@ -20,12 +20,15 @@ node {
 	docker.image('sentio-build:latest').inside(
 			"-v $HOME/.gradle:/root/.gradle " +
 					"--user root:root " +
+					// 80% of 12 CPUs, medium priority
+					"--cpus=9.6 --cpu-shares=512 " +
 					"--name sentio-build "
 	) {
 		stage('Native build') {
 			sh 'chmod +x gradlew'
 			sh "./gradlew -Pversion=${version} build"
 			sh 'cp build/sentio-native-runner docker/sentio-native'
+			sh 'sleep 3600'
 		}
 	}
 
