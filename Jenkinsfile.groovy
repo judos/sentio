@@ -13,7 +13,7 @@ node {
 		echo "Building version: ${version}"
 	}
 
-	docker.image('ghcr.io/graalvm/native-image-community:21').inside(
+	docker.image('ghcr.io/graalvm/native-image-community:21-ol9').inside(
 			"-v $HOME/.gradle:/root/.gradle " +
 			"--user root:root " +
 			"--name sentio-build "
