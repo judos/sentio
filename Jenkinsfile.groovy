@@ -3,6 +3,10 @@ node {
 	stage('Checkout') {
 		echo "$HOME"
 		checkout scm
+
+		dir('build-image/') {
+			sh 'docker build . -t sentio-build'
+		}
 	}
 
 	def version = ""
@@ -13,10 +17,10 @@ node {
 		echo "Building version: ${version}"
 	}
 
-	docker.image('ghcr.io/graalvm/native-image-community:21-ol9').inside(
+	docker.image('snakes-build:latest').inside(
 			"-v $HOME/.gradle:/root/.gradle " +
-			"--user root:root " +
-			"--name sentio-build "
+					"--user root:root " +
+					"--name sentio-build "
 	) {
 		stage('Native build') {
 			sh 'chmod +x gradlew'
