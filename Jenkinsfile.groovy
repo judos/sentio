@@ -17,7 +17,7 @@ node {
 			"-v $HOME/.gradle:/root/.gradle " +
 			"--user root:root " +
 			"--name sentio-build " +
-			"--entrypoint /bin/bash "
+			'--entrypoint /bin/sh'
 	) {
 		stage('Native build') {
 			sh 'chmod +x gradlew'
