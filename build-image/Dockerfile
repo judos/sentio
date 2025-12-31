@@ -3,10 +3,6 @@ FROM ghcr.io/graalvm/native-image-community:21-ol9
 # Install required build tools
 RUN microdnf install -y \
         findutils \
-        coreutils \
-        gcc \
-        gcc-c++ \
-        make \
         zip \
         unzip \
         tar \
