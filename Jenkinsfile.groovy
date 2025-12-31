@@ -13,10 +13,8 @@ node {
 		echo "Building version: ${version}"
 	}
 
-	docker.image('gradle:8.14-jdk21').inside(
+	docker.image('quay.io/quarkus/ubi-quarkus-mandrel-builder-image:23.1-jdk-21').inside(
 			"-v $HOME/.gradle:/root/.gradle " +
-			"-v /var/run/docker.sock:/var/run/docker.sock " +
-			"-v /usr/bin/docker:/usr/bin/docker " +
 			"--name sentio-build"
 	) {
 		stage('Native build') {
