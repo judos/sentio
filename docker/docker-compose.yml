@@ -6,7 +6,7 @@ services:
     image: "sentio:${version}"
     build:
       context: .
-      dockerfile: Dockerfile.txt
+      dockerfile: Dockerfile
     volumes:
       - /home/environments/sentio/application.properties:/work/application.properties
     ports:

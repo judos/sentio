@@ -28,7 +28,6 @@ node {
 			sh 'chmod +x gradlew'
 			sh "./gradlew -Pversion=${version} build"
 			sh 'cp build/sentio-native-runner docker/sentio-native'
-			sh 'sleep 3600'
 		}
 	}
 
