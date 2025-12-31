@@ -17,7 +17,7 @@ node {
 		echo "Building version: ${version}"
 	}
 
-	docker.image('snakes-build:latest').inside(
+	docker.image('sentio-build:latest').inside(
 			"-v $HOME/.gradle:/root/.gradle " +
 					"--user root:root " +
 					"--name sentio-build "
