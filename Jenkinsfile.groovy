@@ -15,9 +15,11 @@ node {
 
 	docker.image('quay.io/quarkus/ubi-quarkus-mandrel-builder-image:23.1-jdk-21').inside(
 			"-v $HOME/.gradle:/root/.gradle " +
-			"--name sentio-build"
+			"--name sentio-build " +
+			"--entrypoint /bin/bash "
 	) {
 		stage('Native build') {
+			sh 'chmod +x gradlew'
 			sh "./gradlew -Pversion=${version} build"
 			sh 'cp build/sentio-native-runner docker/sentio-native'
 		}
