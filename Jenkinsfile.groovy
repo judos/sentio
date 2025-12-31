@@ -15,6 +15,7 @@ node {
 
 	docker.image('quay.io/quarkus/ubi-quarkus-mandrel-builder-image:23.1-jdk-21').inside(
 			"-v $HOME/.gradle:/root/.gradle " +
+			"--user root:root " +
 			"--name sentio-build " +
 			"--entrypoint /bin/bash "
 	) {
