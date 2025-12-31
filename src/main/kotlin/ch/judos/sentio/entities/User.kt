@@ -3,7 +3,7 @@ package ch.judos.sentio.entities
 import jakarta.persistence.*
 
 @Entity(name = "user")
-class User {
+class User() {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	var id: Long = 0
@@ -13,4 +13,9 @@ class User {
 	
 	@Column(nullable = false)
 	lateinit var password: String
+	
+	constructor(username: String, password: String) : this() {
+		this.username = username
+		this.password = password
+	}
 }
