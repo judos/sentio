@@ -27,7 +27,7 @@ node {
 		stage('Native build') {
 			sh 'chmod +x gradlew'
 			sh "./gradlew -Pversion=${version} build"
-			sh 'cp build/sentio-native-runner docker/sentio-native'
+			sh 'cp build/sentio-native-runner docker/sentio-native-runner'
 		}
 	}
 
