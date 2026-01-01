@@ -186,4 +186,3 @@ ALTER TABLE `data`
 --
 ALTER TABLE `monitor_error`
   ADD CONSTRAINT `FKtebvk19fc97wbb4k6uah3xtrp` FOREIGN KEY (`monitored_id`) REFERENCES `monitored` (`id`);
-COMMIT;
