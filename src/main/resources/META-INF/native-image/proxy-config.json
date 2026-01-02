@@ -1,7 +1,10 @@
 [
   {
     "interfaces": [
-      "com.github.kotlintelegrambot.network.ApiService"
+      "com.github.kotlintelegrambot.network.ApiService",
+      "retrofit2.CallAdapter",
+      "retrofit2.Converter",
+      "java.lang.Cloneable"
     ]
   }
 ]
