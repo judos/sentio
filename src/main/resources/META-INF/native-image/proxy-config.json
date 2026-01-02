@@ -1,10 +1,17 @@
 [
-  {
-    "interfaces": [
-      "com.github.kotlintelegrambot.network.ApiService",
-      "retrofit2.CallAdapter",
-      "retrofit2.Converter",
-      "java.lang.Cloneable"
-    ]
-  }
+	{
+		"interfaces": ["com.github.kotlintelegrambot.network.ApiService"]
+	},
+	{
+		"interfaces": ["java.sql.Connection"]
+	},
+	{
+		"interfaces": ["java.sql.PreparedStatement"]
+	},
+	{
+		"interfaces": ["java.sql.ResultSet"]
+	},
+	{
+		"interfaces": ["java.sql.Statement"]
+	}
 ]
